@@ -2,6 +2,7 @@
 
 @theme {
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Playfair Display', Georgia, Cambria, 'Times New Roman', serif;
   --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   /* Restrained Island Brand Palette (sampled from logo: Palm, Coastal Teal, Sunset Amber, Charcoal-Pine) */

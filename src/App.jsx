@@ -919,7 +919,7 @@ export default function App() {
             <div className="relative z-10 p-6 sm:p-10 lg:p-12 max-w-2xl space-y-4">
 
 
-              <h1 className="text-3xl sm:text-5xl font-semibold tracking-[-0.03em] text-white leading-[1.08]">
+              <h1 className="font-display italic font-semibold text-4xl sm:text-5xl lg:text-[3.35rem] tracking-[-0.01em] text-white leading-[1.12] drop-shadow-xs">
                 Take It Easy Across Jamaica.
               </h1>
 
