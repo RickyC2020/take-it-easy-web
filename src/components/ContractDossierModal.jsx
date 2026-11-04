@@ -140,9 +140,9 @@ export default function ContractDossierModal({ booking, onClose }) {
           <div className="p-6 print:px-5 print:py-3.5 flex flex-col sm:flex-row print:flex-row sm:items-center print:items-center justify-between gap-4">
             <div className="flex flex-col sm:flex-row print:flex-row sm:items-center print:items-center gap-3.5">
               <img
-                src="/logo.jpg?v=3"
+                src="/logo.jpg?v=4"
                 alt="Take It Easy Car Rentals & Tours"
-                className="h-16 sm:h-18 print:h-14 w-auto rounded-md bg-brand-header px-2.5 py-1.5 object-contain shrink-0 select-none self-start sm:self-auto"
+                className="block h-auto max-h-16 sm:max-h-18 print:max-h-14 w-auto rounded-md bg-brand-header px-2.5 py-2 shrink-0 select-none self-start sm:self-auto"
               />
               <div>
                 <p className="text-xs print:text-[11px] font-bold uppercase tracking-wider text-brand-ink">

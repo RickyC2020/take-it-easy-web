@@ -863,35 +863,34 @@ export default function App() {
       {/* =========================================================
           TOP UTILITY HEADER
          ========================================================= */}
-      <header className="bg-brand-header border-b border-[#162222] print:hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between gap-4">
-          <div className="flex items-center min-w-0">
+      <header className="bg-brand-header print:hidden">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between md:px-6 md:py-4 md:gap-6">
+          <div className="px-4 py-3.5 md:p-0 flex items-center justify-center sm:justify-start min-w-0">
             <img
-              src="/logo.jpg?v=3"
+              src="/logo.jpg?v=4"
               alt="Take It Easy Car Rentals & Tours"
-              className="h-16 sm:h-22 md:h-28 w-auto max-w-[58vw] sm:max-w-none object-contain shrink-0 select-none"
+              className="block h-auto max-h-16 sm:max-h-20 md:max-h-20 lg:max-h-28 w-auto max-w-full select-none"
             />
           </div>
 
-          <div className="flex items-center gap-2.5 shrink-0">
+          <div className="px-4 py-2.5 border-t border-white/12 md:border-t-0 md:p-0 grid grid-cols-2 md:flex items-center gap-2.5 shrink-0">
             <button
               type="button"
               onClick={() => {
                 if (activeReturnBooking) openReturnDrawerFor(activeReturnBooking);
               }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-white/20 bg-white/10 hover:bg-white/16 hover:border-white/35 text-sm font-medium text-white transition-colors cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 px-3.5 sm:px-4 py-2 rounded-lg border border-white/20 bg-white/10 hover:bg-white/16 hover:border-white/35 text-sm font-medium text-white transition-colors cursor-pointer"
             >
-              <Wrench className="w-4 h-4 text-[#66C7BF]" />
-              <span className="hidden sm:inline">Return & POS</span>
-              <span className="sm:hidden">Return</span>
+              <Wrench className="w-4 h-4 text-[#66C7BF] shrink-0" />
+              <span>Return & POS</span>
             </button>
 
             <button
               type="button"
               onClick={() => setDrawerMode('bookings')}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-white/20 bg-white/10 hover:bg-white/16 hover:border-white/35 text-sm font-medium text-white transition-colors cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 px-3.5 sm:px-4 py-2 rounded-lg border border-white/20 bg-white/10 hover:bg-white/16 hover:border-white/35 text-sm font-medium text-white transition-colors cursor-pointer"
             >
-              <FileCheck2 className="w-4 h-4 text-[#6BC47D]" />
+              <FileCheck2 className="w-4 h-4 text-[#6BC47D] shrink-0" />
               <span>Contracts</span>
               <span className="px-2 py-0.5 rounded font-mono text-xs tabular-nums bg-brand-palm text-white">
                 {reservations.length}
