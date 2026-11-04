@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import {
   MapPin,
+  Plane,
   Calendar,
   Clock,
   Car,
@@ -912,34 +913,42 @@ export default function App() {
               className="absolute inset-0 w-full h-full object-cover object-[center_62%] select-none"
             />
             <div
-              className="absolute inset-0 bg-gradient-to-r from-[#112022]/90 via-[#112022]/60 to-[#112022]/10"
+              className="absolute inset-0 bg-gradient-to-r from-[#0f1f22]/65 via-[#0f1f22]/32 to-transparent"
               aria-hidden="true"
             />
 
-            <div className="relative z-10 p-6 sm:p-10 lg:p-12 max-w-2xl space-y-4">
-
-
-              <h1 className="font-display italic font-semibold text-4xl sm:text-5xl lg:text-[3.35rem] tracking-[-0.01em] text-white leading-[1.12] drop-shadow-xs">
+            <div className="relative z-10 p-6 sm:p-10 lg:p-12 w-full max-w-3xl space-y-5 sm:space-y-6">
+              <h1 className="font-display italic font-semibold text-4xl sm:text-5xl lg:text-[3.35rem] tracking-[-0.01em] text-white leading-[1.12] drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)]">
                 Take It Easy Across Jamaica.
               </h1>
 
-              <p className="text-sm sm:text-base text-white/85 leading-relaxed max-w-xl">
-                Direct airport pickup, transparent daily USD rates, and fast digital contract
-                handoff
-              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-3.5">
+                <div className="rounded-2xl border border-white/25 bg-gradient-to-br from-white/12 via-white/6 to-white/2 backdrop-blur-md backdrop-saturate-150 shadow-[inset_0_1px_1px_rgba(255,255,255,0.32),0_6px_20px_rgba(8,20,22,0.2)] hover:from-white/18 hover:via-white/10 hover:border-white/40 transition-all p-3.5 sm:p-4 flex items-center sm:flex-col sm:items-start gap-3 sm:gap-2.5">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/10 border border-white/22 shadow-[inset_0_1px_0_rgba(255,255,255,0.3)] flex items-center justify-center shrink-0">
+                    <Plane className="w-5 h-5 text-[#FFBE55] drop-shadow-[0_1px_2px_rgba(0,0,0,0.35)]" />
+                  </div>
+                  <span className="text-sm sm:text-[15px] font-medium text-white leading-snug drop-shadow-[0_1px_3px_rgba(0,0,0,0.45)]">
+                    Direct Airport Pickup
+                  </span>
+                </div>
 
-              <div className="flex flex-wrap items-center gap-2.5 pt-1">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/14 border border-white/20 backdrop-blur-xs text-xs sm:text-sm font-mono text-white tabular-nums">
-                  From $60 USD / day
-                </span>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/14 border border-white/20 backdrop-blur-xs text-xs sm:text-sm font-mono text-white">
-                  <MapPin className="w-4 h-4 text-brand-amber shrink-0" />
-                  {selectedLocation.shortName}
-                </span>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/14 border border-white/20 backdrop-blur-xs text-xs sm:text-sm font-mono text-white">
-                  <ShieldCheck className="w-4 h-4 text-[#6ED3C9] shrink-0" />
-                  Digital Contract &amp; Check Sheet
-                </span>
+                <div className="rounded-2xl border border-white/25 bg-gradient-to-br from-white/12 via-white/6 to-white/2 backdrop-blur-md backdrop-saturate-150 shadow-[inset_0_1px_1px_rgba(255,255,255,0.32),0_6px_20px_rgba(8,20,22,0.2)] hover:from-white/18 hover:via-white/10 hover:border-white/40 transition-all p-3.5 sm:p-4 flex items-center sm:flex-col sm:items-start gap-3 sm:gap-2.5">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/10 border border-white/22 shadow-[inset_0_1px_0_rgba(255,255,255,0.3)] flex items-center justify-center shrink-0">
+                    <Banknote className="w-5 h-5 text-[#8CF09E] drop-shadow-[0_1px_2px_rgba(0,0,0,0.35)]" />
+                  </div>
+                  <span className="text-sm sm:text-[15px] font-medium text-white leading-snug drop-shadow-[0_1px_3px_rgba(0,0,0,0.45)]">
+                    Transparent Daily USD Rates
+                  </span>
+                </div>
+
+                <div className="rounded-2xl border border-white/25 bg-gradient-to-br from-white/12 via-white/6 to-white/2 backdrop-blur-md backdrop-saturate-150 shadow-[inset_0_1px_1px_rgba(255,255,255,0.32),0_6px_20px_rgba(8,20,22,0.2)] hover:from-white/18 hover:via-white/10 hover:border-white/40 transition-all p-3.5 sm:p-4 flex items-center sm:flex-col sm:items-start gap-3 sm:gap-2.5">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/10 border border-white/22 shadow-[inset_0_1px_0_rgba(255,255,255,0.3)] flex items-center justify-center shrink-0">
+                    <FileCheck2 className="w-5 h-5 text-[#88EFE5] drop-shadow-[0_1px_2px_rgba(0,0,0,0.35)]" />
+                  </div>
+                  <span className="text-sm sm:text-[15px] font-medium text-white leading-snug drop-shadow-[0_1px_3px_rgba(0,0,0,0.45)]">
+                    Fast Digital Contract Handoff
+                  </span>
+                </div>
               </div>
             </div>
           </div>
