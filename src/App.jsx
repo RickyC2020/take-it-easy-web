@@ -874,7 +874,7 @@ export default function App() {
             />
             <div className="flex items-baseline gap-3">
               <span className="font-semibold text-base sm:text-xl tracking-tight text-brand-ink">
-                Take It Easy Car Rentals & Tours and
+                Take It Easy Car Rentals & Tours
               </span>
 
             </div>
