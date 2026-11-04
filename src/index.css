@@ -5,6 +5,7 @@
   --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   /* Restrained Island Brand Palette (sampled from logo: Palm, Coastal Teal, Sunset Amber, Charcoal-Pine) */
+  --color-brand-header: #203030;
   --color-brand-ink: #162629;
   --color-brand-palm: #2b6e3f;
   --color-brand-palm-dark: #215731;

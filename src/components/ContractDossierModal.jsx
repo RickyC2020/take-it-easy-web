@@ -138,17 +138,14 @@ export default function ContractDossierModal({ booking, onClose }) {
         <div className="max-h-[80vh] overflow-y-auto divide-y divide-brand-border text-sm print:max-h-none print:overflow-visible print:divide-slate-300 print:text-[11.5px] print:leading-snug text-brand-ink">
           {/* Letterhead */}
           <div className="p-6 print:px-5 print:py-3.5 flex flex-col sm:flex-row print:flex-row sm:items-center print:items-center justify-between gap-4">
-            <div className="flex items-center gap-3.5">
+            <div className="flex flex-col sm:flex-row print:flex-row sm:items-center print:items-center gap-3.5">
               <img
-                src="/logo.jpg?v=2"
-                alt="Take It Easy Car Rental logo"
-                className="w-16 h-16 print:w-14 print:h-14 object-contain mix-blend-multiply shrink-0 select-none"
+                src="/logo.jpg?v=3"
+                alt="Take It Easy Car Rentals & Tours"
+                className="h-16 sm:h-18 print:h-14 w-auto rounded-md bg-brand-header px-2.5 py-1.5 object-contain shrink-0 select-none self-start sm:self-auto"
               />
               <div>
-                <h1 className="text-lg print:text-base font-bold tracking-tight text-brand-ink uppercase">
-                  Take It Easy Car Rental
-                </h1>
-                <p className="text-xs print:text-[11px] font-semibold uppercase tracking-wider text-slate-600">
+                <p className="text-xs print:text-[11px] font-bold uppercase tracking-wider text-brand-ink">
                   Rental Agreement &amp; Vehicle Check Sheet
                 </p>
                 <p className="text-xs print:text-[10.5px] text-slate-500 mt-0.5">

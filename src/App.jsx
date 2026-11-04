@@ -863,32 +863,25 @@ export default function App() {
       {/* =========================================================
           TOP UTILITY HEADER
          ========================================================= */}
-      <header className="bg-white border-b border-brand-border print:hidden">
-        <div className="h-[3px] w-full bg-gradient-to-r from-brand-palm via-brand-teal to-brand-amber" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3.5">
+      <header className="bg-brand-header border-b border-[#162222] print:hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between gap-4">
+          <div className="flex items-center min-w-0">
             <img
-              src="/logo.jpg?v=2"
-              alt="Take It Easy Car Rental logo"
-              className="h-15 sm:h-17 w-auto object-contain mix-blend-multiply shrink-0 select-none"
+              src="/logo.jpg?v=3"
+              alt="Take It Easy Car Rentals & Tours"
+              className="h-16 sm:h-22 md:h-28 w-auto max-w-[58vw] sm:max-w-none object-contain shrink-0 select-none"
             />
-            <div className="flex items-baseline gap-3">
-              <span className="font-semibold text-base sm:text-xl tracking-tight text-brand-ink">
-                Take It Easy Car Rentals & Tours
-              </span>
-
-            </div>
           </div>
 
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2.5 shrink-0">
             <button
               type="button"
               onClick={() => {
                 if (activeReturnBooking) openReturnDrawerFor(activeReturnBooking);
               }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-brand-border bg-white hover:bg-brand-canvas hover:border-brand-teal/50 text-sm font-medium text-brand-ink transition-colors cursor-pointer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-white/20 bg-white/10 hover:bg-white/16 hover:border-white/35 text-sm font-medium text-white transition-colors cursor-pointer"
             >
-              <Wrench className="w-4 h-4 text-brand-teal" />
+              <Wrench className="w-4 h-4 text-[#66C7BF]" />
               <span className="hidden sm:inline">Return & POS</span>
               <span className="sm:hidden">Return</span>
             </button>
@@ -896,9 +889,9 @@ export default function App() {
             <button
               type="button"
               onClick={() => setDrawerMode('bookings')}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-brand-border bg-white hover:bg-brand-canvas hover:border-brand-palm/50 text-sm font-medium text-brand-ink transition-colors cursor-pointer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-white/20 bg-white/10 hover:bg-white/16 hover:border-white/35 text-sm font-medium text-white transition-colors cursor-pointer"
             >
-              <FileCheck2 className="w-4 h-4 text-brand-palm" />
+              <FileCheck2 className="w-4 h-4 text-[#6BC47D]" />
               <span>Contracts</span>
               <span className="px-2 py-0.5 rounded font-mono text-xs tabular-nums bg-brand-palm text-white">
                 {reservations.length}
@@ -933,7 +926,7 @@ export default function App() {
 
               <p className="text-sm sm:text-base text-white/85 leading-relaxed max-w-xl">
                 Direct airport pickup, transparent daily USD rates, and fast digital contract
-                handoff — from fuel-saving compacts to 15-seater passenger buses.
+                handoff
               </p>
 
               <div className="flex flex-wrap items-center gap-2.5 pt-1">
