@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Restrained Island Brand Palette (sampled from logo: Palm, Coastal Teal, Sunset Amber, Charcoal-Pine) */
+  --color-brand-ink: #162629;
+  --color-brand-palm: #2b6e3f;
+  --color-brand-palm-dark: #215731;
+  --color-brand-palm-soft: #eef6f0;
+  --color-brand-teal: #3b8c85;
+  --color-brand-teal-dark: #286661;
+  --color-brand-teal-soft: #edf6f5;
+  --color-brand-amber: #e59228;
+  --color-brand-amber-ink: #8f510a;
+  --color-brand-amber-soft: #fdf6eb;
+  --color-brand-amber-border: #f3dcba;
+  --color-brand-canvas: #f6f9f7;
+  --color-brand-border: #dde6e2;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    background-color: #f6f9f7;
+    color: #162629;
+    scroll-behavior: smooth;
+  }
+
+  /* Crisp tabular numerals for rates, specs, dates */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Clean native datepicker alignment */
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0.55;
+    cursor: pointer;
+    transition: opacity 150ms ease;
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+  }
+}
+
+@keyframes drawerSlideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-drawer-in {
+  animation: drawerSlideIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.18s ease-out forwards;
+}
+
+@media print {
+  @page {
+    size: letter portrait;
+    margin: 0.4in;
+  }
+
+  html,
+  body {
+    background-color: #ffffff !important;
+    color: #162629 !important;
+    overflow: visible !important;
+    height: auto !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
