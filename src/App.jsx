@@ -840,20 +840,20 @@ export default function App() {
   const excessPosDraw = Math.max(0, returnEffectiveCost - returnDepositAmount);
 
   return (
-    <div className="min-h-screen print:min-h-0 bg-brand-canvas print:bg-white text-brand-ink flex flex-col">
+    <div className="min-h-screen print:min-h-0 glass-canvas print:bg-white text-brand-ink flex flex-col">
       {/* =========================================================
           SUCCESS NOTIFICATION TOAST
          ========================================================= */}
       {successNotification && (
-        <div className="fixed bottom-5 left-5 z-[70] max-w-lg bg-white border border-brand-border rounded-xl px-4 py-3.5 flex items-center gap-3.5 animate-fade-in print:hidden">
-          <div className="w-8 h-8 rounded-lg bg-brand-palm text-white flex items-center justify-center shrink-0">
+        <div className="fixed bottom-5 left-5 z-[70] max-w-lg glass-bar border rounded-2xl px-4 py-3.5 flex items-center gap-3.5 animate-fade-in print:hidden">
+          <div className="w-8 h-8 rounded-xl glass-cta text-white flex items-center justify-center shrink-0">
             <Check className="w-4 h-4" />
           </div>
           <p className="text-sm font-medium text-brand-ink leading-snug">{successNotification}</p>
           <button
             type="button"
             onClick={() => setSuccessNotification(null)}
-            className="text-slate-400 hover:text-brand-ink cursor-pointer ml-1 p-1"
+            className="text-slate-500 hover:text-brand-ink cursor-pointer ml-1 p-1"
             aria-label="Dismiss notification"
           >
             <X className="w-4 h-4" />
@@ -864,7 +864,7 @@ export default function App() {
       {/* =========================================================
           TOP UTILITY HEADER
          ========================================================= */}
-      <header className="bg-brand-header print:hidden">
+      <header className="bg-brand-header border-b border-white/10 shadow-[0_6px_24px_rgba(16,32,34,0.16)] print:hidden">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between md:px-6 md:py-4 md:gap-6">
           <div className="px-4 py-3.5 md:p-0 flex items-center justify-center sm:justify-start min-w-0">
             <img
@@ -880,7 +880,7 @@ export default function App() {
               onClick={() => {
                 if (activeReturnBooking) openReturnDrawerFor(activeReturnBooking);
               }}
-              className="inline-flex items-center justify-center gap-2 px-3.5 sm:px-4 py-2 rounded-lg border border-white/20 bg-white/10 hover:bg-white/16 hover:border-white/35 text-sm font-medium text-white transition-colors cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 px-3.5 sm:px-4 py-2 rounded-xl border border-white/22 bg-white/[0.08] hover:bg-white/[0.15] hover:border-white/38 backdrop-blur-md shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_4px_12px_rgba(0,0,0,0.18)] text-sm font-medium text-white transition-all cursor-pointer"
             >
               <Wrench className="w-4 h-4 text-[#66C7BF] shrink-0" />
               <span>Return & POS</span>
@@ -889,11 +889,11 @@ export default function App() {
             <button
               type="button"
               onClick={() => setDrawerMode('bookings')}
-              className="inline-flex items-center justify-center gap-2 px-3.5 sm:px-4 py-2 rounded-lg border border-white/20 bg-white/10 hover:bg-white/16 hover:border-white/35 text-sm font-medium text-white transition-colors cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 px-3.5 sm:px-4 py-2 rounded-xl border border-white/22 bg-white/[0.08] hover:bg-white/[0.15] hover:border-white/38 backdrop-blur-md shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_4px_12px_rgba(0,0,0,0.18)] text-sm font-medium text-white transition-all cursor-pointer"
             >
               <FileCheck2 className="w-4 h-4 text-[#6BC47D] shrink-0" />
               <span>Contracts</span>
-              <span className="px-2 py-0.5 rounded font-mono text-xs tabular-nums bg-brand-palm text-white">
+              <span className="px-2 py-0.5 rounded-md font-mono text-xs tabular-nums bg-brand-palm/90 border border-white/25 text-white">
                 {reservations.length}
               </span>
             </button>
@@ -904,48 +904,48 @@ export default function App() {
       {/* =========================================================
           HERO BANNER SECTION
          ========================================================= */}
-      <section className="bg-white py-5 print:hidden">
+      <section className="py-5 print:hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="relative rounded-2xl overflow-hidden border border-brand-border min-h-[260px] sm:min-h-[320px] lg:min-h-[360px] flex items-center bg-brand-ink">
+          <div className="relative rounded-2xl overflow-hidden border border-white/80 shadow-[0_16px_44px_rgba(22,38,41,0.12)] min-h-[260px] sm:min-h-[320px] lg:min-h-[360px] flex items-center bg-brand-ink">
             <img
               src="/hero-banner.jpg"
               alt="Sleek rental SUV overlooking the Jamaican coastline at golden hour"
               className="absolute inset-0 w-full h-full object-cover object-[center_62%] select-none"
             />
             <div
-              className="absolute inset-0 bg-gradient-to-r from-[#0f1f22]/65 via-[#0f1f22]/32 to-transparent"
+              className="absolute inset-0 bg-gradient-to-r from-[#0f1f22]/52 via-[#0f1f22]/22 to-transparent"
               aria-hidden="true"
             />
 
             <div className="relative z-10 p-6 sm:p-10 lg:p-12 w-full max-w-3xl space-y-5 sm:space-y-6">
-              <h1 className="font-display italic font-semibold text-4xl sm:text-5xl lg:text-[3.35rem] tracking-[-0.01em] text-white leading-[1.12] drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)]">
+              <h1 className="font-display italic font-semibold text-4xl sm:text-5xl lg:text-[3.35rem] tracking-[-0.01em] text-white leading-[1.12] drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)]">
                 Take It Easy Across Jamaica.
               </h1>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-3.5">
-                <div className="rounded-2xl border border-white/25 bg-gradient-to-br from-white/12 via-white/6 to-white/2 backdrop-blur-md backdrop-saturate-150 shadow-[inset_0_1px_1px_rgba(255,255,255,0.32),0_6px_20px_rgba(8,20,22,0.2)] hover:from-white/18 hover:via-white/10 hover:border-white/40 transition-all p-3.5 sm:p-4 flex items-center sm:flex-col sm:items-start gap-3 sm:gap-2.5">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/10 border border-white/22 shadow-[inset_0_1px_0_rgba(255,255,255,0.3)] flex items-center justify-center shrink-0">
-                    <Plane className="w-5 h-5 text-[#FFBE55] drop-shadow-[0_1px_2px_rgba(0,0,0,0.35)]" />
+                <div className="rounded-2xl border border-white/20 bg-white/[0.04] backdrop-blur-[3px] shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_4px_16px_rgba(8,20,22,0.14)] hover:bg-white/[0.10] hover:border-white/35 transition-all p-3.5 sm:p-4 flex items-center sm:flex-col sm:items-start gap-3 sm:gap-2.5">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/[0.06] border border-white/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] flex items-center justify-center shrink-0">
+                    <Plane className="w-5 h-5 text-[#FFBE55] drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]" />
                   </div>
-                  <span className="text-sm sm:text-[15px] font-medium text-white leading-snug drop-shadow-[0_1px_3px_rgba(0,0,0,0.45)]">
+                  <span className="text-sm sm:text-[15px] font-medium text-white leading-snug drop-shadow-[0_1px_4px_rgba(0,0,0,0.65)]">
                     Direct Airport Pickup
                   </span>
                 </div>
 
-                <div className="rounded-2xl border border-white/25 bg-gradient-to-br from-white/12 via-white/6 to-white/2 backdrop-blur-md backdrop-saturate-150 shadow-[inset_0_1px_1px_rgba(255,255,255,0.32),0_6px_20px_rgba(8,20,22,0.2)] hover:from-white/18 hover:via-white/10 hover:border-white/40 transition-all p-3.5 sm:p-4 flex items-center sm:flex-col sm:items-start gap-3 sm:gap-2.5">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/10 border border-white/22 shadow-[inset_0_1px_0_rgba(255,255,255,0.3)] flex items-center justify-center shrink-0">
-                    <Banknote className="w-5 h-5 text-[#8CF09E] drop-shadow-[0_1px_2px_rgba(0,0,0,0.35)]" />
+                <div className="rounded-2xl border border-white/20 bg-white/[0.04] backdrop-blur-[3px] shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_4px_16px_rgba(8,20,22,0.14)] hover:bg-white/[0.10] hover:border-white/35 transition-all p-3.5 sm:p-4 flex items-center sm:flex-col sm:items-start gap-3 sm:gap-2.5">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/[0.06] border border-white/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] flex items-center justify-center shrink-0">
+                    <Banknote className="w-5 h-5 text-[#8CF09E] drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]" />
                   </div>
-                  <span className="text-sm sm:text-[15px] font-medium text-white leading-snug drop-shadow-[0_1px_3px_rgba(0,0,0,0.45)]">
+                  <span className="text-sm sm:text-[15px] font-medium text-white leading-snug drop-shadow-[0_1px_4px_rgba(0,0,0,0.65)]">
                     Transparent Daily USD Rates
                   </span>
                 </div>
 
-                <div className="rounded-2xl border border-white/25 bg-gradient-to-br from-white/12 via-white/6 to-white/2 backdrop-blur-md backdrop-saturate-150 shadow-[inset_0_1px_1px_rgba(255,255,255,0.32),0_6px_20px_rgba(8,20,22,0.2)] hover:from-white/18 hover:via-white/10 hover:border-white/40 transition-all p-3.5 sm:p-4 flex items-center sm:flex-col sm:items-start gap-3 sm:gap-2.5">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/10 border border-white/22 shadow-[inset_0_1px_0_rgba(255,255,255,0.3)] flex items-center justify-center shrink-0">
-                    <FileCheck2 className="w-5 h-5 text-[#88EFE5] drop-shadow-[0_1px_2px_rgba(0,0,0,0.35)]" />
+                <div className="rounded-2xl border border-white/20 bg-white/[0.04] backdrop-blur-[3px] shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_4px_16px_rgba(8,20,22,0.14)] hover:bg-white/[0.10] hover:border-white/35 transition-all p-3.5 sm:p-4 flex items-center sm:flex-col sm:items-start gap-3 sm:gap-2.5">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/[0.06] border border-white/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] flex items-center justify-center shrink-0">
+                    <FileCheck2 className="w-5 h-5 text-[#88EFE5] drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]" />
                   </div>
-                  <span className="text-sm sm:text-[15px] font-medium text-white leading-snug drop-shadow-[0_1px_3px_rgba(0,0,0,0.45)]">
+                  <span className="text-sm sm:text-[15px] font-medium text-white leading-snug drop-shadow-[0_1px_4px_rgba(0,0,0,0.65)]">
                     Fast Digital Contract Handoff
                   </span>
                 </div>
@@ -959,15 +959,13 @@ export default function App() {
           PERSISTENT STICKY SEARCH STRIP
          ========================================================= */}
       <div
-        className={`sticky top-0 z-30 transition-colors print:hidden ${isStickyPinned
-          ? 'bg-white/95 backdrop-blur-md border-b border-brand-border'
-          : 'bg-white border-y border-brand-border'
+        className={`sticky top-0 z-30 transition-all print:hidden glass-bar ${isStickyPinned ? 'border-b shadow-[0_12px_36px_rgba(22,38,41,0.09)]' : 'border-y'
           }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 divide-y sm:divide-y-0 sm:divide-x divide-brand-border border-x border-brand-border bg-white">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 divide-y sm:divide-y-0 sm:divide-x divide-brand-ink/10 border-x border-white/65">
             {/* 1. Pickup Location */}
-            <div className="lg:col-span-4 px-4 py-3.5 hover:bg-brand-canvas/70 transition-colors">
+            <div className="lg:col-span-4 px-4 py-3.5 hover:bg-white/45 transition-colors">
               <label
                 htmlFor="search-location"
                 className="flex items-center gap-2 text-xs font-mono font-medium uppercase tracking-wider text-slate-600 mb-1.5"
@@ -993,7 +991,7 @@ export default function App() {
             </div>
 
             {/* 2. Pickup Date & Time */}
-            <div className="lg:col-span-3 px-4 py-3.5 hover:bg-brand-canvas/70 transition-colors">
+            <div className="lg:col-span-3 px-4 py-3.5 hover:bg-white/45 transition-colors">
               <label
                 htmlFor="search-pickup-date"
                 className="flex items-center gap-2 text-xs font-mono font-medium uppercase tracking-wider text-slate-600 mb-1.5"
@@ -1010,7 +1008,7 @@ export default function App() {
                   onChange={(e) => handlePickupDateChange(e.target.value)}
                   className="bg-transparent text-base font-semibold text-brand-ink tabular-nums focus:outline-none cursor-pointer min-w-0 flex-1"
                 />
-                <span className="h-4 w-px bg-brand-border shrink-0" />
+                <span className="h-4 w-px bg-brand-ink/15 shrink-0" />
                 <select
                   aria-label="Pickup time"
                   value={pickupTime}
@@ -1027,7 +1025,7 @@ export default function App() {
             </div>
 
             {/* 3. Return Date */}
-            <div className="lg:col-span-3 px-4 py-3.5 hover:bg-brand-canvas/70 transition-colors">
+            <div className="lg:col-span-3 px-4 py-3.5 hover:bg-white/45 transition-colors">
               <div className="flex items-center justify-between mb-1.5">
                 <label
                   htmlFor="search-return-date"
@@ -1036,7 +1034,7 @@ export default function App() {
                   <Clock className="w-4 h-4 text-brand-teal" />
                   Return Date
                 </label>
-                <span className="text-xs font-mono font-semibold text-brand-amber-ink bg-brand-amber-soft border border-brand-amber-border px-2 py-0.5 rounded tabular-nums">
+                <span className="text-xs font-mono font-semibold text-brand-amber-ink bg-brand-amber-soft/80 border border-brand-amber-border/80 backdrop-blur-xs px-2 py-0.5 rounded-md tabular-nums">
                   {rentalDays} {rentalDays === 1 ? 'day' : 'days'}
                 </span>
               </div>
@@ -1049,7 +1047,7 @@ export default function App() {
                   onChange={(e) => handleReturnDateChange(e.target.value)}
                   className="bg-transparent text-base font-semibold text-brand-ink tabular-nums focus:outline-none cursor-pointer min-w-0 flex-1"
                 />
-                <span className="h-4 w-px bg-brand-border shrink-0" />
+                <span className="h-4 w-px bg-brand-ink/15 shrink-0" />
                 <select
                   aria-label="Return time"
                   value={returnTime}
@@ -1066,7 +1064,7 @@ export default function App() {
             </div>
 
             {/* 4. Car Category */}
-            <div className="lg:col-span-2 px-4 py-3.5 hover:bg-brand-canvas/70 transition-colors flex flex-col justify-center">
+            <div className="lg:col-span-2 px-4 py-3.5 hover:bg-white/45 transition-colors flex flex-col justify-center">
               <label
                 htmlFor="search-category"
                 className="flex items-center gap-2 text-xs font-mono font-medium uppercase tracking-wider text-slate-600 mb-1.5"
@@ -1099,7 +1097,7 @@ export default function App() {
          ========================================================= */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-8 print:hidden">
         {/* Category Filter Tabs & Sort */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3.5 pb-5 border-b border-brand-border">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3.5 pb-5 border-b border-brand-ink/10">
           <div className="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0">
             {CATEGORIES.map((cat) => {
               const active = selectedCategory === cat.id;
@@ -1112,14 +1110,14 @@ export default function App() {
                   key={cat.id}
                   type="button"
                   onClick={() => setSelectedCategory(cat.id)}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium border transition-colors whitespace-nowrap cursor-pointer inline-flex items-center gap-2 ${active
-                    ? 'bg-brand-palm border-brand-palm text-white'
-                    : 'bg-white border-brand-border text-slate-700 hover:border-brand-palm/40 hover:text-brand-ink'
+                  className={`px-4 py-2 rounded-xl text-sm font-medium transition-all whitespace-nowrap cursor-pointer inline-flex items-center gap-2 ${active
+                    ? 'glass-cta text-white'
+                    : 'glass-pill text-slate-700 hover:bg-white/75 hover:border-brand-teal/40 hover:text-brand-ink'
                     }`}
                 >
                   <span>{cat.label}</span>
                   <span
-                    className={`font-mono text-xs tabular-nums ${active ? 'text-white/80' : 'text-slate-400'
+                    className={`font-mono text-xs tabular-nums ${active ? 'text-white/85' : 'text-slate-400'
                       }`}
                   >
                     {count}
@@ -1134,7 +1132,7 @@ export default function App() {
               {filteredFleet.length} options · {selectedLocation.code}
             </span>
 
-            <div className="flex items-center gap-2 border border-brand-border bg-white rounded-lg px-3.5 py-2">
+            <div className="flex items-center gap-2 glass-pill rounded-xl px-3.5 py-2">
               <SlidersHorizontal className="w-4 h-4 text-brand-teal" />
               <label htmlFor="sort-select" className="text-slate-600">
                 Sort:
@@ -1165,20 +1163,20 @@ export default function App() {
             return (
               <article
                 key={vehicle.id}
-                className={`group bg-white rounded-xl border transition-colors flex flex-col overflow-hidden ${isSelected
-                  ? 'border-brand-palm ring-1 ring-brand-palm'
-                  : 'border-brand-border hover:border-brand-teal/60'
+                className={`group glass-card glass-card-hover rounded-2xl flex flex-col overflow-hidden ${isSelected
+                  ? '!border-brand-palm/70 ring-2 ring-brand-palm/50'
+                  : ''
                   }`}
               >
                 {/* Header */}
-                <div className="p-5 pb-2.5 flex items-start justify-between gap-3">
+                <div className="p-5 pb-3 flex items-start justify-between gap-3">
                   <div>
                     <div className="flex items-center gap-2 mb-1.5">
                       <span className="text-xs font-mono font-medium uppercase tracking-wider text-slate-600">
                         {vehicle.categoryLabel}
                       </span>
                       <span className="text-slate-300">·</span>
-                      <span className="text-xs font-mono font-medium text-brand-palm bg-brand-palm-soft border border-brand-palm/25 px-2 py-0.5 rounded">
+                      <span className="text-xs font-mono font-medium text-brand-palm bg-brand-palm-soft/75 border border-brand-palm/25 backdrop-blur-xs px-2 py-0.5 rounded-md">
                         Ready · {selectedLocation.code}
                       </span>
                     </div>
@@ -1188,23 +1186,23 @@ export default function App() {
                     <p className="text-sm text-slate-600 mt-0.5">or similar · {vehicle.subtitle}</p>
                   </div>
 
-                  <span className="text-xs font-medium text-brand-amber-ink bg-brand-amber-soft border border-brand-amber-border px-2.5 py-1 rounded-md shrink-0">
+                  <span className="text-xs font-medium text-brand-amber-ink bg-brand-amber-soft/80 border border-brand-amber-border/80 backdrop-blur-xs px-2.5 py-1 rounded-lg shrink-0">
                     {vehicle.badge}
                   </span>
                 </div>
 
-                {/* High-Res Profile Cutout */}
-                <div className="relative bg-white px-6 py-4 h-48 flex items-center justify-center">
+                {/* High-Res Profile Cutout Stage */}
+                <div className="relative mx-4 mb-3 rounded-xl bg-white/82 border border-white/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.95)] px-5 py-3.5 h-46 flex items-center justify-center">
                   <img
                     src={vehicle.image}
                     alt={`${vehicle.name} profile cutout`}
                     loading="eager"
-                    className="max-h-40 w-full object-contain mix-blend-multiply transition-transform duration-300 group-hover:scale-[1.03] select-none"
+                    className="max-h-38 w-full object-contain mix-blend-multiply transition-transform duration-300 group-hover:scale-[1.03] select-none"
                   />
                 </div>
 
                 {/* Instant Specs Bar */}
-                <div className="grid grid-cols-4 divide-x divide-brand-border border-y border-brand-border bg-brand-canvas/80 text-center">
+                <div className="grid grid-cols-4 divide-x divide-brand-ink/8 border-y border-brand-ink/8 bg-white/32 text-center">
                   <div className="py-3 px-2 flex flex-col items-center justify-center gap-1">
                     <div className="flex items-center gap-1.5 text-sm font-semibold text-brand-ink tabular-nums">
                       <Users className="w-4 h-4 text-brand-teal" />
@@ -1239,7 +1237,7 @@ export default function App() {
                 </div>
 
                 {/* Price Breakdown & Book CTA */}
-                <div className="p-5 flex items-center justify-between gap-4 mt-auto bg-white">
+                <div className="p-5 flex items-center justify-between gap-4 mt-auto bg-white/25">
                   <div>
                     <div className="flex items-baseline gap-1.5">
                       <span className="text-3xl font-semibold tracking-tight text-brand-ink font-mono tabular-nums">
@@ -1255,7 +1253,7 @@ export default function App() {
                   <button
                     type="button"
                     onClick={() => openCheckoutDrawer(vehicle)}
-                    className="px-5 py-3 rounded-lg bg-brand-palm hover:bg-brand-palm-dark active:bg-brand-ink text-white text-base font-medium inline-flex items-center gap-2 transition-colors cursor-pointer shrink-0"
+                    className="px-5 py-3 rounded-xl glass-cta active:scale-[0.99] text-white text-base font-medium inline-flex items-center gap-2 transition-all cursor-pointer shrink-0"
                   >
                     <span>Book</span>
                     <ArrowRight className="w-5 h-5" />
@@ -1273,7 +1271,7 @@ export default function App() {
       {/* =========================================================
           MINIMAL FOOTER
          ========================================================= */}
-      <footer className="border-t border-brand-border bg-white mt-auto print:hidden">
+      <footer className="glass-bar border-t mt-auto print:hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-sm text-slate-600">
           <span>© {CURRENT_YEAR} Take It Easy Car Rental. All rates in USD.</span>
 
@@ -1287,7 +1285,7 @@ export default function App() {
         <div className="fixed inset-0 z-50 flex justify-end print:hidden">
           <div
             onClick={() => setDrawerMode(null)}
-            className="fixed inset-0 bg-brand-ink/30 backdrop-blur-[1px] animate-fade-in"
+            className="fixed inset-0 bg-brand-ink/28 backdrop-blur-sm animate-fade-in"
             aria-hidden="true"
           />
 
@@ -1295,7 +1293,7 @@ export default function App() {
             role="dialog"
             aria-modal="true"
             aria-label="Rental Workflow Drawer"
-            className="relative z-10 w-full max-w-[620px] bg-white border-l border-brand-border h-full flex flex-col animate-drawer-in"
+            className="relative z-10 w-full max-w-[620px] glass-drawer h-full flex flex-col animate-drawer-in"
           >
             {/* Subtle Brand Top Accent */}
             <div className="h-[3px] w-full bg-gradient-to-r from-brand-palm via-brand-teal to-brand-amber shrink-0" />
@@ -1306,7 +1304,7 @@ export default function App() {
             {drawerMode === 'checkout' && activeVehicle && (
               <>
                 {/* Drawer Top Header */}
-                <div className="px-6 py-4 border-b border-brand-border flex items-center justify-between gap-3 bg-white">
+                <div className="px-6 py-4 border-b border-brand-ink/10 flex items-center justify-between gap-3 bg-white/50 backdrop-blur-xl">
                   <div>
                     <span className="text-xs font-mono uppercase tracking-wider text-brand-teal font-medium block">
                       {confirmedReservation
@@ -1323,7 +1321,7 @@ export default function App() {
                   <button
                     type="button"
                     onClick={() => setDrawerMode(null)}
-                    className="p-2.5 rounded-lg border border-brand-border text-slate-600 hover:text-brand-ink hover:border-brand-teal/50 transition-colors cursor-pointer"
+                    className="p-2.5 rounded-xl glass-pill text-slate-600 hover:text-brand-ink hover:border-brand-teal/50 transition-colors cursor-pointer"
                     aria-label="Close drawer"
                   >
                     <X className="w-5 h-5" />
@@ -1332,7 +1330,7 @@ export default function App() {
 
                 {/* Step Progress Bar inside Drawer (when not yet finalized) */}
                 {!confirmedReservation && (
-                  <div className="grid grid-cols-3 divide-x divide-brand-border border-b border-brand-border bg-brand-canvas/80 text-sm">
+                  <div className="grid grid-cols-3 divide-x divide-brand-ink/10 border-b border-brand-ink/10 bg-white/35 backdrop-blur-md text-sm">
                     {[
                       { num: 2, label: '02 Office App' },
                       { num: 3, label: '03 Check Sheet' },
@@ -1355,9 +1353,9 @@ export default function App() {
                             }
                           }}
                           className={`py-3 px-3 font-mono text-xs sm:text-sm flex items-center justify-center gap-1.5 transition-colors cursor-pointer ${active
-                            ? 'bg-white text-brand-palm font-semibold border-b-2 border-brand-palm'
+                            ? 'bg-white/75 text-brand-palm font-semibold border-b-2 border-brand-palm'
                             : done
-                              ? 'text-brand-palm hover:bg-white/60 font-medium'
+                              ? 'text-brand-palm hover:bg-white/50 font-medium'
                               : 'text-slate-400'
                             }`}
                         >
@@ -1371,9 +1369,9 @@ export default function App() {
 
                 {/* CONFIRMED HANDOFF SUMMARY */}
                 {confirmedReservation ? (
-                  <div className="flex-1 overflow-y-auto divide-y divide-brand-border">
-                    <div className="p-6 bg-brand-palm-soft/70">
-                      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-brand-palm text-white text-sm font-medium mb-2.5">
+                  <div className="flex-1 overflow-y-auto divide-y divide-brand-ink/10">
+                    <div className="p-6 bg-brand-palm-soft/55 backdrop-blur-md">
+                      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg glass-cta text-white text-sm font-medium mb-2.5">
                         <Check className="w-4 h-4" />
                         <span>Keys Released · Signed Original Archived</span>
                       </div>
@@ -1430,7 +1428,7 @@ export default function App() {
                       <button
                         type="button"
                         onClick={() => setDossierBooking(confirmedReservation)}
-                        className="w-full py-3 px-4 rounded-lg border border-brand-border hover:border-brand-teal/50 bg-white text-sm font-medium text-brand-ink flex items-center justify-center gap-2 cursor-pointer"
+                        className="w-full py-3 px-4 rounded-xl glass-pill hover:bg-white/75 text-sm font-medium text-brand-ink flex items-center justify-center gap-2 cursor-pointer"
                       >
                         <FileCheck2 className="w-4 h-4 text-brand-teal" />
                         <span>View Signed Contract & Check Sheet (Customer / Office Copy)</span>
@@ -1439,7 +1437,7 @@ export default function App() {
                       <button
                         type="button"
                         onClick={() => openReturnDrawerFor(confirmedReservation)}
-                        className="w-full py-3.5 px-4 rounded-lg bg-brand-palm hover:bg-brand-palm-dark text-sm font-medium text-white flex items-center justify-center gap-2 cursor-pointer"
+                        className="w-full py-3.5 px-4 rounded-xl glass-cta text-sm font-medium text-white flex items-center justify-center gap-2 cursor-pointer"
                       >
                         <Wrench className="w-4 h-4" />
                         <span>Proceed to Vehicle Return & POS Assessment (Phase 5 & 6)</span>
@@ -1453,10 +1451,10 @@ export default function App() {
                     onSubmit={handleFinalizeContractAndPayment}
                     className="flex-1 flex flex-col min-h-0"
                   >
-                    <div className="flex-1 overflow-y-auto divide-y divide-brand-border">
+                    <div className="flex-1 overflow-y-auto divide-y divide-brand-ink/10">
                       {/* Compact Vehicle & Price Quote Banner (Phase 1 Carryover) */}
-                      <div className="p-5 flex items-center gap-4 bg-brand-canvas/70">
-                        <div className="w-28 h-16 bg-white border border-brand-border rounded-lg p-1.5 flex items-center justify-center shrink-0">
+                      <div className="p-5 flex items-center gap-4 bg-white/38 backdrop-blur-md">
+                        <div className="w-28 h-16 bg-white/85 border border-white/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.95)] rounded-xl p-1.5 flex items-center justify-center shrink-0">
                           <img
                             src={activeVehicle.image}
                             alt={activeVehicle.name}
@@ -1505,7 +1503,7 @@ export default function App() {
                             <button
                               type="button"
                               onClick={fillDemoApplication}
-                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-brand-border bg-white hover:border-brand-teal/50 text-xs font-medium text-brand-ink shrink-0 cursor-pointer"
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl glass-pill hover:bg-white/75 text-xs font-medium text-brand-ink shrink-0 cursor-pointer"
                             >
                               <Sparkles className="w-4 h-4 text-brand-amber" />
                               <span>Autofill ID</span>
@@ -1513,7 +1511,7 @@ export default function App() {
                           </div>
 
                           {/* Application Form Grid */}
-                          <div className="border border-brand-border rounded-lg divide-y divide-brand-border bg-white overflow-hidden">
+                          <div className="glass-surface rounded-xl divide-y divide-brand-ink/10 overflow-hidden">
                             <div className="px-4 py-3">
                               <label className="block text-xs font-mono font-medium uppercase text-slate-500">
                                 Customer Full Legal Name *
@@ -1667,9 +1665,9 @@ export default function App() {
 
                           {/* Explicit "No Existing Damage" Toggle */}
                           <label
-                            className={`p-4 rounded-lg border flex items-center justify-between gap-3.5 cursor-pointer transition-colors ${noExistingDamage
-                              ? 'bg-brand-palm border-brand-palm text-white'
-                              : 'bg-white border-brand-border text-brand-ink hover:border-brand-teal/50'
+                            className={`p-4 rounded-xl flex items-center justify-between gap-3.5 cursor-pointer transition-all ${noExistingDamage
+                              ? 'glass-cta text-white'
+                              : 'glass-surface text-brand-ink hover:border-brand-teal/50'
                               }`}
                           >
                             <div className="text-sm">
@@ -1678,7 +1676,7 @@ export default function App() {
                               </span>
                               <span
                                 className={
-                                  noExistingDamage ? 'text-white/80 text-xs mt-0.5 block' : 'text-slate-600 text-xs mt-0.5 block'
+                                  noExistingDamage ? 'text-white/85 text-xs mt-0.5 block' : 'text-slate-600 text-xs mt-0.5 block'
                                 }
                               >
                                 Certified clean body, glass, tires, and interior on check sheet
@@ -1705,9 +1703,9 @@ export default function App() {
                                     key={zone.id}
                                     type="button"
                                     onClick={() => toggleDamageZone(zone.label)}
-                                    className={`px-3 py-1.5 rounded-lg text-sm font-medium border transition-colors cursor-pointer ${marked
-                                      ? 'bg-brand-amber-soft border-brand-amber text-brand-amber-ink'
-                                      : 'bg-white border-brand-border text-slate-700 hover:border-brand-teal/50'
+                                    className={`px-3 py-1.5 rounded-xl text-sm font-medium transition-all cursor-pointer ${marked
+                                      ? 'bg-brand-amber-soft/90 border border-brand-amber text-brand-amber-ink backdrop-blur-xs'
+                                      : 'glass-pill text-slate-700 hover:bg-white/75 hover:border-brand-teal/50'
                                       }`}
                                   >
                                     {marked ? `⚠ ${zone.label}` : zone.label}
@@ -1720,7 +1718,7 @@ export default function App() {
                               rows={2}
                               value={inspectionNotes}
                               onChange={(e) => setInspectionNotes(e.target.value)}
-                              className="w-full p-3 rounded-lg border border-brand-border text-sm text-brand-ink focus:border-brand-palm focus:outline-none"
+                              className="w-full p-3 rounded-xl glass-surface text-sm text-brand-ink focus:border-brand-palm focus:outline-none"
                               placeholder="Check sheet inspection remarks..."
                             />
                           </div>
@@ -1730,9 +1728,9 @@ export default function App() {
                             <button
                               type="button"
                               onClick={() => setCustomerVideoRecorded((v) => !v)}
-                              className={`p-3.5 rounded-lg border text-left transition-colors cursor-pointer ${customerVideoRecorded
-                                ? 'bg-brand-palm-soft border-brand-palm/40 text-brand-ink'
-                                : 'bg-white border-brand-border hover:border-brand-teal/50 text-brand-ink'
+                              className={`p-3.5 rounded-xl text-left transition-all cursor-pointer ${customerVideoRecorded
+                                ? 'bg-brand-palm-soft/75 border border-brand-palm/40 backdrop-blur-md text-brand-ink'
+                                : 'glass-surface hover:border-brand-teal/50 text-brand-ink'
                                 }`}
                             >
                               <div className="flex items-center justify-between gap-2">
@@ -1752,9 +1750,9 @@ export default function App() {
                             <button
                               type="button"
                               onClick={() => setAgentVideoRecorded((v) => !v)}
-                              className={`p-3.5 rounded-lg border text-left transition-colors cursor-pointer ${agentVideoRecorded
-                                ? 'bg-brand-palm-soft border-brand-palm/40 text-brand-ink'
-                                : 'bg-white border-brand-border hover:border-brand-teal/50 text-brand-ink'
+                              className={`p-3.5 rounded-xl text-left transition-all cursor-pointer ${agentVideoRecorded
+                                ? 'bg-brand-palm-soft/75 border border-brand-palm/40 backdrop-blur-md text-brand-ink'
+                                : 'glass-surface hover:border-brand-teal/50 text-brand-ink'
                                 }`}
                             >
                               <div className="flex items-center justify-between gap-2">
@@ -1802,8 +1800,8 @@ export default function App() {
                           </div>
 
                           {/* Contract Clauses & Mandatory Disclosures */}
-                          <div className="border border-brand-border rounded-lg divide-y divide-brand-border bg-white text-sm">
-                            <label className="p-3.5 flex items-start gap-3 cursor-pointer hover:bg-brand-canvas/60">
+                          <div className="glass-surface rounded-xl divide-y divide-brand-ink/10 overflow-hidden text-sm">
+                            <label className="p-3.5 flex items-start gap-3 cursor-pointer hover:bg-white/45">
                               <input
                                 type="checkbox"
                                 checked={ackDamageResponsibility}
@@ -1822,7 +1820,7 @@ export default function App() {
                               </div>
                             </label>
 
-                            <label className="p-3.5 flex items-start gap-3 cursor-pointer bg-brand-amber-soft/60 hover:bg-brand-amber-soft">
+                            <label className="p-3.5 flex items-start gap-3 cursor-pointer bg-brand-amber-soft/55 hover:bg-brand-amber-soft/80">
                               <input
                                 type="checkbox"
                                 checked={ackThirdPartyInsurance}
@@ -1846,7 +1844,7 @@ export default function App() {
                               </div>
                             </label>
 
-                            <label className="p-3.5 flex items-start gap-3 cursor-pointer hover:bg-brand-canvas/60">
+                            <label className="p-3.5 flex items-start gap-3 cursor-pointer hover:bg-white/45">
                               <input
                                 type="checkbox"
                                 checked={copiesDistributed}
@@ -1896,9 +1894,9 @@ export default function App() {
                                 <button
                                   type="button"
                                   onClick={() => setRentalPaymentMethod('cash')}
-                                  className={`py-2.5 px-3.5 rounded-lg border text-sm font-medium inline-flex items-center justify-center gap-2 transition-colors cursor-pointer ${rentalPaymentMethod === 'cash'
-                                    ? 'bg-brand-palm border-brand-palm text-white'
-                                    : 'bg-white border-brand-border text-slate-700 hover:border-brand-teal/50'
+                                  className={`py-2.5 px-3.5 rounded-xl text-sm font-medium inline-flex items-center justify-center gap-2 transition-all cursor-pointer ${rentalPaymentMethod === 'cash'
+                                    ? 'glass-cta text-white'
+                                    : 'glass-pill text-slate-700 hover:bg-white/75 hover:border-brand-teal/50'
                                     }`}
                                 >
                                   <Banknote className="w-4 h-4" />
@@ -1907,9 +1905,9 @@ export default function App() {
                                 <button
                                   type="button"
                                   onClick={() => setRentalPaymentMethod('card')}
-                                  className={`py-2.5 px-3.5 rounded-lg border text-sm font-medium inline-flex items-center justify-center gap-2 transition-colors cursor-pointer ${rentalPaymentMethod === 'card'
-                                    ? 'bg-brand-palm border-brand-palm text-white'
-                                    : 'bg-white border-brand-border text-slate-700 hover:border-brand-teal/50'
+                                  className={`py-2.5 px-3.5 rounded-xl text-sm font-medium inline-flex items-center justify-center gap-2 transition-all cursor-pointer ${rentalPaymentMethod === 'card'
+                                    ? 'glass-cta text-white'
+                                    : 'glass-pill text-slate-700 hover:bg-white/75 hover:border-brand-teal/50'
                                     }`}
                                 >
                                   <CreditCard className="w-4 h-4" />
@@ -1919,12 +1917,12 @@ export default function App() {
                             </div>
 
                             {/* Part B: Security Deposit ($500 Card Only — Cash Blocked) */}
-                            <div className="p-3.5 rounded-lg bg-brand-canvas border border-brand-border space-y-1.5">
+                            <div className="p-3.5 rounded-xl glass-surface space-y-1.5">
                               <div className="flex items-center justify-between gap-2">
                                 <span className="text-sm font-semibold text-brand-ink">
                                   Security Deposit: ${activeVehicle.deposit}.00 USD (Card Only)
                                 </span>
-                                <span className="text-xs font-mono uppercase px-2 py-0.5 rounded bg-rose-50 border border-rose-200 text-rose-700 shrink-0">
+                                <span className="text-xs font-mono uppercase px-2 py-0.5 rounded-md bg-rose-50/85 border border-rose-200 text-rose-700 shrink-0">
                                   Cash Never Accepted
                                 </span>
                               </div>
@@ -1935,7 +1933,7 @@ export default function App() {
                             </div>
 
                             {/* Card on File Input */}
-                            <div className="border border-brand-border rounded-lg divide-y divide-brand-border bg-white overflow-hidden">
+                            <div className="glass-surface rounded-xl divide-y divide-brand-ink/10 overflow-hidden">
                               <div className="px-4 py-2.5">
                                 <label className="block text-xs font-mono font-medium uppercase text-slate-500">
                                   Cardholder Name on File *
@@ -2010,9 +2008,9 @@ export default function App() {
                     </div>
 
                     {/* Sticky Checkout Footer */}
-                    <div className="border-t border-brand-border bg-white p-5 space-y-3">
+                    <div className="border-t border-brand-ink/10 bg-white/55 backdrop-blur-xl p-5 space-y-3">
                       {formError && (
-                        <div className="p-3 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-sm flex items-center gap-2.5">
+                        <div className="p-3 rounded-xl bg-rose-50/90 border border-rose-200 text-rose-700 text-sm flex items-center gap-2.5">
                           <AlertCircle className="w-5 h-5 shrink-0" />
                           <span>{formError}</span>
                         </div>
@@ -2027,7 +2025,7 @@ export default function App() {
                                 setFormError('');
                                 setCheckoutStep((s) => s - 1);
                               }}
-                              className="px-4 py-3 rounded-lg border border-brand-border hover:border-brand-teal/50 text-sm font-medium text-brand-ink inline-flex items-center gap-1.5 cursor-pointer"
+                              className="px-4 py-3 rounded-xl glass-pill hover:bg-white/75 text-sm font-medium text-brand-ink inline-flex items-center gap-1.5 cursor-pointer"
                             >
                               <ArrowLeft className="w-4 h-4" />
                               <span>Back</span>
@@ -2036,7 +2034,7 @@ export default function App() {
                           <button
                             type="button"
                             onClick={handleAdvanceStep}
-                            className="flex-1 py-3 px-4 rounded-lg bg-brand-palm hover:bg-brand-palm-dark text-white text-sm sm:text-base font-medium inline-flex items-center justify-center gap-2 transition-colors cursor-pointer"
+                            className="flex-1 py-3 px-4 rounded-xl glass-cta text-white text-sm sm:text-base font-medium inline-flex items-center justify-center gap-2 transition-all cursor-pointer"
                           >
                             <span>
                               {checkoutStep === 2
@@ -2065,14 +2063,14 @@ export default function App() {
                                 setFormError('');
                                 setCheckoutStep(3);
                               }}
-                              className="px-4 py-3 rounded-lg border border-brand-border hover:border-brand-teal/50 text-sm font-medium text-brand-ink inline-flex items-center gap-1.5 cursor-pointer"
+                              className="px-4 py-3 rounded-xl glass-pill hover:bg-white/75 text-sm font-medium text-brand-ink inline-flex items-center gap-1.5 cursor-pointer"
                             >
                               <ArrowLeft className="w-4 h-4" />
                               <span>Back</span>
                             </button>
                             <button
                               type="submit"
-                              className="flex-1 py-3 px-4 rounded-lg bg-brand-palm hover:bg-brand-palm-dark text-white text-sm sm:text-base font-medium inline-flex items-center justify-center gap-2 transition-colors cursor-pointer"
+                              className="flex-1 py-3 px-4 rounded-xl glass-cta text-white text-sm sm:text-base font-medium inline-flex items-center justify-center gap-2 transition-all cursor-pointer"
                             >
                               <ShieldCheck className="w-5 h-5 shrink-0" />
                               <span>Execute Signed Contract & Authorize $500 Hold</span>
@@ -2091,7 +2089,7 @@ export default function App() {
                ===================================================== */}
             {drawerMode === 'bookings' && (
               <>
-                <div className="px-6 py-4 border-b border-brand-border flex items-center justify-between gap-3 bg-white">
+                <div className="px-6 py-4 border-b border-brand-ink/10 flex items-center justify-between gap-3 bg-white/50 backdrop-blur-xl">
                   <div>
                     <span className="text-xs font-mono uppercase tracking-wider text-brand-teal font-medium block">
                       Office File & Active Fleet
@@ -2103,18 +2101,18 @@ export default function App() {
                   <button
                     type="button"
                     onClick={() => setDrawerMode(null)}
-                    className="p-2.5 rounded-lg border border-brand-border text-slate-600 hover:text-brand-ink cursor-pointer"
+                    className="p-2.5 rounded-xl glass-pill text-slate-600 hover:text-brand-ink cursor-pointer"
                     aria-label="Close drawer"
                   >
                     <X className="w-5 h-5" />
                   </button>
                 </div>
 
-                <div className="flex-1 overflow-y-auto divide-y divide-brand-border">
+                <div className="flex-1 overflow-y-auto divide-y divide-brand-ink/10">
                   {reservations.map((res) => (
-                    <div key={res.id} className="p-5 space-y-3.5 hover:bg-brand-canvas/60">
+                    <div key={res.id} className="p-5 space-y-3.5 hover:bg-white/40 transition-colors">
                       <div className="flex items-center justify-between">
-                        <span className="text-xs sm:text-sm font-mono font-semibold text-brand-ink bg-brand-canvas border border-brand-border px-2.5 py-0.5 rounded">
+                        <span className="text-xs sm:text-sm font-mono font-semibold text-brand-ink glass-pill px-2.5 py-0.5 rounded-md">
                           {res.id}
                         </span>
                         <span
@@ -2128,11 +2126,13 @@ export default function App() {
                       </div>
 
                       <div className="flex items-center gap-3.5">
-                        <img
-                          src={res.vehicle.image}
-                          alt={res.vehicle.name}
-                          className="w-24 h-14 object-contain mix-blend-multiply shrink-0"
-                        />
+                        <div className="w-24 h-14 rounded-xl bg-white/85 border border-white/90 p-1 flex items-center justify-center shrink-0">
+                          <img
+                            src={res.vehicle.image}
+                            alt={res.vehicle.name}
+                            className="max-h-full max-w-full object-contain mix-blend-multiply"
+                          />
+                        </div>
                         <div className="min-w-0 flex-1">
                           <p className="text-base font-semibold text-brand-ink">{res.vehicle.name}</p>
                           <p className="text-sm text-slate-600">
@@ -2149,14 +2149,14 @@ export default function App() {
                         <button
                           type="button"
                           onClick={() => setDossierBooking(res)}
-                          className="flex-1 py-2.5 px-3 rounded-lg border border-brand-border bg-white hover:border-brand-teal/50 text-sm font-medium text-brand-ink cursor-pointer"
+                          className="flex-1 py-2.5 px-3 rounded-xl glass-pill hover:bg-white/75 text-sm font-medium text-brand-ink cursor-pointer"
                         >
                           Contract & Check Sheet
                         </button>
                         <button
                           type="button"
                           onClick={() => openReturnDrawerFor(res)}
-                          className="flex-1 py-2.5 px-3 rounded-lg bg-brand-palm hover:bg-brand-palm-dark text-sm font-medium text-white transition-colors cursor-pointer"
+                          className="flex-1 py-2.5 px-3 rounded-xl glass-cta text-sm font-medium text-white transition-all cursor-pointer"
                         >
                           {res.returnAssessment?.settled
                             ? 'Review Return POS'
@@ -2174,7 +2174,7 @@ export default function App() {
                ===================================================== */}
             {drawerMode === 'return' && activeReturnBooking && (
               <>
-                <div className="px-6 py-4 border-b border-brand-border flex items-center justify-between gap-3 bg-white">
+                <div className="px-6 py-4 border-b border-brand-ink/10 flex items-center justify-between gap-3 bg-white/50 backdrop-blur-xl">
                   <div>
                     <span className="text-xs font-mono uppercase tracking-wider text-brand-teal font-medium block">
                       Phase 5 & Phase 6 · Return Inspection & POS Machine
@@ -2186,17 +2186,17 @@ export default function App() {
                   <button
                     type="button"
                     onClick={() => setDrawerMode(null)}
-                    className="p-2.5 rounded-lg border border-brand-border text-slate-600 hover:text-brand-ink cursor-pointer"
+                    className="p-2.5 rounded-xl glass-pill text-slate-600 hover:text-brand-ink cursor-pointer"
                     aria-label="Close return drawer"
                   >
                     <X className="w-5 h-5" />
                   </button>
                 </div>
 
-                <div className="flex-1 overflow-y-auto divide-y divide-brand-border">
+                <div className="flex-1 overflow-y-auto divide-y divide-brand-ink/10">
                   {/* Rental Selector if multiple contracts exist */}
                   {reservations.length > 1 && (
-                    <div className="px-6 py-3.5 bg-brand-canvas flex items-center justify-between gap-3 text-sm">
+                    <div className="px-6 py-3.5 bg-white/35 backdrop-blur-md flex items-center justify-between gap-3 text-sm">
                       <span className="font-mono text-slate-600">Active Contract:</span>
                       <select
                         value={activeReturnBooking.id}
@@ -2204,7 +2204,7 @@ export default function App() {
                           const found = reservations.find((r) => r.id === e.target.value);
                           if (found) openReturnDrawerFor(found);
                         }}
-                        className="border border-brand-border rounded-lg bg-white px-3 py-1.5 font-mono text-sm text-brand-ink"
+                        className="glass-pill rounded-xl px-3 py-1.5 font-mono text-sm text-brand-ink"
                       >
                         {reservations.map((r) => (
                           <option key={r.id} value={r.id}>
@@ -2216,7 +2216,7 @@ export default function App() {
                   )}
 
                   {/* Outgoing Check Sheet Baseline */}
-                  <div className="p-5 bg-brand-canvas/60 text-sm space-y-1.5">
+                  <div className="p-5 bg-white/35 backdrop-blur-md text-sm space-y-1.5">
                     <div className="flex items-center justify-between gap-2">
                       <span className="text-xs font-mono uppercase text-slate-500">
                         Outgoing Phase 3 Baseline ({activeReturnBooking.driver.fullName})
@@ -2248,7 +2248,7 @@ export default function App() {
                         </h3>
                       </div>
 
-                      <div className="inline-flex rounded-lg border border-brand-border bg-white p-0.5 text-sm">
+                      <div className="inline-flex rounded-xl glass-pill p-1 text-sm">
                         <button
                           type="button"
                           onClick={() =>
@@ -2259,8 +2259,8 @@ export default function App() {
                               isMajorDamage: false
                             })
                           }
-                          className={`px-3 py-1.5 rounded-md font-medium cursor-pointer transition-colors ${!returnDraft.hasNewDamage
-                            ? 'bg-brand-palm text-white'
+                          className={`px-3 py-1.5 rounded-lg font-medium cursor-pointer transition-all ${!returnDraft.hasNewDamage
+                            ? 'glass-cta text-white'
                             : 'text-slate-600 hover:text-brand-ink'
                             }`}
                         >
@@ -2276,8 +2276,8 @@ export default function App() {
                                 returnDraft.estimateCost > 0 ? returnDraft.estimateCost : 850
                             })
                           }
-                          className={`px-3 py-1.5 rounded-md font-medium cursor-pointer transition-colors ${returnDraft.hasNewDamage
-                            ? 'bg-brand-palm text-white'
+                          className={`px-3 py-1.5 rounded-lg font-medium cursor-pointer transition-all ${returnDraft.hasNewDamage
+                            ? 'glass-cta text-white'
                             : 'text-slate-600 hover:text-brand-ink'
                             }`}
                         >
@@ -2307,9 +2307,9 @@ export default function App() {
                                     isMajorDamage: p.major
                                   })
                                 }
-                                className={`px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium border cursor-pointer transition-colors ${returnDraft.estimateCost === p.cost
-                                  ? 'bg-brand-palm border-brand-palm text-white'
-                                  : 'bg-white border-brand-border text-slate-700 hover:border-brand-teal/50'
+                                className={`px-3 py-1.5 rounded-xl text-xs sm:text-sm font-medium cursor-pointer transition-all ${returnDraft.estimateCost === p.cost
+                                  ? 'glass-cta text-white'
+                                  : 'glass-pill text-slate-700 hover:bg-white/75'
                                   }`}
                               >
                                 {p.label}
@@ -2319,7 +2319,7 @@ export default function App() {
                         </div>
 
                         {/* Check Sheet Damage Type & Estimate */}
-                        <div className="border border-brand-border rounded-lg divide-y divide-brand-border bg-white overflow-hidden">
+                        <div className="glass-surface rounded-xl divide-y divide-brand-ink/10 overflow-hidden">
                           <div className="px-4 py-3">
                             <label className="block text-xs font-mono font-medium uppercase text-slate-500">
                               Damage Type Noted Directly on Check Sheet *
@@ -2433,7 +2433,7 @@ export default function App() {
                     </div>
 
                     {/* Financial Split Grid */}
-                    <div className="grid grid-cols-3 divide-x divide-brand-border border border-brand-border rounded-lg bg-white text-center font-mono tabular-nums">
+                    <div className="grid grid-cols-3 divide-x divide-brand-ink/10 glass-surface rounded-xl text-center font-mono tabular-nums">
                       <div className="p-3.5">
                         <span className="text-xs uppercase text-slate-500 block mb-0.5">Estimate</span>
                         <span className="text-base sm:text-lg font-semibold text-brand-ink">
@@ -2465,7 +2465,7 @@ export default function App() {
                     </div>
 
                     {returnDraft.hasNewDamage && returnEffectiveCost > 0 && (
-                      <div className="border border-brand-border rounded-lg divide-y divide-brand-border bg-white text-sm">
+                      <div className="glass-surface rounded-xl divide-y divide-brand-ink/10 overflow-hidden text-sm">
                         <label className="p-3.5 flex items-start gap-3 cursor-pointer">
                           <input
                             type="checkbox"
@@ -2557,9 +2557,9 @@ export default function App() {
                 </div>
 
                 {/* Sticky Return POS Footer */}
-                <div className="border-t border-brand-border bg-white p-5 space-y-3">
+                <div className="border-t border-brand-ink/10 bg-white/55 backdrop-blur-xl p-5 space-y-3">
                   {returnError && (
-                    <div className="p-3 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-sm flex items-center gap-2.5">
+                    <div className="p-3 rounded-xl bg-rose-50/90 border border-rose-200 text-rose-700 text-sm flex items-center gap-2.5">
                       <AlertCircle className="w-5 h-5 shrink-0" />
                       <span>{returnError}</span>
                     </div>
@@ -2581,7 +2581,7 @@ export default function App() {
                             )
                           )
                         }
-                        className="px-4 py-3 rounded-lg border border-brand-border text-sm font-medium text-slate-700 hover:text-brand-ink inline-flex items-center gap-1.5 cursor-pointer"
+                        className="px-4 py-3 rounded-xl glass-pill text-sm font-medium text-slate-700 hover:text-brand-ink inline-flex items-center gap-1.5 cursor-pointer"
                       >
                         <RotateCcw className="w-4 h-4" />
                         <span>Re-run</span>
@@ -2591,7 +2591,7 @@ export default function App() {
                     <button
                       type="button"
                       onClick={handleProcessReturnPos}
-                      className="flex-1 py-3.5 px-4 rounded-lg bg-brand-palm hover:bg-brand-palm-dark text-white text-sm sm:text-base font-medium inline-flex items-center justify-center gap-2 transition-colors cursor-pointer"
+                      className="flex-1 py-3.5 px-4 rounded-xl glass-cta text-white text-sm sm:text-base font-medium inline-flex items-center justify-center gap-2 transition-all cursor-pointer"
                     >
                       <CreditCard className="w-5 h-5 shrink-0" />
                       <span>

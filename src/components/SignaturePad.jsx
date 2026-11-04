@@ -122,16 +122,16 @@ export default function SignaturePad({
   const isSigned = Boolean(value && (value.dataUrl || value.text));
 
   return (
-    <div className="border border-brand-border rounded-lg bg-white overflow-hidden">
+    <div className="glass-surface rounded-xl overflow-hidden">
       {/* Header Toolbar */}
-      <div className="px-4 py-3 border-b border-brand-border bg-brand-canvas/80 flex items-center justify-between gap-3">
+      <div className="px-4 py-3 border-b border-brand-ink/10 bg-white/45 flex items-center justify-between gap-3">
         <div className="min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
             <span className="text-xs sm:text-sm font-mono uppercase tracking-wider text-brand-ink font-semibold">
               {label}
             </span>
             {isSigned && (
-              <span className="inline-flex items-center gap-1.5 text-xs font-mono text-brand-palm bg-brand-palm-soft border border-brand-palm/25 px-2 py-0.5 rounded">
+              <span className="inline-flex items-center gap-1.5 text-xs font-mono text-brand-palm bg-brand-palm-soft/80 border border-brand-palm/25 px-2 py-0.5 rounded-md">
                 <Check className="w-3.5 h-3.5" />
                 Signed {value.signedAt}
               </span>
@@ -141,13 +141,13 @@ export default function SignaturePad({
         </div>
 
         <div className="flex items-center gap-1.5 shrink-0">
-          <div className="inline-flex rounded-lg border border-brand-border bg-white p-0.5">
+          <div className="inline-flex rounded-xl glass-pill p-0.5">
             <button
               type="button"
               onClick={() => switchMode('draw')}
-              className={`px-2.5 py-1.5 rounded-md text-xs font-medium inline-flex items-center gap-1.5 cursor-pointer transition-colors ${
+              className={`px-2.5 py-1.5 rounded-lg text-xs font-medium inline-flex items-center gap-1.5 cursor-pointer transition-all ${
                 mode === 'draw'
-                  ? 'bg-brand-palm text-white'
+                  ? 'glass-cta text-white'
                   : 'text-slate-600 hover:text-brand-ink'
               }`}
             >
@@ -157,9 +157,9 @@ export default function SignaturePad({
             <button
               type="button"
               onClick={() => switchMode('type')}
-              className={`px-2.5 py-1.5 rounded-md text-xs font-medium inline-flex items-center gap-1.5 cursor-pointer transition-colors ${
+              className={`px-2.5 py-1.5 rounded-lg text-xs font-medium inline-flex items-center gap-1.5 cursor-pointer transition-all ${
                 mode === 'type'
-                  ? 'bg-brand-palm text-white'
+                  ? 'glass-cta text-white'
                   : 'text-slate-600 hover:text-brand-ink'
               }`}
             >
@@ -172,7 +172,7 @@ export default function SignaturePad({
             <button
               type="button"
               onClick={handleClear}
-              className="p-2 rounded-lg border border-brand-border bg-white text-slate-600 hover:text-brand-ink cursor-pointer"
+              className="p-2 rounded-xl glass-pill text-slate-600 hover:text-brand-ink cursor-pointer"
               title="Clear signature"
             >
               <RotateCcw className="w-4 h-4" />
@@ -183,7 +183,7 @@ export default function SignaturePad({
 
       {/* Signature Surface */}
       {mode === 'draw' ? (
-        <div className="relative bg-white">
+        <div className="relative bg-white/80">
           <canvas
             ref={canvasRef}
             onPointerDown={handlePointerDown}

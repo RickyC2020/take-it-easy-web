@@ -68,18 +68,18 @@ export default function ContractDossierModal({ booking, onClose }) {
   return (
     <div
       id="printable-contract-root"
-      className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-brand-ink/40 backdrop-blur-[1px] overflow-y-auto animate-fade-in print:static print:inset-auto print:z-auto print:block print:p-0 print:bg-white print:backdrop-blur-none print:overflow-visible"
+      className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-brand-ink/38 backdrop-blur-md overflow-y-auto animate-fade-in print:static print:inset-auto print:z-auto print:block print:p-0 print:bg-white print:backdrop-blur-none print:overflow-visible"
     >
       <div
         role="dialog"
         aria-modal="true"
         aria-label="Official Rental Agreement and Vehicle Check Sheet"
-        className="w-full max-w-4xl bg-white border border-brand-border rounded-xl overflow-hidden my-8 print:my-0 print:max-w-none print:w-full print:border print:border-slate-300 print:rounded-none print:overflow-visible"
+        className="w-full max-w-4xl bg-white/88 backdrop-blur-2xl border border-white/85 shadow-[0_24px_64px_rgba(16,32,34,0.22)] rounded-2xl overflow-hidden my-8 print:my-0 print:max-w-none print:w-full print:bg-white print:backdrop-blur-none print:shadow-none print:border print:border-slate-300 print:rounded-none print:overflow-visible"
       >
         {/* Screen-Only Brand Accent & Top Control Bar */}
         <div className="h-1 w-full bg-gradient-to-r from-brand-palm via-brand-teal to-brand-amber print:hidden" />
 
-        <div className="px-6 py-4 border-b border-brand-border bg-brand-canvas flex flex-wrap items-center justify-between gap-3 print:hidden">
+        <div className="px-6 py-4 border-b border-brand-ink/10 bg-white/55 backdrop-blur-xl flex flex-wrap items-center justify-between gap-3 print:hidden">
           <div className="flex items-center gap-2.5">
             <FileCheck2 className="w-5 h-5 text-brand-palm" />
             <span className="text-sm font-mono uppercase tracking-wider text-brand-ink font-semibold">
@@ -89,13 +89,13 @@ export default function ContractDossierModal({ booking, onClose }) {
 
           <div className="flex items-center gap-2.5">
             {/* Customer Copy vs Office Original Switcher */}
-            <div className="inline-flex rounded-lg border border-brand-border bg-white p-1 text-sm">
+            <div className="inline-flex rounded-xl glass-pill p-1 text-sm">
               <button
                 type="button"
                 onClick={() => setCopyType('customer')}
-                className={`px-3 py-1.5 rounded-md font-medium cursor-pointer transition-colors ${
+                className={`px-3 py-1.5 rounded-lg font-medium cursor-pointer transition-all ${
                   copyType === 'customer'
-                    ? 'bg-brand-palm text-white'
+                    ? 'glass-cta text-white'
                     : 'text-slate-600 hover:text-brand-ink'
                 }`}
               >
@@ -104,9 +104,9 @@ export default function ContractDossierModal({ booking, onClose }) {
               <button
                 type="button"
                 onClick={() => setCopyType('office')}
-                className={`px-3 py-1.5 rounded-md font-medium cursor-pointer transition-colors ${
+                className={`px-3 py-1.5 rounded-lg font-medium cursor-pointer transition-all ${
                   copyType === 'office'
-                    ? 'bg-brand-palm text-white'
+                    ? 'glass-cta text-white'
                     : 'text-slate-600 hover:text-brand-ink'
                 }`}
               >
@@ -117,7 +117,7 @@ export default function ContractDossierModal({ booking, onClose }) {
             <button
               type="button"
               onClick={handlePrint}
-              className="px-4 py-2 rounded-lg bg-brand-palm hover:bg-brand-palm-dark text-sm font-medium text-white inline-flex items-center gap-2 transition-colors cursor-pointer"
+              className="px-4 py-2 rounded-xl glass-cta text-sm font-medium text-white inline-flex items-center gap-2 transition-all cursor-pointer"
             >
               <Printer className="w-4 h-4" />
               <span>Print</span>
@@ -126,7 +126,7 @@ export default function ContractDossierModal({ booking, onClose }) {
             <button
               type="button"
               onClick={onClose}
-              className="p-2 rounded-lg border border-brand-border bg-white text-slate-600 hover:text-brand-ink cursor-pointer"
+              className="p-2 rounded-xl glass-pill text-slate-600 hover:text-brand-ink cursor-pointer"
               aria-label="Close document"
             >
               <X className="w-5 h-5" />
