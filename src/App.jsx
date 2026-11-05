@@ -268,20 +268,6 @@ function formatShortDate(dateStr) {
   return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 }
 
-function formatCompactDateRange(startStr, endStr) {
-  if (!startStr || !endStr) return '—';
-  const [sy, sm, sd] = startStr.split('-').map(Number);
-  const [ey, em, ed] = endStr.split('-').map(Number);
-  const startDt = new Date(sy, sm - 1, sd);
-  const endDt = new Date(ey, em - 1, ed);
-  const startMonth = startDt.toLocaleDateString('en-US', { month: 'short' });
-  const endMonth = endDt.toLocaleDateString('en-US', { month: 'short' });
-  if (sy === ey && sm === em) {
-    return `${startMonth} ${sd}-${ed}`;
-  }
-  return `${startMonth} ${sd} - ${endMonth} ${ed}`;
-}
-
 function formatCardNumber(value) {
   const digits = value.replace(/\D/g, '').slice(0, 16);
   return digits.replace(/(\d{4})(?=\d)/g, '$1 ');
@@ -448,37 +434,48 @@ export default function App() {
   const [selectedTours, setSelectedTours] = useState([]);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const currentY = window.scrollY;
+    const MOBILE_MAX_WIDTH = 767;
 
-      // Scrolling back to the very top always restores the full expanded form
-      if (currentY <= 30) {
+    const updateCompactState = () => {
+      // Only collapse on mobile view (< 768px); desktop stays expanded
+      if (window.innerWidth > MOBILE_MAX_WIDTH) {
         manualExpandScrollYRef.current = null;
         setIsCompact(false);
         return;
       }
 
-      // If the user clicked the compact bar to edit while scrolled down, keep it open
+      if (!searchAnchorRef.current) return;
+      const anchorTop = searchAnchorRef.current.getBoundingClientRect().top;
+
+      // Keep expanded whenever the top of the Pickup Airport card is below the top of the screen
+      if (anchorTop > 0) {
+        manualExpandScrollYRef.current = null;
+        setIsCompact(false);
+        return;
+      }
+
+      // If the user tapped the compact bar to edit while scrolled down, keep it open
       // until they scroll further away
       if (manualExpandScrollYRef.current !== null) {
-        if (Math.abs(currentY - manualExpandScrollYRef.current) > 90 && currentY > 120) {
+        if (Math.abs(window.scrollY - manualExpandScrollYRef.current) > 80) {
           manualExpandScrollYRef.current = null;
           setIsCompact(true);
         }
         return;
       }
 
-      const formHitTop = searchAnchorRef.current
-        ? searchAnchorRef.current.getBoundingClientRect().top <= 0
-        : false;
-
-      if (currentY > 120 || formHitTop) {
-        setIsCompact(true);
-      }
+      // Collapse once the top of the Pickup Airport card reaches the top of the screen
+      setIsCompact(true);
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', updateCompactState, { passive: true });
+    window.addEventListener('resize', updateCompactState, { passive: true });
+    updateCompactState();
+
+    return () => {
+      window.removeEventListener('scroll', updateCompactState);
+      window.removeEventListener('resize', updateCompactState);
+    };
   }, []);
 
   const handleExpandCompactSearch = () => {
@@ -565,11 +562,6 @@ export default function App() {
   const selectedLocation = useMemo(
     () => LOCATIONS.find((l) => l.id === locationId) || LOCATIONS[0],
     [locationId]
-  );
-
-  const selectedCategoryLabel = useMemo(
-    () => (CATEGORIES.find((c) => c.id === selectedCategory) || CATEGORIES[0]).label,
-    [selectedCategory]
   );
 
   const filteredFleet = useMemo(() => {
@@ -1052,22 +1044,22 @@ export default function App() {
       </section>
 
       {/* =========================================================
-          PERSISTENT STICKY SEARCH STRIP (SCROLL-TRIGGERED COMPACT VIEW)
+          PERSISTENT STICKY SEARCH STRIP (MOBILE SCROLL-TRIGGERED COMPACT VIEW)
          ========================================================= */}
       <div ref={searchAnchorRef} aria-hidden="true" />
       <div
         onClick={isCompact ? handleExpandCompactSearch : undefined}
         className={`sticky top-0 z-50 transition-all duration-300 ease-in-out print:hidden ${
           isCompact
-            ? 'bg-white/95 backdrop-blur shadow-md p-4 border-b border-brand-ink/10 cursor-pointer'
+            ? 'bg-white/95 backdrop-blur shadow-md px-4 py-3 border-b border-brand-ink/10 cursor-pointer md:glass-bar md:border-y md:p-0 md:shadow-none md:cursor-default'
             : 'glass-bar border-y'
         }`}
       >
-        {/* Slim Sticky Compact Summary Row */}
+        {/* Slim Sticky Mobile Compact Summary Row */}
         <div
           aria-hidden={!isCompact}
           inert={!isCompact || undefined}
-          className={`grid transition-all duration-300 ease-in-out ${
+          className={`md:hidden grid transition-all duration-300 ease-in-out ${
             isCompact
               ? 'grid-rows-[1fr] opacity-100'
               : 'grid-rows-[0fr] opacity-0 pointer-events-none'
@@ -1080,22 +1072,21 @@ export default function App() {
                 e.stopPropagation();
                 handleExpandCompactSearch();
               }}
-              aria-label="Expand search form to edit location, dates, or vehicle category"
-              className="w-full max-w-7xl mx-auto sm:px-2 flex items-center justify-between gap-3 text-left cursor-pointer group"
+              aria-label="Expand search form to edit pickup location or dates"
+              className="w-full min-h-[44px] flex items-center justify-between gap-3 text-left cursor-pointer group"
             >
-              <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-                <span className="w-9 h-9 rounded-full bg-brand-palm/10 border border-brand-palm/25 flex items-center justify-center shrink-0 transition-colors group-hover:bg-brand-palm group-hover:text-white text-brand-palm">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <span className="w-9 h-9 rounded-full bg-brand-palm/10 border border-brand-palm/25 flex items-center justify-center shrink-0 text-brand-palm">
                   <Search className="w-4 h-4" />
                 </span>
-                <span className="text-sm sm:text-base font-semibold text-brand-ink truncate">
-                  {selectedLocation.compactName} •{' '}
-                  {formatCompactDateRange(pickupDate, returnDate)} • {selectedCategoryLabel}
+                <span className="text-sm font-semibold text-brand-ink truncate">
+                  {selectedLocation.compactName} • {formatShortDate(pickupDate)} –{' '}
+                  {formatShortDate(returnDate)}
                 </span>
               </div>
 
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-brand-ink/15 bg-brand-canvas/90 group-hover:border-brand-palm/50 group-hover:bg-brand-palm-soft text-xs sm:text-sm font-medium text-brand-ink shrink-0 transition-colors">
-                <Pencil className="w-3.5 h-3.5 text-brand-palm" />
-                <span>Edit</span>
+              <span className="w-9 h-9 rounded-xl border border-brand-ink/15 bg-brand-canvas/90 flex items-center justify-center shrink-0 text-brand-palm">
+                <Pencil className="w-4 h-4" />
               </span>
             </button>
           </div>
@@ -1105,7 +1096,7 @@ export default function App() {
         <div
           aria-hidden={isCompact}
           inert={isCompact || undefined}
-          className={`grid transition-all duration-300 ease-in-out ${
+          className={`grid transition-all duration-300 ease-in-out md:grid-rows-[1fr] md:opacity-100 md:pointer-events-auto ${
             isCompact
               ? 'grid-rows-[0fr] opacity-0 pointer-events-none'
               : 'grid-rows-[1fr] opacity-100'
