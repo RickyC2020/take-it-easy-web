@@ -437,46 +437,60 @@ export default function App() {
 
   useEffect(() => {
     const MOBILE_MAX_WIDTH = 767;
+    let rafId = null;
 
-    const updateCompactState = () => {
+    const checkCompactState = () => {
       // Only collapse on mobile view (< 768px); desktop stays expanded
       if (window.innerWidth > MOBILE_MAX_WIDTH) {
         manualExpandScrollYRef.current = null;
-        setIsCompact(false);
+        setIsCompact((prev) => (prev ? false : prev));
         return;
       }
 
       if (!searchAnchorRef.current) return;
       const anchorTop = searchAnchorRef.current.getBoundingClientRect().top;
 
-      // Keep expanded whenever the top of the Pickup Airport card is below the top of the screen
-      if (anchorTop > 0) {
-        manualExpandScrollYRef.current = null;
-        setIsCompact(false);
-        return;
-      }
-
       // If the user tapped the compact bar to edit while scrolled down, keep it open
-      // until they scroll further away
+      // until they scroll further away (> 75px)
       if (manualExpandScrollYRef.current !== null) {
-        if (Math.abs(window.scrollY - manualExpandScrollYRef.current) > 80) {
+        if (Math.abs(window.scrollY - manualExpandScrollYRef.current) > 75) {
           manualExpandScrollYRef.current = null;
           setIsCompact(true);
         }
         return;
       }
 
-      // Collapse once the top of the Pickup Airport card reaches the top of the screen
-      setIsCompact(true);
+      // Hysteresis threshold:
+      // Collapse when top of search anchor reaches viewport top (anchorTop <= 0)
+      // Only expand back when scrolled well back up (anchorTop > 50)
+      // This eliminates rapid toggling/flutter (jitter) around the scroll boundary.
+      setIsCompact((prevCompact) => {
+        if (!prevCompact && anchorTop <= 0) {
+          return true;
+        }
+        if (prevCompact && anchorTop > 50) {
+          return false;
+        }
+        return prevCompact;
+      });
     };
 
-    window.addEventListener('scroll', updateCompactState, { passive: true });
-    window.addEventListener('resize', updateCompactState, { passive: true });
-    updateCompactState();
+    const handleScrollOrResize = () => {
+      if (rafId) return;
+      rafId = window.requestAnimationFrame(() => {
+        checkCompactState();
+        rafId = null;
+      });
+    };
+
+    window.addEventListener('scroll', handleScrollOrResize, { passive: true });
+    window.addEventListener('resize', handleScrollOrResize, { passive: true });
+    checkCompactState();
 
     return () => {
-      window.removeEventListener('scroll', updateCompactState);
-      window.removeEventListener('resize', updateCompactState);
+      if (rafId) window.cancelAnimationFrame(rafId);
+      window.removeEventListener('scroll', handleScrollOrResize);
+      window.removeEventListener('resize', handleScrollOrResize);
     };
   }, []);
 
@@ -1055,9 +1069,9 @@ export default function App() {
       <div ref={searchAnchorRef} aria-hidden="true" />
       <div
         onClick={isCompact ? handleExpandCompactSearch : undefined}
-        className={`sticky top-0 z-50 transition-all duration-300 ease-in-out print:hidden ${
+        className={`sticky top-0 z-50 transition-colors duration-300 print:hidden ${
           isCompact
-            ? 'bg-white/95 backdrop-blur shadow-md px-4 py-3 border-b border-brand-ink/10 cursor-pointer md:glass-bar md:border-y md:p-0 md:shadow-none md:cursor-default'
+            ? 'bg-white/95 backdrop-blur-md shadow-md border-b border-brand-ink/10 cursor-pointer md:glass-bar md:border-y md:shadow-none md:cursor-default'
             : 'glass-bar border-y'
         }`}
       >
@@ -1065,36 +1079,38 @@ export default function App() {
         <div
           aria-hidden={!isCompact}
           inert={!isCompact || undefined}
-          className={`md:hidden grid transition-all duration-300 ease-in-out ${
+          className={`md:hidden grid transition-all duration-300 ease-out ${
             isCompact
               ? 'grid-rows-[1fr] opacity-100'
               : 'grid-rows-[0fr] opacity-0 pointer-events-none'
           }`}
         >
           <div className="overflow-hidden">
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleExpandCompactSearch();
-              }}
-              aria-label="Expand search form to edit pickup location or dates"
-              className="w-full min-h-[44px] flex items-center justify-between gap-3 text-left cursor-pointer group"
-            >
-              <div className="flex items-center gap-2.5 min-w-0">
-                <span className="w-9 h-9 rounded-full bg-brand-palm/10 border border-brand-palm/25 flex items-center justify-center shrink-0 text-brand-palm">
-                  <Search className="w-4 h-4" />
-                </span>
-                <span className="text-sm font-semibold text-brand-ink truncate">
-                  {selectedLocation.compactName} • {formatShortDate(pickupDate)} –{' '}
-                  {formatShortDate(returnDate)}
-                </span>
-              </div>
+            <div className="px-4 py-3">
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleExpandCompactSearch();
+                }}
+                aria-label="Expand search form to edit pickup location or dates"
+                className="w-full min-h-[44px] flex items-center justify-between gap-3 text-left cursor-pointer group"
+              >
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <span className="w-9 h-9 rounded-full bg-brand-palm/10 border border-brand-palm/25 flex items-center justify-center shrink-0 text-brand-palm">
+                    <Search className="w-4 h-4" />
+                  </span>
+                  <span className="text-sm font-semibold text-brand-ink truncate">
+                    {selectedLocation.compactName} • {formatShortDate(pickupDate)} –{' '}
+                    {formatShortDate(returnDate)}
+                  </span>
+                </div>
 
-              <span className="w-9 h-9 rounded-xl border border-brand-ink/15 bg-brand-canvas/90 flex items-center justify-center shrink-0 text-brand-palm">
-                <Pencil className="w-4 h-4" />
-              </span>
-            </button>
+                <span className="w-9 h-9 rounded-xl border border-brand-ink/15 bg-brand-canvas/90 flex items-center justify-center shrink-0 text-brand-palm">
+                  <Pencil className="w-4 h-4" />
+                </span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -1102,7 +1118,7 @@ export default function App() {
         <div
           aria-hidden={isCompact}
           inert={isCompact || undefined}
-          className={`grid transition-all duration-300 ease-in-out md:grid-rows-[1fr] md:opacity-100 md:pointer-events-auto ${
+          className={`grid transition-all duration-300 ease-out md:grid-rows-[1fr] md:opacity-100 md:pointer-events-auto ${
             isCompact
               ? 'grid-rows-[0fr] opacity-0 pointer-events-none'
               : 'grid-rows-[1fr] opacity-100'
