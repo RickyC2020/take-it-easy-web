@@ -55,7 +55,7 @@ export default function TourPackages({ selectedTourIds = [], onToggleTour }) {
               <div className="relative h-52 border-b border-white/12 overflow-hidden bg-emerald-950">
                 <img
                   src={tour.image}
-                  alt={tour.imageAlt}
+                  alt={tour.imageAlt || tour.title}
                   loading="lazy"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 select-none"
                 />
@@ -67,10 +67,12 @@ export default function TourPackages({ selectedTourIds = [], onToggleTour }) {
                 />
 
                 {/* Location Badge */}
-                <span className="absolute bottom-3 left-3.5 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-black/35 border border-white/20 backdrop-blur-md text-[11px] font-mono text-white">
-                  <MapPin className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                  <span>{tour.locationLabel}</span>
-                </span>
+                {tour.locationLabel && (
+                  <span className="absolute bottom-3 left-3.5 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-black/35 border border-white/20 backdrop-blur-md text-[11px] font-mono text-white">
+                    <MapPin className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                    <span>{tour.locationLabel}</span>
+                  </span>
+                )}
 
                 {/* Duration Tag */}
                 <span className="absolute top-3.5 right-3.5 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/35 border border-white/25 backdrop-blur-md text-xs font-mono font-medium text-white">
@@ -107,7 +109,7 @@ export default function TourPackages({ selectedTourIds = [], onToggleTour }) {
                       </span>
                     </div>
                     <span className="text-xs sm:text-sm text-emerald-200/80 block mt-0.5">
-                      {tour.duration === 'Daily' ? 'per rental day' : 'flat excursion rate'}
+                      {tour.duration?.toLowerCase().includes('daily') ? 'per rental day' : 'flat excursion rate'}
                     </span>
                   </div>
 

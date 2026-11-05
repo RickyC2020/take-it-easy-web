@@ -540,7 +540,8 @@ export default function App() {
   const toursTotal = useMemo(
     () =>
       selectedTours.reduce(
-        (sum, t) => sum + (t.duration === 'Daily' ? t.price * rentalDays : t.price),
+        (sum, t) =>
+          sum + (t.duration?.toLowerCase().includes('daily') ? t.price * rentalDays : t.price),
         0
       ),
     [selectedTours, rentalDays]
@@ -548,6 +549,7 @@ export default function App() {
 
   const handleToggleTour = (tour) => {
     const alreadySelected = selectedTours.some((t) => t.id === tour.id);
+    const isDaily = tour.duration?.toLowerCase().includes('daily');
     setSelectedTours((prev) =>
       alreadySelected
         ? prev.filter((t) => t.id !== tour.id)
@@ -556,7 +558,7 @@ export default function App() {
     setSuccessNotification(
       alreadySelected
         ? `Removed "${tour.title}" from your booking.`
-        : `Added "${tour.title}" ($${tour.price} USD${tour.duration === 'Daily' ? '/day' : ''}) to your booking.`
+        : `Added "${tour.title}" ($${tour.price} USD${isDaily ? '/day' : ''}) to your booking.`
     );
     setTimeout(() => {
       setSuccessNotification(null);

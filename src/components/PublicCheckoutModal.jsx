@@ -74,7 +74,7 @@ export default function PublicCheckoutModal({
 
   const rentalSubtotal = vehicle.ratePerDay * rentalDays;
   const toursSubtotal = selectedTours.reduce(
-    (sum, t) => sum + (t.duration === 'Daily' ? t.price * rentalDays : t.price),
+    (sum, t) => sum + (t.duration?.toLowerCase().includes('daily') ? t.price * rentalDays : t.price),
     0
   );
   const depositAmount = vehicle.deposit ?? 500;
@@ -486,8 +486,8 @@ export default function PublicCheckoutModal({
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                       {TOUR_PACKAGES.map((tour) => {
                         const isAdded = selectedTourIds.includes(tour.id);
-                        const effectivePrice =
-                          tour.duration === 'Daily' ? tour.price * rentalDays : tour.price;
+                        const isDaily = tour.duration?.toLowerCase().includes('daily');
+                        const effectivePrice = isDaily ? tour.price * rentalDays : tour.price;
 
                         return (
                           <div
@@ -513,7 +513,7 @@ export default function PublicCheckoutModal({
                                 </p>
                                 <p className="text-xs font-mono font-semibold text-gray-600 mt-0.5">
                                   ${tour.price} USD
-                                  {tour.duration === 'Daily'
+                                  {isDaily
                                     ? `/day ($${effectivePrice} total)`
                                     : ' flat'}
                                 </p>

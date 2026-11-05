@@ -35,7 +35,8 @@ export default function CheckoutPayment({
   const safeRentalSubtotal = Number(rentalTotal) || 0;
   const safeDepositAmount = Number(depositAmount ?? 500);
   const toursSubtotal = selectedTours.reduce(
-    (sum, tour) => sum + (tour.duration === 'Daily' ? tour.price * rentalDays : tour.price),
+    (sum, tour) =>
+      sum + (tour.duration?.toLowerCase().includes('daily') ? tour.price * rentalDays : tour.price),
     0
   );
   const totalToAuthorize = safeRentalSubtotal + toursSubtotal + safeDepositAmount;
@@ -233,8 +234,8 @@ export default function CheckoutPayment({
             {selectedTours.length > 0 && (
               <div className="space-y-2 pt-2 border-t border-dashed border-gray-200">
                 {selectedTours.map((tour) => {
-                  const linePrice =
-                    tour.duration === 'Daily' ? tour.price * rentalDays : tour.price;
+                  const isDaily = tour.duration?.toLowerCase().includes('daily');
+                  const linePrice = isDaily ? tour.price * rentalDays : tour.price;
                   return (
                     <div
                       key={tour.id || tour.title}
