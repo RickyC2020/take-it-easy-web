@@ -1,7 +1,9 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import {
   MapPin,
   Plane,
+  Search,
+  Pencil,
   Calendar,
   Clock,
   Car,
@@ -42,6 +44,7 @@ const LOCATIONS = [
     code: 'MBJ',
     name: 'Sangster Intl Airport, Montego Bay',
     shortName: 'Montego Bay Airport (MBJ)',
+    compactName: 'Sangster Intl',
     pickupNote: 'Airport Terminal Sign → Rental Office Desk'
   },
   {
@@ -49,6 +52,7 @@ const LOCATIONS = [
     code: 'KIN',
     name: 'Norman Manley Intl Airport, Kingston',
     shortName: 'Kingston Airport (KIN)',
+    compactName: 'Norman Manley Intl',
     pickupNote: 'Arrivals Terminal Sign → Office Desk #4'
   },
   {
@@ -56,6 +60,7 @@ const LOCATIONS = [
     code: 'OCJ',
     name: 'Ian Fleming Intl Airport, Ocho Rios',
     shortName: 'Ocho Rios Airport (OCJ)',
+    compactName: 'Ian Fleming Intl',
     pickupNote: 'Arrivals Exit → Main Rental Office'
   },
   {
@@ -63,6 +68,7 @@ const LOCATIONS = [
     code: 'NEG',
     name: 'Negril Aerodrome & Seven Mile Office',
     shortName: 'Negril Office (NEG)',
+    compactName: 'Negril Office',
     pickupNote: 'Norman Manley Blvd — Rental Office'
   }
 ];
@@ -262,6 +268,20 @@ function formatShortDate(dateStr) {
   return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 }
 
+function formatCompactDateRange(startStr, endStr) {
+  if (!startStr || !endStr) return '—';
+  const [sy, sm, sd] = startStr.split('-').map(Number);
+  const [ey, em, ed] = endStr.split('-').map(Number);
+  const startDt = new Date(sy, sm - 1, sd);
+  const endDt = new Date(ey, em - 1, ed);
+  const startMonth = startDt.toLocaleDateString('en-US', { month: 'short' });
+  const endMonth = endDt.toLocaleDateString('en-US', { month: 'short' });
+  if (sy === ey && sm === em) {
+    return `${startMonth} ${sd}-${ed}`;
+  }
+  return `${startMonth} ${sd} - ${endMonth} ${ed}`;
+}
+
 function formatCardNumber(value) {
   const digits = value.replace(/\D/g, '').slice(0, 16);
   return digits.replace(/(\d{4})(?=\d)/g, '$1 ');
@@ -360,7 +380,9 @@ export default function App() {
   const [returnTime, setReturnTime] = useState('10:00 AM');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [sortBy, setSortBy] = useState('recommended');
-  const [isStickyPinned, setIsStickyPinned] = useState(false);
+  const [isCompact, setIsCompact] = useState(false);
+  const searchAnchorRef = useRef(null);
+  const manualExpandScrollYRef = useRef(null);
 
   // Drawer & Modal State
   // drawerMode: 'checkout' (Phases 2-4) | 'bookings' (List) | 'return' (Phases 5-6) | null
@@ -427,11 +449,42 @@ export default function App() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsStickyPinned(window.scrollY > 360);
+      const currentY = window.scrollY;
+
+      // Scrolling back to the very top always restores the full expanded form
+      if (currentY <= 30) {
+        manualExpandScrollYRef.current = null;
+        setIsCompact(false);
+        return;
+      }
+
+      // If the user clicked the compact bar to edit while scrolled down, keep it open
+      // until they scroll further away
+      if (manualExpandScrollYRef.current !== null) {
+        if (Math.abs(currentY - manualExpandScrollYRef.current) > 90 && currentY > 120) {
+          manualExpandScrollYRef.current = null;
+          setIsCompact(true);
+        }
+        return;
+      }
+
+      const formHitTop = searchAnchorRef.current
+        ? searchAnchorRef.current.getBoundingClientRect().top <= 0
+        : false;
+
+      if (currentY > 120 || formHitTop) {
+        setIsCompact(true);
+      }
     };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleExpandCompactSearch = () => {
+    manualExpandScrollYRef.current = window.scrollY;
+    setIsCompact(false);
+  };
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -512,6 +565,11 @@ export default function App() {
   const selectedLocation = useMemo(
     () => LOCATIONS.find((l) => l.id === locationId) || LOCATIONS[0],
     [locationId]
+  );
+
+  const selectedCategoryLabel = useMemo(
+    () => (CATEGORIES.find((c) => c.id === selectedCategory) || CATEGORIES[0]).label,
+    [selectedCategory]
   );
 
   const filteredFleet = useMemo(() => {
@@ -994,14 +1052,68 @@ export default function App() {
       </section>
 
       {/* =========================================================
-          PERSISTENT STICKY SEARCH STRIP
+          PERSISTENT STICKY SEARCH STRIP (SCROLL-TRIGGERED COMPACT VIEW)
          ========================================================= */}
+      <div ref={searchAnchorRef} aria-hidden="true" />
       <div
-        className={`sticky top-0 z-30 transition-all print:hidden glass-bar ${isStickyPinned ? 'border-b shadow-[0_12px_36px_rgba(22,38,41,0.09)]' : 'border-y'
-          }`}
+        onClick={isCompact ? handleExpandCompactSearch : undefined}
+        className={`sticky top-0 z-50 transition-all duration-300 ease-in-out print:hidden ${
+          isCompact
+            ? 'bg-white/95 backdrop-blur shadow-md p-4 border-b border-brand-ink/10 cursor-pointer'
+            : 'glass-bar border-y'
+        }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 divide-y sm:divide-y-0 sm:divide-x divide-brand-ink/10 border-x border-white/65">
+        {/* Slim Sticky Compact Summary Row */}
+        <div
+          aria-hidden={!isCompact}
+          inert={!isCompact || undefined}
+          className={`grid transition-all duration-300 ease-in-out ${
+            isCompact
+              ? 'grid-rows-[1fr] opacity-100'
+              : 'grid-rows-[0fr] opacity-0 pointer-events-none'
+          }`}
+        >
+          <div className="overflow-hidden">
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleExpandCompactSearch();
+              }}
+              aria-label="Expand search form to edit location, dates, or vehicle category"
+              className="w-full max-w-7xl mx-auto sm:px-2 flex items-center justify-between gap-3 text-left cursor-pointer group"
+            >
+              <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                <span className="w-9 h-9 rounded-full bg-brand-palm/10 border border-brand-palm/25 flex items-center justify-center shrink-0 transition-colors group-hover:bg-brand-palm group-hover:text-white text-brand-palm">
+                  <Search className="w-4 h-4" />
+                </span>
+                <span className="text-sm sm:text-base font-semibold text-brand-ink truncate">
+                  {selectedLocation.compactName} •{' '}
+                  {formatCompactDateRange(pickupDate, returnDate)} • {selectedCategoryLabel}
+                </span>
+              </div>
+
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-brand-ink/15 bg-brand-canvas/90 group-hover:border-brand-palm/50 group-hover:bg-brand-palm-soft text-xs sm:text-sm font-medium text-brand-ink shrink-0 transition-colors">
+                <Pencil className="w-3.5 h-3.5 text-brand-palm" />
+                <span>Edit</span>
+              </span>
+            </button>
+          </div>
+        </div>
+
+        {/* Full Expanded Search Grid */}
+        <div
+          aria-hidden={isCompact}
+          inert={isCompact || undefined}
+          className={`grid transition-all duration-300 ease-in-out ${
+            isCompact
+              ? 'grid-rows-[0fr] opacity-0 pointer-events-none'
+              : 'grid-rows-[1fr] opacity-100'
+          }`}
+        >
+          <div className="overflow-hidden">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 divide-y sm:divide-y-0 sm:divide-x divide-brand-ink/10 border-x border-white/65">
             {/* 1. Pickup Location */}
             <div className="lg:col-span-4 px-4 py-3 hover:bg-white/45 transition-colors">
               <label
@@ -1124,6 +1236,8 @@ export default function App() {
                   ))}
                 </select>
                 <ChevronDown className="w-4 h-4 text-slate-500 pointer-events-none absolute right-0" />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -1324,7 +1438,7 @@ export default function App() {
           INLINE RIGHT-HAND WORKFLOW DRAWER
          ========================================================= */}
       {drawerMode && (
-        <div className="fixed inset-0 z-50 flex justify-end print:hidden">
+        <div className="fixed inset-0 z-[55] flex justify-end print:hidden">
           <div
             onClick={() => setDrawerMode(null)}
             className="fixed inset-0 bg-brand-ink/28 backdrop-blur-sm animate-fade-in"
