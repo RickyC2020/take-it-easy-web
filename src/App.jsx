@@ -36,6 +36,7 @@ import SignaturePad from './components/SignaturePad';
 import ContractDossierModal from './components/ContractDossierModal';
 import TourPackages from './components/TourPackages';
 import WhatsAppWidget from './components/WhatsAppWidget';
+import CheckoutPayment from './components/CheckOutPayment';
 
 // --- LOCATIONS & FLEET DATA ---
 const LOCATIONS = [
@@ -379,6 +380,7 @@ export default function App() {
   const [reservations, setReservations] = useState([INITIAL_SAMPLE_RENTAL]);
   const [selectedReturnId, setSelectedReturnId] = useState(INITIAL_SAMPLE_RENTAL.id);
   const [dossierBooking, setDossierBooking] = useState(null);
+  const [guestCheckoutVehicle, setGuestCheckoutVehicle] = useState(null);
   const [formError, setFormError] = useState('');
   const [successNotification, setSuccessNotification] = useState(null);
 
@@ -488,6 +490,8 @@ export default function App() {
       if (e.key === 'Escape') {
         if (dossierBooking) {
           setDossierBooking(null);
+        } else if (guestCheckoutVehicle) {
+          setGuestCheckoutVehicle(null);
         } else if (drawerMode) {
           setDrawerMode(null);
         }
@@ -495,10 +499,10 @@ export default function App() {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [drawerMode, dossierBooking]);
+  }, [drawerMode, dossierBooking, guestCheckoutVehicle]);
 
   useEffect(() => {
-    if (drawerMode || dossierBooking) {
+    if (drawerMode || dossierBooking || guestCheckoutVehicle) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -506,7 +510,7 @@ export default function App() {
     return () => {
       document.body.style.overflow = '';
     };
-  }, [drawerMode, dossierBooking]);
+  }, [drawerMode, dossierBooking, guestCheckoutVehicle]);
 
   const handlePickupDateChange = (nextPickup) => {
     setPickupDate(nextPickup);
@@ -1395,7 +1399,7 @@ export default function App() {
 
                   <button
                     type="button"
-                    onClick={() => openCheckoutDrawer(vehicle)}
+                    onClick={() => setGuestCheckoutVehicle(vehicle)}
                     className="min-h-[48px] px-5 sm:px-6 py-3 rounded-xl glass-cta active:scale-[0.99] text-white text-base font-semibold inline-flex items-center gap-2 transition-all cursor-pointer shrink-0"
                   >
                     <span>Book</span>
@@ -2759,6 +2763,81 @@ export default function App() {
               </>
             )}
           </aside>
+        </div>
+      )}
+
+      {/* =========================================================
+          EXPRESS GUEST CHECKOUT MODAL (CheckoutPayment)
+         ========================================================= */}
+      {guestCheckoutVehicle && (
+        <div className="fixed inset-0 z-[58] overflow-y-auto print:hidden">
+          <div
+            onClick={() => setGuestCheckoutVehicle(null)}
+            className="fixed inset-0 bg-brand-ink/35 backdrop-blur-sm animate-fade-in"
+            aria-hidden="true"
+          />
+
+          <div className="relative z-10 min-h-full flex flex-col items-center justify-start sm:justify-center p-4 sm:p-6 lg:p-8">
+            <div className="w-full max-w-5xl space-y-4">
+              {/* Modal Top Navigation Bar */}
+              <div className="bg-white/95 backdrop-blur rounded-xl shadow-sm border border-gray-100 px-4 py-3 flex items-center justify-between gap-3">
+                <button
+                  type="button"
+                  onClick={() => setGuestCheckoutVehicle(null)}
+                  className="min-h-[44px] px-3 py-2 rounded-xl text-sm font-semibold text-gray-700 hover:bg-gray-100 inline-flex items-center gap-2 transition-colors cursor-pointer"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  <span>Back to Fleet</span>
+                </button>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const vehicle = guestCheckoutVehicle;
+                      setGuestCheckoutVehicle(null);
+                      openCheckoutDrawer(vehicle);
+                    }}
+                    className="min-h-[44px] px-3.5 py-2 rounded-xl border border-gray-200 hover:border-emerald-700/40 hover:bg-emerald-50/60 text-xs sm:text-sm font-medium text-gray-700 inline-flex items-center gap-1.5 transition-colors cursor-pointer"
+                  >
+                    <FileCheck2 className="w-4 h-4 text-emerald-800 shrink-0" />
+                    <span>In-Office Contract Handoff</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setGuestCheckoutVehicle(null)}
+                    aria-label="Close guest checkout"
+                    className="min-h-[44px] min-w-[44px] rounded-xl border border-gray-200 hover:bg-gray-100 text-gray-600 flex items-center justify-center transition-colors cursor-pointer"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+
+              <CheckoutPayment
+                vehicleName={`${guestCheckoutVehicle.name} (${guestCheckoutVehicle.year})`}
+                vehicleCategory={guestCheckoutVehicle.categoryLabel}
+                vehicleImage={guestCheckoutVehicle.image}
+                pickupLocation={selectedLocation.name}
+                pickupDateLabel={`${formatShortDate(pickupDate)} · ${pickupTime}`}
+                returnDateLabel={`${formatShortDate(returnDate)} · ${returnTime}`}
+                rentalDays={rentalDays}
+                dailyRate={guestCheckoutVehicle.ratePerDay}
+                selectedTours={selectedTours}
+                rentalTotal={guestCheckoutVehicle.ratePerDay * rentalDays}
+                depositAmount={guestCheckoutVehicle.deposit}
+                onAuthorizeSuccess={({ bookingRef, guest, totalAuthorized }) => {
+                  setSuccessNotification(
+                    `Authorized $${totalAuthorized} USD hold for ${guest.fullName} (Ref: ${bookingRef}).`
+                  );
+                  setTimeout(() => {
+                    setSuccessNotification(null);
+                  }, 5000);
+                }}
+              />
+            </div>
+          </div>
         </div>
       )}
 
