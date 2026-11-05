@@ -12,17 +12,25 @@ export default function CheckoutPayment({
   selectedTours = [],
   rentalTotal = 340,
   depositAmount = 500,
+  guestDetails: externalGuestDetails = null,
+  onGuestDetailsChange = null,
+  contractSignedBy = null,
+  checkSheetVerified = false,
+  onBack = null,
   onAuthorizeSuccess = null
 }) {
-  const [guestDetails, setGuestDetails] = useState({
+  const [internalGuestDetails, setInternalGuestDetails] = useState({
     fullName: '',
     email: '',
     whatsappPhone: '',
+    country: '',
     flightNumber: ''
   });
   const [isProcessing, setIsProcessing] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [authorizedBookingRef, setAuthorizedBookingRef] = useState(null);
+
+  const guestDetails = externalGuestDetails || internalGuestDetails;
 
   const safeRentalSubtotal = Number(rentalTotal) || 0;
   const safeDepositAmount = Number(depositAmount ?? 500);
@@ -34,7 +42,12 @@ export default function CheckoutPayment({
 
   const handleInputChange = (field) => (e) => {
     const value = e.target.value;
-    setGuestDetails((prev) => ({ ...prev, [field]: value }));
+    const nextDetails = { ...guestDetails, [field]: value };
+    if (onGuestDetailsChange) {
+      onGuestDetailsChange(nextDetails);
+    } else {
+      setInternalGuestDetails(nextDetails);
+    }
     if (errorMessage) setErrorMessage(null);
   };
 
@@ -42,9 +55,9 @@ export default function CheckoutPayment({
     e.preventDefault();
 
     if (
-      !guestDetails.fullName.trim() ||
-      !guestDetails.email.trim() ||
-      !guestDetails.whatsappPhone.trim()
+      !guestDetails.fullName?.trim() ||
+      !guestDetails.email?.trim() ||
+      !guestDetails.whatsappPhone?.trim()
     ) {
       setErrorMessage('Please fill in your Full Name, Email, and WhatsApp Phone Number.');
       return;
@@ -181,6 +194,26 @@ export default function CheckoutPayment({
             </div>
           </div>
 
+          {/* Completed Pre-Checkout Steps Indicator (when inside 4-step wizard) */}
+          {(checkSheetVerified || contractSignedBy) && (
+            <div className="rounded-xl bg-emerald-50/60 border border-emerald-200/60 px-3.5 py-3 space-y-1.5 text-xs">
+              {checkSheetVerified && (
+                <div className="flex items-center justify-between text-emerald-900">
+                  <span className="font-medium">Pre-Inspection Baseline</span>
+                  <span className="font-mono font-semibold">✓ Acknowledged</span>
+                </div>
+              )}
+              {contractSignedBy && (
+                <div className="flex items-center justify-between text-emerald-900">
+                  <span className="font-medium">Digital Rental Agreement</span>
+                  <span className="font-mono font-semibold truncate max-w-[160px]">
+                    ✓ Signed ({contractSignedBy})
+                  </span>
+                </div>
+              )}
+            </div>
+          )}
+
           {/* Price Breakdown */}
           <div className="space-y-3 pt-1 text-sm">
             <div className="flex items-center justify-between gap-3">
@@ -257,13 +290,13 @@ export default function CheckoutPayment({
         <section className="w-full md:w-7/12 bg-white rounded-xl shadow-sm border border-gray-100 p-6 sm:p-7">
           <div className="border-b border-gray-100 pb-4 mb-6">
             <span className="text-xs font-mono font-semibold uppercase tracking-wider text-emerald-800 block">
-              Final Step · Express Guest Checkout
+              Step 4 of 4 · Secure Payment Authorization
             </span>
             <h2 className="text-xl font-bold text-gray-900 mt-0.5">
               Guest Details & Payment
             </h2>
             <p className="text-sm text-gray-500 mt-1">
-              Enter your contact information for instant WhatsApp confirmation and airport pickup coordination.
+              Confirm your contact details below and complete your tokenized card pre-authorization.
             </p>
           </div>
 
@@ -286,7 +319,7 @@ export default function CheckoutPayment({
                   type="text"
                   required
                   autoComplete="name"
-                  value={guestDetails.fullName}
+                  value={guestDetails.fullName || ''}
                   onChange={handleInputChange('fullName')}
                   placeholder="e.g. Marcus Sterling"
                   className="w-full min-h-[44px] px-3.5 py-2.5 rounded-xl border border-gray-200 bg-white text-base text-gray-900 placeholder:text-gray-400 shadow-2xs focus:outline-none focus:ring-2 focus:ring-emerald-800/20 focus:border-emerald-800 transition-colors"
@@ -306,7 +339,7 @@ export default function CheckoutPayment({
                     type="email"
                     required
                     autoComplete="email"
-                    value={guestDetails.email}
+                    value={guestDetails.email || ''}
                     onChange={handleInputChange('email')}
                     placeholder="you@example.com"
                     className="w-full min-h-[44px] px-3.5 py-2.5 rounded-xl border border-gray-200 bg-white text-base text-gray-900 placeholder:text-gray-400 shadow-2xs focus:outline-none focus:ring-2 focus:ring-emerald-800/20 focus:border-emerald-800 transition-colors"
@@ -325,7 +358,7 @@ export default function CheckoutPayment({
                     type="tel"
                     required
                     autoComplete="tel"
-                    value={guestDetails.whatsappPhone}
+                    value={guestDetails.whatsappPhone || ''}
                     onChange={handleInputChange('whatsappPhone')}
                     placeholder="+1 (876) 555-0194"
                     className="w-full min-h-[44px] px-3.5 py-2.5 rounded-xl border border-gray-200 bg-white text-base text-gray-900 placeholder:text-gray-400 shadow-2xs focus:outline-none focus:ring-2 focus:ring-emerald-800/20 focus:border-emerald-800 transition-colors"
@@ -344,7 +377,7 @@ export default function CheckoutPayment({
                 <input
                   id="guest-flight"
                   type="text"
-                  value={guestDetails.flightNumber}
+                  value={guestDetails.flightNumber || ''}
                   onChange={handleInputChange('flightNumber')}
                   placeholder="e.g. AA 1482 / DL 1934 (for terminal arrival tracking)"
                   className="w-full min-h-[44px] px-3.5 py-2.5 rounded-xl border border-gray-200 bg-white text-base text-gray-900 placeholder:text-gray-400 shadow-2xs focus:outline-none focus:ring-2 focus:ring-emerald-800/20 focus:border-emerald-800 transition-colors"
@@ -406,28 +439,41 @@ export default function CheckoutPayment({
               </div>
             )}
 
-            {/* Primary Call to Action */}
+            {/* Primary Call to Action (+ Optional Back Button) */}
             <div>
-              <button
-                type="submit"
-                disabled={isProcessing}
-                className="w-full min-h-[52px] py-3.5 px-6 rounded-xl bg-amber-500 hover:bg-amber-400 active:scale-[0.99] text-emerald-950 font-bold text-base shadow-sm transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                  className="w-4 h-4 shrink-0"
+              <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center gap-3">
+                {onBack && (
+                  <button
+                    type="button"
+                    onClick={onBack}
+                    disabled={isProcessing}
+                    className="min-h-[52px] px-5 py-3.5 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 text-gray-700 font-semibold text-sm sm:text-base transition-colors cursor-pointer shrink-0"
+                  >
+                    ← Back
+                  </button>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={isProcessing}
+                  className="w-full flex-1 min-h-[52px] py-3.5 px-6 rounded-xl bg-amber-500 hover:bg-amber-400 active:scale-[0.99] text-emerald-950 font-bold text-base shadow-sm transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
-                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                </svg>
-                <span>{isProcessing ? 'Authorizing Payment...' : 'Authorize Payment'}</span>
-              </button>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                    className="w-4 h-4 shrink-0"
+                  >
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                  </svg>
+                  <span>{isProcessing ? 'Authorizing Payment...' : 'Authorize Payment'}</span>
+                </button>
+              </div>
 
               {/* Trust Signals & Badges */}
               <div className="flex flex-wrap justify-center items-center gap-4 py-3">

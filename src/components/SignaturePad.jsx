@@ -6,14 +6,15 @@ export default function SignaturePad({
   sublabel = 'Draw signature with mouse/trackpad or switch to Type',
   value,
   onChange,
-  defaultTypedName = ''
+  defaultTypedName = '',
+  initialMode = 'draw'
 }) {
   const canvasRef = useRef(null);
-  const [mode, setMode] = useState('draw'); // 'draw' | 'type'
+  const [mode, setMode] = useState(() => value?.mode || initialMode); // 'draw' | 'type'
   const [isDrawing, setIsDrawing] = useState(false);
-  const [typedText, setTypedText] = useState(defaultTypedName);
+  const [typedText, setTypedText] = useState(() => value?.text || defaultTypedName);
 
-  // Setup high-DPI canvas when in draw mode
+  // Setup high-DPI canvas when in draw mode (and restore existing drawn image if remounted)
   useEffect(() => {
     if (mode !== 'draw') return;
     const canvas = canvasRef.current;
@@ -30,7 +31,15 @@ export default function SignaturePad({
     ctx.lineJoin = 'round';
     ctx.lineWidth = 2.4;
     ctx.strokeStyle = '#162629';
-  }, [mode]);
+
+    if (value?.mode === 'draw' && value?.dataUrl) {
+      const img = new Image();
+      img.onload = () => {
+        ctx.drawImage(img, 0, 0, rect.width, rect.height);
+      };
+      img.src = value.dataUrl;
+    }
+  }, [mode, value?.mode, value?.dataUrl]);
 
   const getCoords = (e) => {
     const canvas = canvasRef.current;

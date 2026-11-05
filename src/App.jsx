@@ -36,7 +36,7 @@ import SignaturePad from './components/SignaturePad';
 import ContractDossierModal from './components/ContractDossierModal';
 import TourPackages from './components/TourPackages';
 import WhatsAppWidget from './components/WhatsAppWidget';
-import CheckoutPayment from './components/CheckOutPayment';
+import PublicCheckoutModal from './components/PublicCheckoutModal';
 
 // --- LOCATIONS & FLEET DATA ---
 const LOCATIONS = [
@@ -2264,6 +2264,20 @@ export default function App() {
                   </button>
                 </div>
 
+                {/* Internal Counter Agent Action Bar */}
+                <div className="px-6 py-3 border-b border-brand-ink/10 bg-white/35 flex items-center justify-between gap-3">
+                  <span className="text-xs text-slate-600">
+                    Internal counter intake &amp; walk-around check sheet
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => openCheckoutDrawer(FLEET[0])}
+                    className="min-h-[38px] px-3 py-1.5 rounded-xl glass-pill hover:bg-white/80 text-xs font-semibold text-brand-ink cursor-pointer shrink-0"
+                  >
+                    + Counter Intake
+                  </button>
+                </div>
+
                 <div className="flex-1 overflow-y-auto divide-y divide-brand-ink/10">
                   {reservations.map((res) => (
                     <div key={res.id} className="p-5 space-y-3.5 hover:bg-white/40 transition-colors">
@@ -2767,78 +2781,98 @@ export default function App() {
       )}
 
       {/* =========================================================
-          EXPRESS GUEST CHECKOUT MODAL (CheckoutPayment)
+          PUBLIC 4-STEP CUSTOMER CHECKOUT WIZARD MODAL
          ========================================================= */}
       {guestCheckoutVehicle && (
-        <div className="fixed inset-0 z-[58] overflow-y-auto print:hidden">
-          <div
-            onClick={() => setGuestCheckoutVehicle(null)}
-            className="fixed inset-0 bg-brand-ink/35 backdrop-blur-sm animate-fade-in"
-            aria-hidden="true"
-          />
+        <PublicCheckoutModal
+          vehicle={guestCheckoutVehicle}
+          location={selectedLocation}
+          pickupDateLabel={`${formatShortDate(pickupDate)} · ${pickupTime}`}
+          returnDateLabel={`${formatShortDate(returnDate)} · ${returnTime}`}
+          rentalDays={rentalDays}
+          selectedTours={selectedTours}
+          onToggleTour={handleToggleTour}
+          onClose={() => setGuestCheckoutVehicle(null)}
+          onBookingConfirmed={({
+            bookingRef,
+            guest,
+            totalAuthorized,
+            contractSignature: guestSig,
+            rentalSubtotal,
+            toursSubtotal
+          }) => {
+            const newOnlineBooking = {
+              id: bookingRef,
+              createdAt: new Date().toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit'
+              }),
+              acquisitionChannel: 'Online Guest Checkout (Pre-Authorized)',
+              vehicle: guestCheckoutVehicle,
+              location: selectedLocation,
+              pickupDate,
+              pickupTime,
+              returnDate,
+              returnTime,
+              rentalDays,
+              subtotal: rentalSubtotal + toursSubtotal,
+              vehicleSubtotal: rentalSubtotal,
+              toursSubtotal,
+              selectedTours: [...selectedTours],
+              deposit: guestCheckoutVehicle.deposit ?? 500,
+              rentalPaymentMethod: 'card',
+              cardHolder: (guest.fullName || 'GUEST').toUpperCase(),
+              cardLast4: 'AUTH',
+              sendViaWhatsApp: true,
+              driver: {
+                fullName: guest.fullName,
+                dob: 'Verified at Pickup',
+                licenseNumber: 'Verified at Pickup',
+                licenseExpiry: 'Verified at Pickup',
+                email: guest.email,
+                phone: guest.whatsappPhone,
+                idVerified: true
+              },
+              inspection: {
+                noExistingDamage: true,
+                damagedZones: [],
+                notes:
+                  'Online Pre-Inspection Baseline acknowledged (8/8 full fuel guarantee & 5-minute physical walk-around at pickup).',
+                customerVideoRecorded: false,
+                agentVideoRecorded: false,
+                checkSheetSignature: guestSig
+              },
+              contract: {
+                ackDamageResponsibility: true,
+                ackThirdPartyInsurance: true,
+                copiesDistributed: true,
+                contractSignature: guestSig
+              },
+              returnAssessment: {
+                inspected: false,
+                hasNewDamage: false,
+                damageDescription: '',
+                estimateCost: 0,
+                isMajorDamage: false,
+                professionalName: 'Devon Campbell (Certified Auto Body Estimator)',
+                professionalVerified: false,
+                estimatePresentedToCustomer: false,
+                informedDepositInsufficient: false,
+                customerPosPermission: false,
+                settled: false,
+                posRef: ''
+              }
+            };
 
-          <div className="relative z-10 min-h-full flex flex-col items-center justify-start sm:justify-center p-4 sm:p-6 lg:p-8">
-            <div className="w-full max-w-5xl space-y-4">
-              {/* Modal Top Navigation Bar */}
-              <div className="bg-white/95 backdrop-blur rounded-xl shadow-sm border border-gray-100 px-4 py-3 flex items-center justify-between gap-3">
-                <button
-                  type="button"
-                  onClick={() => setGuestCheckoutVehicle(null)}
-                  className="min-h-[44px] px-3 py-2 rounded-xl text-sm font-semibold text-gray-700 hover:bg-gray-100 inline-flex items-center gap-2 transition-colors cursor-pointer"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  <span>Back to Fleet</span>
-                </button>
-
-                <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const vehicle = guestCheckoutVehicle;
-                      setGuestCheckoutVehicle(null);
-                      openCheckoutDrawer(vehicle);
-                    }}
-                    className="min-h-[44px] px-3.5 py-2 rounded-xl border border-gray-200 hover:border-emerald-700/40 hover:bg-emerald-50/60 text-xs sm:text-sm font-medium text-gray-700 inline-flex items-center gap-1.5 transition-colors cursor-pointer"
-                  >
-                    <FileCheck2 className="w-4 h-4 text-emerald-800 shrink-0" />
-                    <span>In-Office Contract Handoff</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => setGuestCheckoutVehicle(null)}
-                    aria-label="Close guest checkout"
-                    className="min-h-[44px] min-w-[44px] rounded-xl border border-gray-200 hover:bg-gray-100 text-gray-600 flex items-center justify-center transition-colors cursor-pointer"
-                  >
-                    <X className="w-5 h-5" />
-                  </button>
-                </div>
-              </div>
-
-              <CheckoutPayment
-                vehicleName={`${guestCheckoutVehicle.name} (${guestCheckoutVehicle.year})`}
-                vehicleCategory={guestCheckoutVehicle.categoryLabel}
-                vehicleImage={guestCheckoutVehicle.image}
-                pickupLocation={selectedLocation.name}
-                pickupDateLabel={`${formatShortDate(pickupDate)} · ${pickupTime}`}
-                returnDateLabel={`${formatShortDate(returnDate)} · ${returnTime}`}
-                rentalDays={rentalDays}
-                dailyRate={guestCheckoutVehicle.ratePerDay}
-                selectedTours={selectedTours}
-                rentalTotal={guestCheckoutVehicle.ratePerDay * rentalDays}
-                depositAmount={guestCheckoutVehicle.deposit}
-                onAuthorizeSuccess={({ bookingRef, guest, totalAuthorized }) => {
-                  setSuccessNotification(
-                    `Authorized $${totalAuthorized} USD hold for ${guest.fullName} (Ref: ${bookingRef}).`
-                  );
-                  setTimeout(() => {
-                    setSuccessNotification(null);
-                  }, 5000);
-                }}
-              />
-            </div>
-          </div>
-        </div>
+            setReservations((prev) => [newOnlineBooking, ...prev]);
+            setSuccessNotification(
+              `Authorized $${totalAuthorized} USD hold for ${guest.fullName} (Ref: ${bookingRef}).`
+            );
+            setTimeout(() => {
+              setSuccessNotification(null);
+            }, 5000);
+          }}
+        />
       )}
 
       {/* =========================================================

@@ -1,41 +1,6 @@
 import React from 'react';
 import { Clock, MapPin, Plus, Check } from 'lucide-react';
-
-const TOUR_PACKAGES = [
-  {
-    id: 'dunns-river',
-    title: "Dunn's River Falls Excursion",
-    duration: 'Half-Day',
-    price: 85,
-    image: '/tours/dunns-river.jpg',
-    imageAlt: "Terraced limestone waterfalls cascading through tropical forest at Dunn's River Falls",
-    locationLabel: 'Ocho Rios · Scenic Coast',
-    description:
-      'Climb the world-famous terraced limestone waterfalls and cool off in natural lagoons with guided round-trip coastal transport.'
-  },
-  {
-    id: 'negril-ricks',
-    title: "Negril Sunset & Rick's Cafe",
-    duration: 'Full-Day',
-    price: 120,
-    image: '/tours/negril-ricks.jpg',
-    imageAlt: "Cliffside terrace overlooking turquoise Caribbean waters at sunset at Rick's Cafe in Negril",
-    locationLabel: 'Seven Mile Beach & West End',
-    description:
-      "Unwind along Negril's white-sand shoreline before watching cliff divers and a golden Caribbean sunset from iconic Rick's Cafe."
-  },
-  {
-    id: 'chauffeur-service',
-    title: 'Chauffeur Service',
-    duration: 'Daily',
-    price: 150,
-    image: '/tours/chauffeur.jpg',
-    imageAlt: 'Private chauffeur in a tailored suit opening the passenger door of a black sedan',
-    locationLabel: 'Island-Wide Private Driver',
-    description:
-      'Relax in the passenger seat while a licensed, island-savvy local driver handles airport pickup, navigation, and custom stops.'
-  }
-];
+import { TOUR_PACKAGES } from '../data/tourPackages';
 
 export default function TourPackages({ selectedTourIds = [], onToggleTour }) {
   return (
