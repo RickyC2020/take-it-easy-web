@@ -45,6 +45,8 @@ export default function ContractDossierModal({ booking, onClose }) {
     returnDate,
     returnTime,
     rentalDays,
+    tourAddons,
+    toursTotal,
     subtotal,
     deposit,
     rentalPaymentMethod,
@@ -218,6 +220,14 @@ export default function ContractDossierModal({ booking, onClose }) {
                     ${vehicle.ratePerDay}.00 × {rentalDays} {rentalDays === 1 ? 'day' : 'days'}
                   </dd>
                 </div>
+                {tourAddons?.length > 0 && (
+                  <div className="flex justify-between gap-3 font-mono tabular-nums">
+                    <dt className="font-sans text-slate-500">Tours / Chauffeur:</dt>
+                    <dd className="text-right">
+                      +${toursTotal}.00 ({tourAddons.map((t) => t.title).join(', ')})
+                    </dd>
+                  </div>
+                )}
                 <div className="flex justify-between gap-3 font-mono tabular-nums">
                   <dt className="font-sans text-slate-500">Rental Total:</dt>
                   <dd className="font-semibold">

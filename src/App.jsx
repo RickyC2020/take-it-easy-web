@@ -32,6 +32,8 @@ import {
 } from 'lucide-react';
 import SignaturePad from './components/SignaturePad';
 import ContractDossierModal from './components/ContractDossierModal';
+import TourPackages from './components/TourPackages';
+import WhatsAppWidget from './components/WhatsAppWidget';
 
 // --- LOCATIONS & FLEET DATA ---
 const LOCATIONS = [
@@ -421,6 +423,7 @@ export default function App() {
     customerPosPermission: false
   });
   const [returnError, setReturnError] = useState('');
+  const [selectedTours, setSelectedTours] = useState([]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -474,6 +477,37 @@ export default function App() {
     () => diffDays(pickupDate, returnDate),
     [pickupDate, returnDate]
   );
+
+  const selectedTourIds = useMemo(
+    () => selectedTours.map((t) => t.id),
+    [selectedTours]
+  );
+
+  const toursTotal = useMemo(
+    () =>
+      selectedTours.reduce(
+        (sum, t) => sum + (t.duration === 'Daily' ? t.price * rentalDays : t.price),
+        0
+      ),
+    [selectedTours, rentalDays]
+  );
+
+  const handleToggleTour = (tour) => {
+    const alreadySelected = selectedTours.some((t) => t.id === tour.id);
+    setSelectedTours((prev) =>
+      alreadySelected
+        ? prev.filter((t) => t.id !== tour.id)
+        : [...prev, { id: tour.id, title: tour.title, duration: tour.duration, price: tour.price }]
+    );
+    setSuccessNotification(
+      alreadySelected
+        ? `Removed "${tour.title}" from your booking.`
+        : `Added "${tour.title}" ($${tour.price} USD${tour.duration === 'Daily' ? '/day' : ''}) to your booking.`
+    );
+    setTimeout(() => {
+      setSuccessNotification(null);
+    }, 3500);
+  };
 
   const selectedLocation = useMemo(
     () => LOCATIONS.find((l) => l.id === locationId) || LOCATIONS[0],
@@ -697,7 +731,8 @@ export default function App() {
     }
 
     setFormError('');
-    const subtotal = activeVehicle.ratePerDay * rentalDays;
+    const vehicleSubtotal = activeVehicle.ratePerDay * rentalDays;
+    const subtotal = vehicleSubtotal + toursTotal;
     const newBooking = {
       id: `TIE-${Math.floor(100000 + Math.random() * 900000)}`,
       createdAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
@@ -709,6 +744,9 @@ export default function App() {
       returnDate,
       returnTime,
       rentalDays,
+      vehicleSubtotal,
+      tourAddons: selectedTours,
+      toursTotal,
       subtotal,
       deposit: activeVehicle.deposit,
       rentalPaymentMethod,
@@ -880,7 +918,7 @@ export default function App() {
               onClick={() => {
                 if (activeReturnBooking) openReturnDrawerFor(activeReturnBooking);
               }}
-              className="inline-flex items-center justify-center gap-2 px-3.5 sm:px-4 py-2 rounded-xl border border-white/22 bg-white/[0.08] hover:bg-white/[0.15] hover:border-white/38 backdrop-blur-md shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_4px_12px_rgba(0,0,0,0.18)] text-sm font-medium text-white transition-all cursor-pointer"
+              className="min-h-[44px] inline-flex items-center justify-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl border border-white/22 bg-white/[0.08] hover:bg-white/[0.15] hover:border-white/38 backdrop-blur-md shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_4px_12px_rgba(0,0,0,0.18)] text-sm sm:text-base font-medium text-white transition-all cursor-pointer"
             >
               <Wrench className="w-4 h-4 text-[#66C7BF] shrink-0" />
               <span>Return & POS</span>
@@ -889,7 +927,7 @@ export default function App() {
             <button
               type="button"
               onClick={() => setDrawerMode('bookings')}
-              className="inline-flex items-center justify-center gap-2 px-3.5 sm:px-4 py-2 rounded-xl border border-white/22 bg-white/[0.08] hover:bg-white/[0.15] hover:border-white/38 backdrop-blur-md shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_4px_12px_rgba(0,0,0,0.18)] text-sm font-medium text-white transition-all cursor-pointer"
+              className="min-h-[44px] inline-flex items-center justify-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl border border-white/22 bg-white/[0.08] hover:bg-white/[0.15] hover:border-white/38 backdrop-blur-md shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_4px_12px_rgba(0,0,0,0.18)] text-sm sm:text-base font-medium text-white transition-all cursor-pointer"
             >
               <FileCheck2 className="w-4 h-4 text-[#6BC47D] shrink-0" />
               <span>Contracts</span>
@@ -965,20 +1003,20 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 divide-y sm:divide-y-0 sm:divide-x divide-brand-ink/10 border-x border-white/65">
             {/* 1. Pickup Location */}
-            <div className="lg:col-span-4 px-4 py-3.5 hover:bg-white/45 transition-colors">
+            <div className="lg:col-span-4 px-4 py-3 hover:bg-white/45 transition-colors">
               <label
                 htmlFor="search-location"
-                className="flex items-center gap-2 text-xs font-mono font-medium uppercase tracking-wider text-slate-600 mb-1.5"
+                className="flex items-center gap-2 text-xs sm:text-[13px] font-mono font-medium uppercase tracking-wider text-slate-600 mb-1"
               >
                 <MapPin className="w-4 h-4 text-brand-teal" />
                 Pickup Airport / Office
               </label>
-              <div className="relative flex items-center">
+              <div className="relative flex items-center min-h-[44px]">
                 <select
                   id="search-location"
                   value={locationId}
                   onChange={(e) => setLocationId(e.target.value)}
-                  className="w-full appearance-none bg-transparent pr-7 text-base font-semibold text-brand-ink focus:outline-none cursor-pointer truncate"
+                  className="w-full min-h-[44px] appearance-none bg-transparent pr-7 text-base font-semibold text-brand-ink focus:outline-none cursor-pointer truncate"
                 >
                   {LOCATIONS.map((loc) => (
                     <option key={loc.id} value={loc.id}>
@@ -991,29 +1029,29 @@ export default function App() {
             </div>
 
             {/* 2. Pickup Date & Time */}
-            <div className="lg:col-span-3 px-4 py-3.5 hover:bg-white/45 transition-colors">
+            <div className="lg:col-span-3 px-4 py-3 hover:bg-white/45 transition-colors">
               <label
                 htmlFor="search-pickup-date"
-                className="flex items-center gap-2 text-xs font-mono font-medium uppercase tracking-wider text-slate-600 mb-1.5"
+                className="flex items-center gap-2 text-xs sm:text-[13px] font-mono font-medium uppercase tracking-wider text-slate-600 mb-1"
               >
                 <Calendar className="w-4 h-4 text-brand-teal" />
                 Pickup Date & Time
               </label>
-              <div className="flex items-center gap-2.5">
+              <div className="flex items-center gap-2.5 min-h-[44px]">
                 <input
                   id="search-pickup-date"
                   type="date"
                   value={pickupDate}
                   min={DEFAULT_PICKUP_DATE}
                   onChange={(e) => handlePickupDateChange(e.target.value)}
-                  className="bg-transparent text-base font-semibold text-brand-ink tabular-nums focus:outline-none cursor-pointer min-w-0 flex-1"
+                  className="min-h-[44px] bg-transparent text-base font-semibold text-brand-ink tabular-nums focus:outline-none cursor-pointer min-w-0 flex-1"
                 />
-                <span className="h-4 w-px bg-brand-ink/15 shrink-0" />
+                <span className="h-5 w-px bg-brand-ink/15 shrink-0" />
                 <select
                   aria-label="Pickup time"
                   value={pickupTime}
                   onChange={(e) => setPickupTime(e.target.value)}
-                  className="bg-transparent text-sm font-mono font-medium text-slate-700 focus:outline-none cursor-pointer shrink-0"
+                  className="min-h-[44px] bg-transparent text-base font-mono font-medium text-slate-700 focus:outline-none cursor-pointer shrink-0"
                 >
                   {TIME_SLOTS.map((slot) => (
                     <option key={slot} value={slot}>
@@ -1025,11 +1063,11 @@ export default function App() {
             </div>
 
             {/* 3. Return Date */}
-            <div className="lg:col-span-3 px-4 py-3.5 hover:bg-white/45 transition-colors">
-              <div className="flex items-center justify-between mb-1.5">
+            <div className="lg:col-span-3 px-4 py-3 hover:bg-white/45 transition-colors">
+              <div className="flex items-center justify-between mb-1">
                 <label
                   htmlFor="search-return-date"
-                  className="flex items-center gap-2 text-xs font-mono font-medium uppercase tracking-wider text-slate-600"
+                  className="flex items-center gap-2 text-xs sm:text-[13px] font-mono font-medium uppercase tracking-wider text-slate-600"
                 >
                   <Clock className="w-4 h-4 text-brand-teal" />
                   Return Date
@@ -1038,21 +1076,21 @@ export default function App() {
                   {rentalDays} {rentalDays === 1 ? 'day' : 'days'}
                 </span>
               </div>
-              <div className="flex items-center gap-2.5">
+              <div className="flex items-center gap-2.5 min-h-[44px]">
                 <input
                   id="search-return-date"
                   type="date"
                   value={returnDate}
                   min={addDays(pickupDate, 1)}
                   onChange={(e) => handleReturnDateChange(e.target.value)}
-                  className="bg-transparent text-base font-semibold text-brand-ink tabular-nums focus:outline-none cursor-pointer min-w-0 flex-1"
+                  className="min-h-[44px] bg-transparent text-base font-semibold text-brand-ink tabular-nums focus:outline-none cursor-pointer min-w-0 flex-1"
                 />
-                <span className="h-4 w-px bg-brand-ink/15 shrink-0" />
+                <span className="h-5 w-px bg-brand-ink/15 shrink-0" />
                 <select
                   aria-label="Return time"
                   value={returnTime}
                   onChange={(e) => setReturnTime(e.target.value)}
-                  className="bg-transparent text-sm font-mono font-medium text-slate-700 focus:outline-none cursor-pointer shrink-0"
+                  className="min-h-[44px] bg-transparent text-base font-mono font-medium text-slate-700 focus:outline-none cursor-pointer shrink-0"
                 >
                   {TIME_SLOTS.map((slot) => (
                     <option key={slot} value={slot}>
@@ -1064,20 +1102,20 @@ export default function App() {
             </div>
 
             {/* 4. Car Category */}
-            <div className="lg:col-span-2 px-4 py-3.5 hover:bg-white/45 transition-colors flex flex-col justify-center">
+            <div className="lg:col-span-2 px-4 py-3 hover:bg-white/45 transition-colors flex flex-col justify-center">
               <label
                 htmlFor="search-category"
-                className="flex items-center gap-2 text-xs font-mono font-medium uppercase tracking-wider text-slate-600 mb-1.5"
+                className="flex items-center gap-2 text-xs sm:text-[13px] font-mono font-medium uppercase tracking-wider text-slate-600 mb-1"
               >
                 <Car className="w-4 h-4 text-brand-teal" />
                 Car Category
               </label>
-              <div className="relative flex items-center">
+              <div className="relative flex items-center min-h-[44px]">
                 <select
                   id="search-category"
                   value={selectedCategory}
                   onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="w-full appearance-none bg-transparent pr-7 text-base font-semibold text-brand-ink focus:outline-none cursor-pointer"
+                  className="w-full min-h-[44px] appearance-none bg-transparent pr-7 text-base font-semibold text-brand-ink focus:outline-none cursor-pointer"
                 >
                   {CATEGORIES.map((cat) => (
                     <option key={cat.id} value={cat.id}>
@@ -1110,7 +1148,7 @@ export default function App() {
                   key={cat.id}
                   type="button"
                   onClick={() => setSelectedCategory(cat.id)}
-                  className={`px-4 py-2 rounded-xl text-sm font-medium transition-all whitespace-nowrap cursor-pointer inline-flex items-center gap-2 ${active
+                  className={`min-h-[44px] px-4 py-2.5 rounded-xl text-sm sm:text-base font-medium transition-all whitespace-nowrap cursor-pointer inline-flex items-center gap-2 ${active
                     ? 'glass-cta text-white'
                     : 'glass-pill text-slate-700 hover:bg-white/75 hover:border-brand-teal/40 hover:text-brand-ink'
                     }`}
@@ -1127,13 +1165,13 @@ export default function App() {
             })}
           </div>
 
-          <div className="flex items-center justify-between sm:justify-end gap-4 text-sm">
+          <div className="flex items-center justify-between sm:justify-end gap-4 text-sm sm:text-base">
             <span className="text-slate-600 font-mono tabular-nums">
               {filteredFleet.length} options · {selectedLocation.code}
             </span>
 
-            <div className="flex items-center gap-2 glass-pill rounded-xl px-3.5 py-2">
-              <SlidersHorizontal className="w-4 h-4 text-brand-teal" />
+            <div className="min-h-[44px] flex items-center gap-2 glass-pill rounded-xl px-3.5 py-2">
+              <SlidersHorizontal className="w-4 h-4 text-brand-teal shrink-0" />
               <label htmlFor="sort-select" className="text-slate-600">
                 Sort:
               </label>
@@ -1141,7 +1179,7 @@ export default function App() {
                 id="sort-select"
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="bg-transparent font-medium text-brand-ink focus:outline-none cursor-pointer"
+                className="min-h-[40px] bg-transparent text-base font-medium text-brand-ink focus:outline-none cursor-pointer"
               >
                 <option value="recommended">Recommended</option>
                 <option value="price-asc">Price: Low to High</option>
@@ -1243,9 +1281,9 @@ export default function App() {
                       <span className="text-3xl font-semibold tracking-tight text-brand-ink font-mono tabular-nums">
                         ${vehicle.ratePerDay}
                       </span>
-                      <span className="text-sm text-slate-600">USD / day</span>
+                      <span className="text-sm sm:text-base text-slate-600">USD / day</span>
                     </div>
-                    <p className="text-xs sm:text-sm text-slate-600 font-mono tabular-nums mt-1">
+                    <p className="text-sm text-slate-600 font-mono tabular-nums mt-1">
                       ${tripTotal} ({rentalDays}d) + ${vehicle.deposit} card deposit
                     </p>
                   </div>
@@ -1253,7 +1291,7 @@ export default function App() {
                   <button
                     type="button"
                     onClick={() => openCheckoutDrawer(vehicle)}
-                    className="px-5 py-3 rounded-xl glass-cta active:scale-[0.99] text-white text-base font-medium inline-flex items-center gap-2 transition-all cursor-pointer shrink-0"
+                    className="min-h-[48px] px-5 sm:px-6 py-3 rounded-xl glass-cta active:scale-[0.99] text-white text-base font-semibold inline-flex items-center gap-2 transition-all cursor-pointer shrink-0"
                   >
                     <span>Book</span>
                     <ArrowRight className="w-5 h-5" />
@@ -1264,7 +1302,11 @@ export default function App() {
           })}
         </div>
 
-        {/* 6-Phase Operational Summary Bar (Border-Divided Utility Overview) */}
+        {/* Tour & Chauffeur Add-On Packages Section */}
+        <TourPackages
+          selectedTourIds={selectedTourIds}
+          onToggleTour={handleToggleTour}
+        />
 
       </main>
 
@@ -1321,7 +1363,7 @@ export default function App() {
                   <button
                     type="button"
                     onClick={() => setDrawerMode(null)}
-                    className="p-2.5 rounded-xl glass-pill text-slate-600 hover:text-brand-ink hover:border-brand-teal/50 transition-colors cursor-pointer"
+                    className="min-h-[44px] min-w-[44px] p-2.5 rounded-xl glass-pill text-slate-600 hover:text-brand-ink hover:border-brand-teal/50 flex items-center justify-center transition-colors cursor-pointer"
                     aria-label="Close drawer"
                   >
                     <X className="w-5 h-5" />
@@ -1352,7 +1394,7 @@ export default function App() {
                               setCheckoutStep(4);
                             }
                           }}
-                          className={`py-3 px-3 font-mono text-xs sm:text-sm flex items-center justify-center gap-1.5 transition-colors cursor-pointer ${active
+                          className={`min-h-[46px] py-3 px-2.5 sm:px-3 font-mono text-xs sm:text-sm flex items-center justify-center gap-1.5 transition-colors cursor-pointer ${active
                             ? 'bg-white/75 text-brand-palm font-semibold border-b-2 border-brand-palm'
                             : done
                               ? 'text-brand-palm hover:bg-white/50 font-medium'
@@ -1472,11 +1514,15 @@ export default function App() {
                             </span>
                           </div>
                           <p className="text-sm font-semibold text-brand-ink truncate mt-0.5">
-                            ${activeVehicle.ratePerDay * rentalDays}.00 rental + $
+                            ${activeVehicle.ratePerDay * rentalDays + toursTotal}.00 total
+                            {toursTotal > 0 ? ` (incl. $${toursTotal} add-ons)` : ''} + $
                             {activeVehicle.deposit}.00 card security deposit
                           </p>
                           <p className="text-xs text-slate-600 truncate mt-0.5">
                             {selectedLocation.shortName}
+                            {selectedTours.length > 0
+                              ? ` · +${selectedTours.map((t) => t.title).join(', ')}`
+                              : ''}
                           </p>
                         </div>
                       </div>
@@ -1887,30 +1933,31 @@ export default function App() {
                             {/* Part A: Rental Rate (Cash or Card) */}
                             <div>
                               <span className="block text-sm text-slate-700 mb-2">
-                                Rental Rate (${activeVehicle.ratePerDay * rentalDays}.00 USD) — Cash
+                                Rental{toursTotal > 0 ? ' & Add-Ons' : ' Rate'} ($
+                                {activeVehicle.ratePerDay * rentalDays + toursTotal}.00 USD) — Cash
                                 or Card accepted:
                               </span>
                               <div className="grid grid-cols-2 gap-2.5">
                                 <button
                                   type="button"
                                   onClick={() => setRentalPaymentMethod('cash')}
-                                  className={`py-2.5 px-3.5 rounded-xl text-sm font-medium inline-flex items-center justify-center gap-2 transition-all cursor-pointer ${rentalPaymentMethod === 'cash'
+                                  className={`min-h-[46px] py-2.5 px-3.5 rounded-xl text-sm font-medium inline-flex items-center justify-center gap-2 transition-all cursor-pointer ${rentalPaymentMethod === 'cash'
                                     ? 'glass-cta text-white'
                                     : 'glass-pill text-slate-700 hover:bg-white/75 hover:border-brand-teal/50'
                                     }`}
                                 >
-                                  <Banknote className="w-4 h-4" />
+                                  <Banknote className="w-4 h-4 shrink-0" />
                                   <span>Cash (Rental Rate)</span>
                                 </button>
                                 <button
                                   type="button"
                                   onClick={() => setRentalPaymentMethod('card')}
-                                  className={`py-2.5 px-3.5 rounded-xl text-sm font-medium inline-flex items-center justify-center gap-2 transition-all cursor-pointer ${rentalPaymentMethod === 'card'
+                                  className={`min-h-[46px] py-2.5 px-3.5 rounded-xl text-sm font-medium inline-flex items-center justify-center gap-2 transition-all cursor-pointer ${rentalPaymentMethod === 'card'
                                     ? 'glass-cta text-white'
                                     : 'glass-pill text-slate-700 hover:bg-white/75 hover:border-brand-teal/50'
                                     }`}
                                 >
-                                  <CreditCard className="w-4 h-4" />
+                                  <CreditCard className="w-4 h-4 shrink-0" />
                                   <span>Card (Rental Rate)</span>
                                 </button>
                               </div>
@@ -2025,7 +2072,7 @@ export default function App() {
                                 setFormError('');
                                 setCheckoutStep((s) => s - 1);
                               }}
-                              className="px-4 py-3 rounded-xl glass-pill hover:bg-white/75 text-sm font-medium text-brand-ink inline-flex items-center gap-1.5 cursor-pointer"
+                              className="min-h-[48px] px-4 py-3 rounded-xl glass-pill hover:bg-white/75 text-sm sm:text-base font-medium text-brand-ink inline-flex items-center gap-1.5 cursor-pointer"
                             >
                               <ArrowLeft className="w-4 h-4" />
                               <span>Back</span>
@@ -2034,7 +2081,7 @@ export default function App() {
                           <button
                             type="button"
                             onClick={handleAdvanceStep}
-                            className="flex-1 py-3 px-4 rounded-xl glass-cta text-white text-sm sm:text-base font-medium inline-flex items-center justify-center gap-2 transition-all cursor-pointer"
+                            className="min-h-[48px] flex-1 py-3 px-4 rounded-xl glass-cta text-white text-sm sm:text-base font-semibold inline-flex items-center justify-center gap-2 transition-all cursor-pointer"
                           >
                             <span>
                               {checkoutStep === 2
@@ -2051,8 +2098,8 @@ export default function App() {
                               Rental ({rentalPaymentMethod.toUpperCase()}) + Mandatory Card Deposit
                             </span>
                             <span className="font-semibold text-brand-ink">
-                              ${activeVehicle.ratePerDay * rentalDays}.00 + ${activeVehicle.deposit}
-                              .00 Hold
+                              ${activeVehicle.ratePerDay * rentalDays + toursTotal}.00 + $
+                              {activeVehicle.deposit}.00 Hold
                             </span>
                           </div>
 
@@ -2063,14 +2110,14 @@ export default function App() {
                                 setFormError('');
                                 setCheckoutStep(3);
                               }}
-                              className="px-4 py-3 rounded-xl glass-pill hover:bg-white/75 text-sm font-medium text-brand-ink inline-flex items-center gap-1.5 cursor-pointer"
+                              className="min-h-[48px] px-4 py-3 rounded-xl glass-pill hover:bg-white/75 text-sm sm:text-base font-medium text-brand-ink inline-flex items-center gap-1.5 cursor-pointer"
                             >
                               <ArrowLeft className="w-4 h-4" />
                               <span>Back</span>
                             </button>
                             <button
                               type="submit"
-                              className="flex-1 py-3 px-4 rounded-xl glass-cta text-white text-sm sm:text-base font-medium inline-flex items-center justify-center gap-2 transition-all cursor-pointer"
+                              className="min-h-[48px] flex-1 py-3 px-4 rounded-xl glass-cta text-white text-sm sm:text-base font-semibold inline-flex items-center justify-center gap-2 transition-all cursor-pointer"
                             >
                               <ShieldCheck className="w-5 h-5 shrink-0" />
                               <span>Execute Signed Contract & Authorize $500 Hold</span>
@@ -2619,6 +2666,9 @@ export default function App() {
           onClose={() => setDossierBooking(null)}
         />
       )}
+
+      {/* Floating WhatsApp Support Widget */}
+      <WhatsAppWidget />
     </div>
   );
 }
