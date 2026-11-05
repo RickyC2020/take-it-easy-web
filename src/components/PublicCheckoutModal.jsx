@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   X,
   Check,
@@ -49,6 +49,7 @@ export default function PublicCheckoutModal({
   onBookingConfirmed
 }) {
   const modalScrollRef = useRef(null);
+  const contractScrollRef = useRef(null);
 
   const [currentStep, setCurrentStep] = useState(1);
   const [stepError, setStepError] = useState('');
@@ -65,9 +66,38 @@ export default function PublicCheckoutModal({
   // Step 2 State — Customer Pre-Inspection Baseline Acknowledgment
   const [checkSheetAgreed, setCheckSheetAgreed] = useState(false);
 
-  // Step 3 State — Digital Rental Agreement Signature
+  // Step 3 State — Digital Rental Agreement Scroll Enforcement & Signature
+  const [hasScrolledToBottom, setHasScrolledToBottom] = useState(false);
+  const [contractTermsAgreed, setContractTermsAgreed] = useState(false);
   const [contractSignature, setContractSignature] = useState(null);
   const [sigFillVersion, setSigFillVersion] = useState(0);
+
+  // Auto-detect if contract container is already fully visible without scrolling
+  useEffect(() => {
+    if (currentStep === 3 && contractScrollRef.current) {
+      const { clientHeight, scrollHeight } = contractScrollRef.current;
+      if (scrollHeight <= clientHeight + 8) {
+        setHasScrolledToBottom(true);
+      }
+    }
+  }, [currentStep]);
+
+  const handleContractScroll = (e) => {
+    const { scrollTop, clientHeight, scrollHeight } = e.currentTarget;
+    if (scrollTop + clientHeight >= scrollHeight - 8) {
+      setHasScrolledToBottom(true);
+    }
+  };
+
+  const scrollToContractEnd = () => {
+    if (contractScrollRef.current) {
+      contractScrollRef.current.scrollTo({
+        top: contractScrollRef.current.scrollHeight,
+        behavior: 'smooth'
+      });
+      setHasScrolledToBottom(true);
+    }
+  };
 
   // Post-Step 4 State — Completed Authorization Confirmation
   const [completedBooking, setCompletedBooking] = useState(null);
@@ -125,6 +155,14 @@ export default function PublicCheckoutModal({
   };
 
   const isStep3Valid = () => {
+    if (!hasScrolledToBottom) {
+      setStepError('Please scroll to the bottom of the rental agreement to review all terms before signing.');
+      return false;
+    }
+    if (!contractTermsAgreed) {
+      setStepError('Please acknowledge and accept the rental terms checkbox before proceeding.');
+      return false;
+    }
     const hasSig = Boolean(
       contractSignature && (contractSignature.text?.trim() || contractSignature.dataUrl)
     );
@@ -838,13 +876,40 @@ export default function PublicCheckoutModal({
                   </div>
 
                   {/* Scrollable Rental Agreement Terms */}
-                  <div className="rounded-xl border border-gray-200 bg-gray-50/80 overflow-hidden">
-                    <div className="px-4 py-2.5 bg-gray-100/90 border-b border-gray-200 flex items-center justify-between text-xs font-mono text-gray-600">
-                      <span>TAKE IT EASY CAR RENTALS &amp; TOURS — RENTAL TERMS SUMMARY</span>
-                      <span>Scroll to read</span>
+                  <div className="rounded-xl border border-gray-200 bg-gray-50/80 overflow-hidden shadow-2xs">
+                    <div className="px-4 py-2.5 bg-gray-100/90 border-b border-gray-200 flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+                      <span className="font-semibold text-gray-700">
+                        TAKE IT EASY CAR RENTALS &amp; TOURS — RENTAL TERMS SUMMARY
+                      </span>
+                      <div className="flex items-center gap-2">
+                        {hasScrolledToBottom ? (
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-800 border border-emerald-300 font-semibold text-xs">
+                            <Check className="w-3.5 h-3.5 text-emerald-700 stroke-[2.5]" />
+                            <span>✓ Agreement viewed in full</span>
+                          </span>
+                        ) : (
+                          <>
+                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-amber-50 text-amber-900 border border-amber-300 font-semibold text-xs animate-pulse">
+                              <AlertCircle className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                              <span>Scroll to bottom of contract to unlock signature</span>
+                            </span>
+                            <button
+                              type="button"
+                              onClick={scrollToContractEnd}
+                              className="min-h-[30px] px-2.5 py-1 rounded-md bg-white hover:bg-emerald-50 text-emerald-900 border border-emerald-300 hover:border-emerald-500 font-semibold text-xs shadow-2xs transition-all cursor-pointer flex items-center gap-1"
+                            >
+                              <span>Scroll to End ↓</span>
+                            </button>
+                          </>
+                        )}
+                      </div>
                     </div>
 
-                    <div className="max-h-72 overflow-y-auto p-5 space-y-4 text-sm text-gray-700 leading-relaxed bg-white">
+                    <div
+                      ref={contractScrollRef}
+                      onScroll={handleContractScroll}
+                      className="max-h-64 sm:max-h-72 overflow-y-auto p-5 space-y-4 text-sm text-gray-700 leading-relaxed bg-white"
+                    >
                       <div className="rounded-lg bg-emerald-50/60 border border-emerald-200/70 p-3.5 text-xs sm:text-sm text-emerald-950 grid grid-cols-1 sm:grid-cols-2 gap-2">
                         <div>
                           <span className="text-gray-500 block text-xs">Renter &amp; Residence</span>
@@ -919,16 +984,59 @@ export default function PublicCheckoutModal({
                     </div>
                   </div>
 
+                  {/* Mandatory Terms Acknowledgment Checkbox (Enforced by Scroll) */}
+                  <label
+                    htmlFor="contract-terms-ack"
+                    className={`min-h-[52px] rounded-xl border p-3.5 sm:p-4 flex items-start sm:items-center gap-3.5 transition-all select-none ${
+                      !hasScrolledToBottom
+                        ? 'opacity-50 cursor-not-allowed bg-gray-50 border-gray-200'
+                        : contractTermsAgreed
+                          ? 'bg-emerald-50/90 border-emerald-700 ring-2 ring-emerald-700/15 cursor-pointer'
+                          : 'bg-white border-gray-200 hover:border-emerald-700/50 cursor-pointer'
+                    }`}
+                  >
+                    <input
+                      id="contract-terms-ack"
+                      type="checkbox"
+                      disabled={!hasScrolledToBottom}
+                      checked={contractTermsAgreed}
+                      onChange={(e) => {
+                        if (!hasScrolledToBottom) return;
+                        setContractTermsAgreed(e.target.checked);
+                        if (stepError) setStepError('');
+                      }}
+                      className="w-5 h-5 mt-0.5 sm:mt-0 rounded accent-emerald-800 shrink-0 disabled:cursor-not-allowed cursor-pointer"
+                    />
+                    <span className="text-xs sm:text-sm font-semibold text-gray-900 leading-snug">
+                      I have read, understood, and accept all rental terms, fuel replacement rules, and the ${depositAmount} USD card deposit hold conditions.
+                    </span>
+                  </label>
+
                   {/* Digital Signature Box (Type Full Name or Draw Signature) */}
                   <div className="space-y-2.5">
                     <div className="flex flex-wrap items-center justify-between gap-2">
-                      <span className="text-sm font-bold text-gray-900">
-                        Digital Renter Signature <span className="text-red-500">*</span>
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-bold text-gray-900">
+                          Digital Renter Signature <span className="text-red-500">*</span>
+                        </span>
+                        {hasScrolledToBottom ? (
+                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs font-semibold">
+                            <span>✓ Agreement viewed in full</span>
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-50 border border-amber-300 text-amber-900 text-xs font-semibold animate-pulse">
+                            <AlertCircle className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                            <span>Scroll to bottom of contract to unlock signature</span>
+                          </span>
+                        )}
+                      </div>
+
                       {customerInfo.fullName.trim() && !contractSignature && (
                         <button
                           type="button"
+                          disabled={!hasScrolledToBottom}
                           onClick={() => {
+                            if (!hasScrolledToBottom) return;
                             setContractSignature({
                               mode: 'type',
                               dataUrl: null,
@@ -941,7 +1049,11 @@ export default function PublicCheckoutModal({
                             setSigFillVersion((v) => v + 1);
                             if (stepError) setStepError('');
                           }}
-                          className="text-xs font-semibold text-emerald-800 hover:text-emerald-950 underline cursor-pointer"
+                          className={`text-xs font-semibold transition-colors ${
+                            !hasScrolledToBottom
+                              ? 'opacity-50 cursor-not-allowed text-gray-400'
+                              : 'text-emerald-800 hover:text-emerald-950 underline cursor-pointer'
+                          }`}
                         >
                           Quick-fill &ldquo;{customerInfo.fullName.trim()}&rdquo;
                         </button>
@@ -951,8 +1063,13 @@ export default function PublicCheckoutModal({
                     <SignaturePad
                       key={sigFillVersion}
                       label="Digital Contract Signature"
-                      sublabel="Type full name to sign, or switch to Draw to sign on screen"
+                      sublabel={
+                        !hasScrolledToBottom
+                          ? 'Please scroll to the bottom of the agreement above to unlock signature'
+                          : 'Type full name to sign, or switch to Draw to sign on screen'
+                      }
                       initialMode="type"
+                      disabled={!hasScrolledToBottom}
                       value={contractSignature}
                       onChange={(sig) => {
                         setContractSignature(sig);
@@ -974,7 +1091,11 @@ export default function PublicCheckoutModal({
                     <button
                       type="button"
                       onClick={() => goToStep(4)}
-                      className="min-h-[50px] px-7 py-3 rounded-xl bg-emerald-900 hover:bg-emerald-800 active:scale-[0.99] text-white font-bold text-base shadow-sm transition-all cursor-pointer"
+                      className={`min-h-[50px] px-7 py-3 rounded-xl font-bold text-base shadow-sm transition-all ${
+                        !hasScrolledToBottom
+                          ? 'opacity-50 cursor-not-allowed bg-gray-300 text-gray-700'
+                          : 'bg-emerald-900 hover:bg-emerald-800 active:scale-[0.99] text-white cursor-pointer'
+                      }`}
                     >
                       Agree &amp; Proceed to Payment →
                     </button>

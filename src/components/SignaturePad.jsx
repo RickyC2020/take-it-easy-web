@@ -7,7 +7,8 @@ export default function SignaturePad({
   value,
   onChange,
   defaultTypedName = '',
-  initialMode = 'draw'
+  initialMode = 'draw',
+  disabled = false
 }) {
   const canvasRef = useRef(null);
   const [mode, setMode] = useState(() => value?.mode || initialMode); // 'draw' | 'type'
@@ -51,6 +52,7 @@ export default function SignaturePad({
   };
 
   const handlePointerDown = (e) => {
+    if (disabled) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     canvas.setPointerCapture(e.pointerId);
@@ -62,7 +64,7 @@ export default function SignaturePad({
   };
 
   const handlePointerMove = (e) => {
-    if (!isDrawing) return;
+    if (disabled || !isDrawing) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -72,7 +74,7 @@ export default function SignaturePad({
   };
 
   const handlePointerUp = () => {
-    if (!isDrawing) return;
+    if (disabled || !isDrawing) return;
     setIsDrawing(false);
     const canvas = canvasRef.current;
     if (canvas) {
@@ -87,6 +89,7 @@ export default function SignaturePad({
   };
 
   const handleClear = () => {
+    if (disabled) return;
     if (mode === 'draw' && canvasRef.current) {
       const canvas = canvasRef.current;
       const ctx = canvas.getContext('2d');
@@ -97,6 +100,7 @@ export default function SignaturePad({
   };
 
   const handleTypedChange = (text) => {
+    if (disabled) return;
     setTypedText(text);
     if (!text.trim()) {
       onChange(null);
@@ -111,6 +115,7 @@ export default function SignaturePad({
   };
 
   const switchMode = (nextMode) => {
+    if (disabled) return;
     setMode(nextMode);
     if (nextMode === 'type' && (typedText || defaultTypedName)) {
       const nameToUse = typedText || defaultTypedName;
@@ -131,7 +136,11 @@ export default function SignaturePad({
   const isSigned = Boolean(value && (value.dataUrl || value.text));
 
   return (
-    <div className="glass-surface rounded-xl overflow-hidden">
+    <div
+      className={`glass-surface rounded-xl overflow-hidden transition-all ${
+        disabled ? 'opacity-50 cursor-not-allowed select-none' : ''
+      }`}
+    >
       {/* Header Toolbar */}
       <div className="px-4 py-3 border-b border-brand-ink/10 bg-white/45 flex items-center justify-between gap-3">
         <div className="min-w-0">
@@ -153,11 +162,14 @@ export default function SignaturePad({
           <div className="inline-flex rounded-xl glass-pill p-0.5">
             <button
               type="button"
+              disabled={disabled}
               onClick={() => switchMode('draw')}
-              className={`px-2.5 py-1.5 rounded-lg text-xs font-medium inline-flex items-center gap-1.5 cursor-pointer transition-all ${
-                mode === 'draw'
-                  ? 'glass-cta text-white'
-                  : 'text-slate-600 hover:text-brand-ink'
+              className={`px-2.5 py-1.5 rounded-lg text-xs font-medium inline-flex items-center gap-1.5 transition-all ${
+                disabled
+                  ? 'cursor-not-allowed text-slate-400'
+                  : mode === 'draw'
+                    ? 'glass-cta text-white cursor-pointer'
+                    : 'text-slate-600 hover:text-brand-ink cursor-pointer'
               }`}
             >
               <PenTool className="w-4 h-4" />
@@ -165,11 +177,14 @@ export default function SignaturePad({
             </button>
             <button
               type="button"
+              disabled={disabled}
               onClick={() => switchMode('type')}
-              className={`px-2.5 py-1.5 rounded-lg text-xs font-medium inline-flex items-center gap-1.5 cursor-pointer transition-all ${
-                mode === 'type'
-                  ? 'glass-cta text-white'
-                  : 'text-slate-600 hover:text-brand-ink'
+              className={`px-2.5 py-1.5 rounded-lg text-xs font-medium inline-flex items-center gap-1.5 transition-all ${
+                disabled
+                  ? 'cursor-not-allowed text-slate-400'
+                  : mode === 'type'
+                    ? 'glass-cta text-white cursor-pointer'
+                    : 'text-slate-600 hover:text-brand-ink cursor-pointer'
               }`}
             >
               <Type className="w-4 h-4" />
@@ -177,7 +192,7 @@ export default function SignaturePad({
             </button>
           </div>
 
-          {isSigned && (
+          {isSigned && !disabled && (
             <button
               type="button"
               onClick={handleClear}
@@ -199,7 +214,9 @@ export default function SignaturePad({
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}
             onPointerCancel={handlePointerUp}
-            className="w-full h-32 touch-none cursor-crosshair block"
+            className={`w-full h-32 touch-none block ${
+              disabled ? 'cursor-not-allowed pointer-events-none' : 'cursor-crosshair'
+            }`}
           />
           {/* Baseline & X mark */}
           <div className="pointer-events-none absolute inset-x-4 bottom-4 border-b border-dashed border-slate-300 flex items-end justify-between pb-1">
@@ -215,10 +232,17 @@ export default function SignaturePad({
         <div className="p-3.5 bg-white space-y-2.5">
           <input
             type="text"
+            disabled={disabled}
             value={typedText}
             onChange={(e) => handleTypedChange(e.target.value)}
-            placeholder="Type full legal name to sign..."
-            className="w-full px-3.5 py-2.5 rounded-md border border-brand-border text-sm sm:text-base text-brand-ink focus:border-brand-palm focus:outline-none"
+            placeholder={
+              disabled
+                ? 'Scroll to bottom of contract to unlock...'
+                : 'Type full legal name to sign...'
+            }
+            className={`w-full px-3.5 py-2.5 rounded-md border border-brand-border text-sm sm:text-base text-brand-ink focus:border-brand-palm focus:outline-none ${
+              disabled ? 'cursor-not-allowed bg-gray-100 text-gray-400' : ''
+            }`}
           />
           <div className="h-16 px-4 rounded-md bg-brand-canvas border border-dashed border-brand-border flex items-center justify-between">
             <span className="text-sm font-mono text-slate-400">×</span>
