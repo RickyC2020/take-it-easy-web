@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import {
   MapPin,
-  Plane,
   Search,
   Pencil,
   Calendar,
@@ -37,6 +36,7 @@ import ContractDossierModal from './components/ContractDossierModal';
 import TourPackages from './components/TourPackages';
 import WhatsAppWidget from './components/WhatsAppWidget';
 import PublicCheckoutModal from './components/PublicCheckoutModal';
+import HeroBanner from './components/HeroBanner';
 
 // --- LOCATIONS & FLEET DATA ---
 const LOCATIONS = [
@@ -1010,58 +1010,9 @@ export default function App() {
       </header>
 
       {/* =========================================================
-          HERO BANNER SECTION
+          HERO BANNER SECTION (ADVENTURE TRACKER)
          ========================================================= */}
-      <section className="py-5 print:hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="relative rounded-2xl overflow-hidden border border-white/80 shadow-[0_16px_44px_rgba(22,38,41,0.12)] min-h-[260px] sm:min-h-[320px] lg:min-h-[360px] flex items-center bg-brand-ink">
-            <img
-              src="/hero-banner.jpg"
-              alt="Sleek rental SUV overlooking the Jamaican coastline at golden hour"
-              className="absolute inset-0 w-full h-full object-cover object-[center_62%] select-none"
-            />
-            <div
-              className="absolute inset-0 bg-gradient-to-r from-[#0f1f22]/52 via-[#0f1f22]/22 to-transparent"
-              aria-hidden="true"
-            />
-
-            <div className="relative z-10 p-6 sm:p-10 lg:p-12 w-full max-w-3xl space-y-5 sm:space-y-6">
-              <h1 className="font-display italic font-semibold text-4xl sm:text-5xl lg:text-[3.35rem] tracking-[-0.01em] text-white leading-[1.12] drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)]">
-                Take It Easy Across Jamaica.
-              </h1>
-
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-3.5">
-                <div className="rounded-2xl border border-white/20 bg-white/[0.04] backdrop-blur-[3px] shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_4px_16px_rgba(8,20,22,0.14)] hover:bg-white/[0.10] hover:border-white/35 transition-all p-3.5 sm:p-4 flex items-center sm:flex-col sm:items-start gap-3 sm:gap-2.5">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/[0.06] border border-white/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] flex items-center justify-center shrink-0">
-                    <Plane className="w-5 h-5 text-[#FFBE55] drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]" />
-                  </div>
-                  <span className="text-sm sm:text-[15px] font-medium text-white leading-snug drop-shadow-[0_1px_4px_rgba(0,0,0,0.65)]">
-                    Direct Airport Pickup
-                  </span>
-                </div>
-
-                <div className="rounded-2xl border border-white/20 bg-white/[0.04] backdrop-blur-[3px] shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_4px_16px_rgba(8,20,22,0.14)] hover:bg-white/[0.10] hover:border-white/35 transition-all p-3.5 sm:p-4 flex items-center sm:flex-col sm:items-start gap-3 sm:gap-2.5">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/[0.06] border border-white/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] flex items-center justify-center shrink-0">
-                    <Banknote className="w-5 h-5 text-[#8CF09E] drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]" />
-                  </div>
-                  <span className="text-sm sm:text-[15px] font-medium text-white leading-snug drop-shadow-[0_1px_4px_rgba(0,0,0,0.65)]">
-                    Transparent Daily USD Rates
-                  </span>
-                </div>
-
-                <div className="rounded-2xl border border-white/20 bg-white/[0.04] backdrop-blur-[3px] shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_4px_16px_rgba(8,20,22,0.14)] hover:bg-white/[0.10] hover:border-white/35 transition-all p-3.5 sm:p-4 flex items-center sm:flex-col sm:items-start gap-3 sm:gap-2.5">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/[0.06] border border-white/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] flex items-center justify-center shrink-0">
-                    <FileCheck2 className="w-5 h-5 text-[#88EFE5] drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]" />
-                  </div>
-                  <span className="text-sm sm:text-[15px] font-medium text-white leading-snug drop-shadow-[0_1px_4px_rgba(0,0,0,0.65)]">
-                    Fast Digital Contract Handoff
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HeroBanner />
 
       {/* =========================================================
           PERSISTENT STICKY SEARCH STRIP (MOBILE SCROLL-TRIGGERED COMPACT VIEW)

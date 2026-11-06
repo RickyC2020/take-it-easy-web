@@ -1,8 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Montserrat:wght@700;800;900&family=Oswald:wght@600;700&family=Playfair+Display:ital,wght@0,800;0,900;1,800&family=Kaushan+Script&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-display: 'Playfair Display', Georgia, Cambria, 'Times New Roman', serif;
+  --font-hand: 'Caveat', cursive, sans-serif;
+  --font-brush: 'Kaushan Script', cursive, sans-serif;
+  --font-condensed: 'Oswald', sans-serif;
+  --font-adventure: 'Montserrat', sans-serif;
   --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   /* Restrained Island Brand Palette (sampled from logo: Palm, Coastal Teal, Sunset Amber, Charcoal-Pine) */
