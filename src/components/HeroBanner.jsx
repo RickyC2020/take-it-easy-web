@@ -1,6 +1,25 @@
 import React from 'react';
 import { MapPin, Calendar, Clock, Car, ChevronDown } from 'lucide-react';
 
+function parseDateParts(dateStr) {
+  if (!dateStr) return { month: '---', day: '--', year: '----' };
+  const parts = String(dateStr).split('-');
+  if (parts.length === 3) {
+    const y = parseInt(parts[0], 10);
+    const m = parseInt(parts[1], 10) - 1;
+    const d = parseInt(parts[2], 10);
+    const date = new Date(y, m, d);
+    if (!isNaN(date.getTime())) {
+      return {
+        month: date.toLocaleString('en-US', { month: 'short' }).toUpperCase(),
+        day: String(d).padStart(2, '0'),
+        year: String(y),
+      };
+    }
+  }
+  return { month: '---', day: '--', year: '----' };
+}
+
 export default function HeroBanner({
   locationId,
   setLocationId,
@@ -22,6 +41,9 @@ export default function HeroBanner({
   onReturnDateChange,
   onBookCar,
 }) {
+  const pickupParts = parseDateParts(pickupDate);
+  const returnParts = parseDateParts(returnDate);
+
   return (
     <section aria-label="Hero Banner and Rental Search" className="py-2 sm:py-3 print:hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -117,23 +139,46 @@ export default function HeroBanner({
                     </div>
                   </div>
 
-                  {/* 3. Pickup Date & Time */}
+                  {/* 3. Pickup */}
                   <div className="p-2.5 xl:p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/15 transition-colors flex flex-col justify-between">
-                    <div className="flex items-center justify-between gap-1 mb-1">
-                      <label
-                        htmlFor="hero-desktop-pickup-date"
-                        className="flex items-center gap-1.5 font-mono text-xs xl:text-[13px] uppercase tracking-wider text-emerald-300 font-bold drop-shadow-xs truncate"
-                      >
-                        <Calendar className="w-4 h-4 text-emerald-400 shrink-0" />
-                        <span>Pickup Date</span>
-                      </label>
-                      <div className="flex items-center gap-1 bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 px-2 py-0.5 rounded-md shrink-0">
-                        <Clock className="w-3 h-3 text-emerald-400 shrink-0" />
+                    <div className="flex items-center gap-1.5 font-mono text-xs xl:text-[13px] uppercase tracking-wider text-emerald-300 font-bold drop-shadow-xs">
+                      <Calendar className="w-4 h-4 text-emerald-400 shrink-0" />
+                      <span>PICKUP</span>
+                    </div>
+                    <div className="flex items-center justify-between gap-2 mt-1">
+                      {/* Date display: Abbreviated Month in all caps, Day & Year beneath spanning same length */}
+                      <div className="relative flex flex-col items-center justify-center cursor-pointer group py-0.5 px-2 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 transition-colors">
+                        <span className="text-base xl:text-lg font-black uppercase text-white tracking-[0.22em] pl-[0.22em] leading-tight text-center drop-shadow-xs select-none">
+                          {pickupParts.month}
+                        </span>
+                        <span className="text-xs xl:text-[13px] font-bold text-slate-200 tabular-nums leading-tight text-center mt-0.5 drop-shadow-xs select-none">
+                          {pickupParts.day}, {pickupParts.year}
+                        </span>
+                        <input
+                          id="hero-desktop-pickup-date"
+                          type="date"
+                          value={pickupDate}
+                          min={minPickupDate}
+                          onChange={(e) => onPickupDateChange?.(e.target.value)}
+                          onClick={(e) => {
+                            try {
+                              e.target.showPicker?.();
+                            } catch {}
+                          }}
+                          style={{ colorScheme: 'dark' }}
+                          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                          aria-label="Pickup Date"
+                        />
+                      </div>
+
+                      {/* Time Pill */}
+                      <div className="flex items-center gap-1 bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 px-2 py-1.5 rounded-lg transition-colors shrink-0">
+                        <Clock className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                         <select
                           aria-label="Pickup Time"
                           value={pickupTime}
                           onChange={(e) => setPickupTime?.(e.target.value)}
-                          className="bg-transparent text-xs font-mono font-bold text-white focus:outline-none cursor-pointer"
+                          className="bg-transparent text-xs xl:text-sm font-mono font-bold text-white focus:outline-none cursor-pointer"
                         >
                           {timeSlots.map((slot) => (
                             <option key={slot} value={slot} className="bg-[#1b2b2b] text-white">
@@ -143,36 +188,48 @@ export default function HeroBanner({
                         </select>
                       </div>
                     </div>
-                    <div className="relative flex items-center min-w-0">
-                      <input
-                        id="hero-desktop-pickup-date"
-                        type="date"
-                        value={pickupDate}
-                        min={minPickupDate}
-                        onChange={(e) => onPickupDateChange?.(e.target.value)}
-                        style={{ colorScheme: 'dark' }}
-                        className="w-full min-w-0 bg-transparent text-sm xl:text-base font-bold text-white tabular-nums focus:outline-none cursor-pointer"
-                      />
-                    </div>
                   </div>
 
-                  {/* 4. Return Date & Time */}
+                  {/* 4. Return */}
                   <div className="p-2.5 xl:p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/15 transition-colors flex flex-col justify-between">
-                    <div className="flex items-center justify-between gap-1 mb-1">
-                      <label
-                        htmlFor="hero-desktop-return-date"
-                        className="flex items-center gap-1.5 font-mono text-xs xl:text-[13px] uppercase tracking-wider text-amber-300 font-bold drop-shadow-xs truncate"
-                      >
-                        <Clock className="w-4 h-4 text-amber-400 shrink-0" />
-                        <span>Return Date</span>
-                      </label>
-                      <div className="flex items-center gap-1 bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 px-2 py-0.5 rounded-md shrink-0">
-                        <Clock className="w-3 h-3 text-amber-400 shrink-0" />
+                    <div className="flex items-center gap-1.5 font-mono text-xs xl:text-[13px] uppercase tracking-wider text-amber-300 font-bold drop-shadow-xs">
+                      <Clock className="w-4 h-4 text-amber-400 shrink-0" />
+                      <span>RETURN</span>
+                    </div>
+                    <div className="flex items-center justify-between gap-2 mt-1">
+                      {/* Date display: Abbreviated Month in all caps, Day & Year beneath spanning same length */}
+                      <div className="relative flex flex-col items-center justify-center cursor-pointer group py-0.5 px-2 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 transition-colors">
+                        <span className="text-base xl:text-lg font-black uppercase text-white tracking-[0.22em] pl-[0.22em] leading-tight text-center drop-shadow-xs select-none">
+                          {returnParts.month}
+                        </span>
+                        <span className="text-xs xl:text-[13px] font-bold text-slate-200 tabular-nums leading-tight text-center mt-0.5 drop-shadow-xs select-none">
+                          {returnParts.day}, {returnParts.year}
+                        </span>
+                        <input
+                          id="hero-desktop-return-date"
+                          type="date"
+                          value={returnDate}
+                          min={minReturnDate}
+                          onChange={(e) => onReturnDateChange?.(e.target.value)}
+                          onClick={(e) => {
+                            try {
+                              e.target.showPicker?.();
+                            } catch {}
+                          }}
+                          style={{ colorScheme: 'dark' }}
+                          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                          aria-label="Return Date"
+                        />
+                      </div>
+
+                      {/* Time Pill */}
+                      <div className="flex items-center gap-1 bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 px-2 py-1.5 rounded-lg transition-colors shrink-0">
+                        <Clock className="w-3.5 h-3.5 text-amber-400 shrink-0" />
                         <select
                           aria-label="Return Time"
                           value={returnTime}
                           onChange={(e) => setReturnTime?.(e.target.value)}
-                          className="bg-transparent text-xs font-mono font-bold text-white focus:outline-none cursor-pointer"
+                          className="bg-transparent text-xs xl:text-sm font-mono font-bold text-white focus:outline-none cursor-pointer"
                         >
                           {timeSlots.map((slot) => (
                             <option key={slot} value={slot} className="bg-[#1b2b2b] text-white">
@@ -181,17 +238,6 @@ export default function HeroBanner({
                           ))}
                         </select>
                       </div>
-                    </div>
-                    <div className="relative flex items-center min-w-0">
-                      <input
-                        id="hero-desktop-return-date"
-                        type="date"
-                        value={returnDate}
-                        min={minReturnDate}
-                        onChange={(e) => onReturnDateChange?.(e.target.value)}
-                        style={{ colorScheme: 'dark' }}
-                        className="w-full min-w-0 bg-transparent text-sm xl:text-base font-bold text-white tabular-nums focus:outline-none cursor-pointer"
-                      />
                     </div>
                   </div>
                 </div>
@@ -277,23 +323,46 @@ export default function HeroBanner({
                   </div>
                 </div>
 
-                {/* 3. Pickup Date & Time */}
+                {/* 3. Pickup */}
                 <div className="p-3 rounded-xl bg-white/[0.02] border border-white/10 flex flex-col justify-between">
-                  <div className="flex items-center justify-between gap-1 mb-1">
-                    <label
-                      htmlFor="hero-mobile-pickup-date"
-                      className="flex items-center gap-1.5 font-mono text-xs sm:text-[13px] uppercase tracking-wider text-emerald-300 font-bold truncate"
-                    >
-                      <Calendar className="w-4 h-4 text-emerald-400 shrink-0" />
-                      <span>Pickup Date</span>
-                    </label>
-                    <div className="flex items-center gap-1 bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 px-2 py-0.5 rounded-md shrink-0">
-                      <Clock className="w-3 h-3 text-emerald-400 shrink-0" />
+                  <div className="flex items-center gap-1.5 font-mono text-xs sm:text-[13px] uppercase tracking-wider text-emerald-300 font-bold">
+                    <Calendar className="w-4 h-4 text-emerald-400 shrink-0" />
+                    <span>PICKUP</span>
+                  </div>
+                  <div className="flex items-center justify-between gap-2 mt-2">
+                    {/* Date display: Abbreviated Month in all caps, Day & Year beneath spanning same length */}
+                    <div className="relative flex flex-col items-center justify-center cursor-pointer group py-1 px-3 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 transition-colors">
+                      <span className="text-base sm:text-lg font-black uppercase text-white tracking-[0.22em] pl-[0.22em] leading-tight text-center select-none">
+                        {pickupParts.month}
+                      </span>
+                      <span className="text-xs sm:text-[13px] font-bold text-slate-200 tabular-nums leading-tight text-center mt-0.5 select-none">
+                        {pickupParts.day}, {pickupParts.year}
+                      </span>
+                      <input
+                        id="hero-mobile-pickup-date"
+                        type="date"
+                        value={pickupDate}
+                        min={minPickupDate}
+                        onChange={(e) => onPickupDateChange?.(e.target.value)}
+                        onClick={(e) => {
+                          try {
+                            e.target.showPicker?.();
+                          } catch {}
+                        }}
+                        style={{ colorScheme: 'dark' }}
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                        aria-label="Pickup Date"
+                      />
+                    </div>
+
+                    {/* Time Pill */}
+                    <div className="flex items-center gap-1 bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 px-3 py-2 rounded-lg transition-colors shrink-0">
+                      <Clock className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                       <select
                         aria-label="Mobile Pickup Time"
                         value={pickupTime}
                         onChange={(e) => setPickupTime?.(e.target.value)}
-                        className="bg-transparent text-xs font-mono font-bold text-white focus:outline-none cursor-pointer"
+                        className="bg-transparent text-sm font-mono font-bold text-white focus:outline-none cursor-pointer"
                       >
                         {timeSlots.map((slot) => (
                           <option key={slot} value={slot} className="bg-[#1b2b2b] text-white">
@@ -303,36 +372,48 @@ export default function HeroBanner({
                       </select>
                     </div>
                   </div>
-                  <div className="relative flex items-center min-w-0 min-h-[42px]">
-                    <input
-                      id="hero-mobile-pickup-date"
-                      type="date"
-                      value={pickupDate}
-                      min={minPickupDate}
-                      onChange={(e) => onPickupDateChange?.(e.target.value)}
-                      style={{ colorScheme: 'dark' }}
-                      className="min-h-[42px] w-full min-w-0 bg-transparent text-base font-bold text-white tabular-nums focus:outline-none cursor-pointer"
-                    />
-                  </div>
                 </div>
 
-                {/* 4. Return Date & Time */}
+                {/* 4. Return */}
                 <div className="p-3 rounded-xl bg-white/[0.02] border border-white/10 flex flex-col justify-between">
-                  <div className="flex items-center justify-between gap-1 mb-1">
-                    <label
-                      htmlFor="hero-mobile-return-date"
-                      className="flex items-center gap-1.5 font-mono text-xs sm:text-[13px] uppercase tracking-wider text-amber-300 font-bold truncate"
-                    >
-                      <Clock className="w-4 h-4 text-amber-400 shrink-0" />
-                      <span>Return Date</span>
-                    </label>
-                    <div className="flex items-center gap-1 bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 px-2 py-0.5 rounded-md shrink-0">
-                      <Clock className="w-3 h-3 text-amber-400 shrink-0" />
+                  <div className="flex items-center gap-1.5 font-mono text-xs sm:text-[13px] uppercase tracking-wider text-amber-300 font-bold">
+                    <Clock className="w-4 h-4 text-amber-400 shrink-0" />
+                    <span>RETURN</span>
+                  </div>
+                  <div className="flex items-center justify-between gap-2 mt-2">
+                    {/* Date display: Abbreviated Month in all caps, Day & Year beneath spanning same length */}
+                    <div className="relative flex flex-col items-center justify-center cursor-pointer group py-1 px-3 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 transition-colors">
+                      <span className="text-base sm:text-lg font-black uppercase text-white tracking-[0.22em] pl-[0.22em] leading-tight text-center select-none">
+                        {returnParts.month}
+                      </span>
+                      <span className="text-xs sm:text-[13px] font-bold text-slate-200 tabular-nums leading-tight text-center mt-0.5 select-none">
+                        {returnParts.day}, {returnParts.year}
+                      </span>
+                      <input
+                        id="hero-mobile-return-date"
+                        type="date"
+                        value={returnDate}
+                        min={minReturnDate}
+                        onChange={(e) => onReturnDateChange?.(e.target.value)}
+                        onClick={(e) => {
+                          try {
+                            e.target.showPicker?.();
+                          } catch {}
+                        }}
+                        style={{ colorScheme: 'dark' }}
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                        aria-label="Return Date"
+                      />
+                    </div>
+
+                    {/* Time Pill */}
+                    <div className="flex items-center gap-1 bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 px-3 py-2 rounded-lg transition-colors shrink-0">
+                      <Clock className="w-3.5 h-3.5 text-amber-400 shrink-0" />
                       <select
                         aria-label="Mobile Return Time"
                         value={returnTime}
                         onChange={(e) => setReturnTime?.(e.target.value)}
-                        className="bg-transparent text-xs font-mono font-bold text-white focus:outline-none cursor-pointer"
+                        className="bg-transparent text-sm font-mono font-bold text-white focus:outline-none cursor-pointer"
                       >
                         {timeSlots.map((slot) => (
                           <option key={slot} value={slot} className="bg-[#1b2b2b] text-white">
@@ -341,17 +422,6 @@ export default function HeroBanner({
                         ))}
                       </select>
                     </div>
-                  </div>
-                  <div className="relative flex items-center min-w-0 min-h-[42px]">
-                    <input
-                      id="hero-mobile-return-date"
-                      type="date"
-                      value={returnDate}
-                      min={minReturnDate}
-                      onChange={(e) => onReturnDateChange?.(e.target.value)}
-                      style={{ colorScheme: 'dark' }}
-                      className="min-h-[42px] w-full min-w-0 bg-transparent text-base font-bold text-white tabular-nums focus:outline-none cursor-pointer"
-                    />
                   </div>
                 </div>
               </div>
