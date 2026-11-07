@@ -34,7 +34,7 @@ export default function HeroBanner({
              ========================================================= */}
           <div className="relative aspect-[1024/317] w-full select-none overflow-hidden">
             <img
-              src="/hero-banner.jpg?v=5"
+              src="/hero-banner.jpg?v=6"
               alt="Take It Easy Car Rentals - A Yah Suh Nice! Pearl white Mazda CX-5 driving on Jamaica's coastal highway beside the turquoise sea"
               className="w-full h-full object-cover"
             />
@@ -65,7 +65,7 @@ export default function HeroBanner({
                         Reserve Your Ride
                       </span>
                     </div>
-                    <span className="text-[11px] font-mono font-semibold px-2 py-0.5 rounded-full bg-white/[0.10] text-amber-300 border border-white/20 backdrop-blur-xs">
+                    <span className="text-xs sm:text-sm font-mono font-bold px-3 py-1 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/35 backdrop-blur-md shadow-xs tracking-wide">
                       {rentalDays} {rentalDays === 1 ? 'day' : 'days'}
                     </span>
                   </div>
@@ -203,7 +203,7 @@ export default function HeroBanner({
                   className="w-full mt-2.5 min-h-[44px] px-4 py-2.5 rounded-xl bg-black/[0.15] hover:bg-black/[0.25] backdrop-blur-md border border-white/25 hover:border-white/40 active:scale-[0.98] text-white font-extrabold text-sm tracking-wide shadow-[0_8px_24px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.25)] flex items-center justify-center gap-2 transition-all cursor-pointer"
                 >
                   <Car className="w-4 h-4 text-amber-300 shrink-0" />
-                  <span>Book a Car Now</span>
+                  <span>Book Vehicle of your choice</span>
                   <ArrowRight className="w-4 h-4 text-white/90 shrink-0" />
                 </button>
               </div>
@@ -223,7 +223,7 @@ export default function HeroBanner({
                     Find Your Rental Vehicle
                   </span>
                 </div>
-                <span className="text-xs font-mono font-semibold px-2 py-0.5 rounded-full bg-white/[0.10] text-amber-300 border border-white/20">
+                <span className="text-sm font-mono font-bold px-3.5 py-1 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/35 backdrop-blur-md shadow-xs tracking-wide">
                   {rentalDays} {rentalDays === 1 ? 'day' : 'days'}
                 </span>
               </div>
@@ -361,7 +361,7 @@ export default function HeroBanner({
               className="w-full mt-3 min-h-[48px] px-5 py-3 rounded-xl bg-white/[0.10] hover:bg-white/[0.18] backdrop-blur-md border border-white/25 active:scale-[0.98] text-white font-extrabold text-base tracking-wide shadow-xl flex items-center justify-center gap-2 cursor-pointer transition-all"
             >
               <Car className="w-5 h-5 text-amber-300 shrink-0" />
-              <span>Book a Car Now</span>
+              <span>Book Vehicle of your choice</span>
               <ArrowRight className="w-4 h-4 text-white/90 shrink-0" />
             </button>
           </div>
