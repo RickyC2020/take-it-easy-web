@@ -69,9 +69,9 @@ export default function HeroBanner({
                   <div className="p-2.5 xl:p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/15 transition-colors flex flex-col justify-center">
                     <label
                       htmlFor="hero-desktop-location"
-                      className="flex items-center gap-1.5 font-mono text-[10.5px] uppercase tracking-wider text-emerald-300 mb-1 font-semibold drop-shadow-xs"
+                      className="flex items-center gap-1.5 font-mono text-xs xl:text-[13px] uppercase tracking-wider text-emerald-300 mb-1 font-bold drop-shadow-xs"
                     >
-                      <MapPin className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                      <MapPin className="w-4 h-4 text-emerald-400 shrink-0" />
                       <span>Pickup Hub</span>
                     </label>
                     <div className="relative flex items-center">
@@ -79,7 +79,7 @@ export default function HeroBanner({
                         id="hero-desktop-location"
                         value={locationId}
                         onChange={(e) => setLocationId?.(e.target.value)}
-                        className="w-full appearance-none bg-transparent pr-4 text-xs xl:text-sm font-semibold text-white focus:outline-none cursor-pointer truncate"
+                        className="w-full appearance-none bg-transparent pr-5 text-sm xl:text-base font-bold text-white focus:outline-none cursor-pointer truncate"
                       >
                         {locations.map((loc) => (
                           <option key={loc.id} value={loc.id} className="bg-[#1b2b2b] text-white">
@@ -87,7 +87,7 @@ export default function HeroBanner({
                           </option>
                         ))}
                       </select>
-                      <ChevronDown className="w-3.5 h-3.5 text-slate-300 pointer-events-none absolute right-0 shrink-0" />
+                      <ChevronDown className="w-4 h-4 text-slate-300 pointer-events-none absolute right-0 shrink-0" />
                     </div>
                   </div>
 
@@ -95,9 +95,9 @@ export default function HeroBanner({
                   <div className="p-2.5 xl:p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/15 transition-colors flex flex-col justify-center">
                     <label
                       htmlFor="hero-desktop-category"
-                      className="flex items-center gap-1.5 font-mono text-[10.5px] uppercase tracking-wider text-amber-300 mb-1 font-semibold drop-shadow-xs"
+                      className="flex items-center gap-1.5 font-mono text-xs xl:text-[13px] uppercase tracking-wider text-amber-300 mb-1 font-bold drop-shadow-xs"
                     >
-                      <Car className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                      <Car className="w-4 h-4 text-amber-400 shrink-0" />
                       <span>Vehicle Class</span>
                     </label>
                     <div className="relative flex items-center">
@@ -105,7 +105,7 @@ export default function HeroBanner({
                         id="hero-desktop-category"
                         value={selectedCategory}
                         onChange={(e) => setSelectedCategory?.(e.target.value)}
-                        className="w-full appearance-none bg-transparent pr-4 text-xs xl:text-sm font-semibold text-white focus:outline-none cursor-pointer truncate"
+                        className="w-full appearance-none bg-transparent pr-5 text-sm xl:text-base font-bold text-white focus:outline-none cursor-pointer truncate"
                       >
                         {categories.map((cat) => (
                           <option key={cat.id} value={cat.id} className="bg-[#1b2b2b] text-white">
@@ -113,7 +113,7 @@ export default function HeroBanner({
                           </option>
                         ))}
                       </select>
-                      <ChevronDown className="w-3.5 h-3.5 text-slate-300 pointer-events-none absolute right-0 shrink-0" />
+                      <ChevronDown className="w-4 h-4 text-slate-300 pointer-events-none absolute right-0 shrink-0" />
                     </div>
                   </div>
 
@@ -121,12 +121,12 @@ export default function HeroBanner({
                   <div className="p-2.5 xl:p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/15 transition-colors flex flex-col justify-center">
                     <label
                       htmlFor="hero-desktop-pickup-date"
-                      className="flex items-center gap-1.5 font-mono text-[10.5px] uppercase tracking-wider text-emerald-300 mb-1 font-semibold drop-shadow-xs"
+                      className="flex items-center gap-1.5 font-mono text-xs xl:text-[13px] uppercase tracking-wider text-emerald-300 mb-1 font-bold drop-shadow-xs"
                     >
-                      <Calendar className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                      <Calendar className="w-4 h-4 text-emerald-400 shrink-0" />
                       <span>Pickup Date &amp; Time</span>
                     </label>
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex items-center gap-2">
                       <input
                         id="hero-desktop-pickup-date"
                         type="date"
@@ -134,14 +134,14 @@ export default function HeroBanner({
                         min={minPickupDate}
                         onChange={(e) => onPickupDateChange?.(e.target.value)}
                         style={{ colorScheme: 'dark' }}
-                        className="w-full bg-transparent text-xs xl:text-sm font-semibold text-white tabular-nums focus:outline-none cursor-pointer"
+                        className="w-full bg-transparent text-sm xl:text-base font-bold text-white tabular-nums focus:outline-none cursor-pointer"
                       />
-                      <span className="h-3.5 w-px bg-white/20 shrink-0" />
+                      <span className="h-4 w-px bg-white/20 shrink-0" />
                       <select
                         aria-label="Pickup Time"
                         value={pickupTime}
                         onChange={(e) => setPickupTime?.(e.target.value)}
-                        className="bg-transparent text-xs font-mono text-slate-200 focus:outline-none cursor-pointer shrink-0"
+                        className="bg-transparent text-xs xl:text-sm font-mono font-bold text-white focus:outline-none cursor-pointer shrink-0"
                       >
                         {timeSlots.map((slot) => (
                           <option key={slot} value={slot} className="bg-[#1b2b2b] text-white">
@@ -156,12 +156,12 @@ export default function HeroBanner({
                   <div className="p-2.5 xl:p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/15 transition-colors flex flex-col justify-center">
                     <label
                       htmlFor="hero-desktop-return-date"
-                      className="flex items-center gap-1.5 font-mono text-[10.5px] uppercase tracking-wider text-amber-300 mb-1 font-semibold drop-shadow-xs"
+                      className="flex items-center gap-1.5 font-mono text-xs xl:text-[13px] uppercase tracking-wider text-amber-300 mb-1 font-bold drop-shadow-xs"
                     >
-                      <Clock className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                      <Clock className="w-4 h-4 text-amber-400 shrink-0" />
                       <span>Return Date &amp; Time</span>
                     </label>
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex items-center gap-2">
                       <input
                         id="hero-desktop-return-date"
                         type="date"
@@ -169,14 +169,14 @@ export default function HeroBanner({
                         min={minReturnDate}
                         onChange={(e) => onReturnDateChange?.(e.target.value)}
                         style={{ colorScheme: 'dark' }}
-                        className="w-full bg-transparent text-xs xl:text-sm font-semibold text-white tabular-nums focus:outline-none cursor-pointer"
+                        className="w-full bg-transparent text-sm xl:text-base font-bold text-white tabular-nums focus:outline-none cursor-pointer"
                       />
-                      <span className="h-3.5 w-px bg-white/20 shrink-0" />
+                      <span className="h-4 w-px bg-white/20 shrink-0" />
                       <select
                         aria-label="Return Time"
                         value={returnTime}
                         onChange={(e) => setReturnTime?.(e.target.value)}
-                        className="bg-transparent text-xs font-mono text-slate-200 focus:outline-none cursor-pointer shrink-0"
+                        className="bg-transparent text-xs xl:text-sm font-mono font-bold text-white focus:outline-none cursor-pointer shrink-0"
                       >
                         {timeSlots.map((slot) => (
                           <option key={slot} value={slot} className="bg-[#1b2b2b] text-white">
@@ -218,20 +218,20 @@ export default function HeroBanner({
               {/* 2-Column Responsive Inputs */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
                 {/* 1. Pickup Location */}
-                <div className="p-2.5 rounded-xl bg-white/[0.02] border border-white/10">
+                <div className="p-3 rounded-xl bg-white/[0.02] border border-white/10">
                   <label
                     htmlFor="hero-mobile-location"
-                    className="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-emerald-300 mb-1 font-semibold"
+                    className="flex items-center gap-1.5 font-mono text-xs sm:text-[13px] uppercase tracking-wider text-emerald-300 mb-1 font-bold"
                   >
                     <MapPin className="w-4 h-4 text-emerald-400 shrink-0" />
                     <span>Pickup Location</span>
                   </label>
-                  <div className="relative flex items-center min-h-[40px]">
+                  <div className="relative flex items-center min-h-[42px]">
                     <select
                       id="hero-mobile-location"
                       value={locationId}
                       onChange={(e) => setLocationId?.(e.target.value)}
-                      className="w-full min-h-[40px] appearance-none bg-transparent pr-6 text-sm font-semibold text-white focus:outline-none cursor-pointer"
+                      className="w-full min-h-[42px] appearance-none bg-transparent pr-6 text-base font-bold text-white focus:outline-none cursor-pointer"
                     >
                       {locations.map((loc) => (
                         <option key={loc.id} value={loc.id} className="bg-[#1b2b2b] text-white">
@@ -244,20 +244,20 @@ export default function HeroBanner({
                 </div>
 
                 {/* 2. Car Category */}
-                <div className="p-2.5 rounded-xl bg-white/[0.02] border border-white/10">
+                <div className="p-3 rounded-xl bg-white/[0.02] border border-white/10">
                   <label
                     htmlFor="hero-mobile-category"
-                    className="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-amber-300 mb-1 font-semibold"
+                    className="flex items-center gap-1.5 font-mono text-xs sm:text-[13px] uppercase tracking-wider text-amber-300 mb-1 font-bold"
                   >
                     <Car className="w-4 h-4 text-amber-400 shrink-0" />
                     <span>Car Category</span>
                   </label>
-                  <div className="relative flex items-center min-h-[40px]">
+                  <div className="relative flex items-center min-h-[42px]">
                     <select
                       id="hero-mobile-category"
                       value={selectedCategory}
                       onChange={(e) => setSelectedCategory?.(e.target.value)}
-                      className="w-full min-h-[40px] appearance-none bg-transparent pr-6 text-sm font-semibold text-white focus:outline-none cursor-pointer"
+                      className="w-full min-h-[42px] appearance-none bg-transparent pr-6 text-base font-bold text-white focus:outline-none cursor-pointer"
                     >
                       {categories.map((cat) => (
                         <option key={cat.id} value={cat.id} className="bg-[#1b2b2b] text-white">
@@ -270,15 +270,15 @@ export default function HeroBanner({
                 </div>
 
                 {/* 3. Pickup Date & Time */}
-                <div className="p-2.5 rounded-xl bg-white/[0.02] border border-white/10">
+                <div className="p-3 rounded-xl bg-white/[0.02] border border-white/10">
                   <label
                     htmlFor="hero-mobile-pickup-date"
-                    className="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-emerald-300 mb-1 font-semibold"
+                    className="flex items-center gap-1.5 font-mono text-xs sm:text-[13px] uppercase tracking-wider text-emerald-300 mb-1 font-bold"
                   >
                     <Calendar className="w-4 h-4 text-emerald-400 shrink-0" />
                     <span>Pickup Date &amp; Time</span>
                   </label>
-                  <div className="flex items-center gap-2 min-h-[40px]">
+                  <div className="flex items-center gap-2 min-h-[42px]">
                     <input
                       id="hero-mobile-pickup-date"
                       type="date"
@@ -286,14 +286,14 @@ export default function HeroBanner({
                       min={minPickupDate}
                       onChange={(e) => onPickupDateChange?.(e.target.value)}
                       style={{ colorScheme: 'dark' }}
-                      className="min-h-[40px] w-full bg-transparent text-sm font-semibold text-white tabular-nums focus:outline-none cursor-pointer"
+                      className="min-h-[42px] w-full bg-transparent text-base font-bold text-white tabular-nums focus:outline-none cursor-pointer"
                     />
                     <span className="h-4 w-px bg-white/20 shrink-0" />
                     <select
                       aria-label="Mobile Pickup Time"
                       value={pickupTime}
                       onChange={(e) => setPickupTime?.(e.target.value)}
-                      className="min-h-[40px] bg-transparent text-xs font-mono text-slate-200 focus:outline-none cursor-pointer shrink-0"
+                      className="min-h-[42px] bg-transparent text-sm font-mono font-bold text-white focus:outline-none cursor-pointer shrink-0"
                     >
                       {timeSlots.map((slot) => (
                         <option key={slot} value={slot} className="bg-[#1b2b2b] text-white">
@@ -305,15 +305,15 @@ export default function HeroBanner({
                 </div>
 
                 {/* 4. Return Date & Time */}
-                <div className="p-2.5 rounded-xl bg-white/[0.02] border border-white/10">
+                <div className="p-3 rounded-xl bg-white/[0.02] border border-white/10">
                   <label
                     htmlFor="hero-mobile-return-date"
-                    className="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-amber-300 mb-1 font-semibold"
+                    className="flex items-center gap-1.5 font-mono text-xs sm:text-[13px] uppercase tracking-wider text-amber-300 mb-1 font-bold"
                   >
                     <Clock className="w-4 h-4 text-amber-400 shrink-0" />
                     <span>Return Date &amp; Time</span>
                   </label>
-                  <div className="flex items-center gap-2 min-h-[40px]">
+                  <div className="flex items-center gap-2 min-h-[42px]">
                     <input
                       id="hero-mobile-return-date"
                       type="date"
@@ -321,14 +321,14 @@ export default function HeroBanner({
                       min={minReturnDate}
                       onChange={(e) => onReturnDateChange?.(e.target.value)}
                       style={{ colorScheme: 'dark' }}
-                      className="min-h-[40px] w-full bg-transparent text-sm font-semibold text-white tabular-nums focus:outline-none cursor-pointer"
+                      className="min-h-[42px] w-full bg-transparent text-base font-bold text-white tabular-nums focus:outline-none cursor-pointer"
                     />
                     <span className="h-4 w-px bg-white/20 shrink-0" />
                     <select
                       aria-label="Mobile Return Time"
                       value={returnTime}
                       onChange={(e) => setReturnTime?.(e.target.value)}
-                      className="min-h-[40px] bg-transparent text-xs font-mono text-slate-200 focus:outline-none cursor-pointer shrink-0"
+                      className="min-h-[42px] bg-transparent text-sm font-mono font-bold text-white focus:outline-none cursor-pointer shrink-0"
                     >
                       {timeSlots.map((slot) => (
                         <option key={slot} value={slot} className="bg-[#1b2b2b] text-white">
