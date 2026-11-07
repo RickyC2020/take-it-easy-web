@@ -11,12 +11,12 @@ export default function HeroBanner() {
               HERO BANNER ARTWORK
               - User-provided panoramic artwork with:
                 * "A Yah Suh Nice!"
-                * Pearl-white Mazda CX-5 driving on coastal highway
-                * Native 1024x283 ultra-panoramic widescreen aspect ratio
+                * Pearl-white Mazda CX-5 driving on the left lane
+                * Native 1024x317 ultra-panoramic widescreen aspect ratio
              ========================================================= */}
-          <div className="relative aspect-[1024/283] w-full select-none overflow-hidden">
+          <div className="relative aspect-[1024/317] w-full select-none overflow-hidden">
             <img
-              src="/hero-banner.jpg?v=3"
+              src="/hero-banner.jpg?v=4"
               alt="Take It Easy Car Rentals - A Yah Suh Nice! Pearl white Mazda CX-5 driving on Jamaica's coastal highway beside the turquoise sea"
               className="w-full h-full object-cover"
             />
@@ -26,8 +26,8 @@ export default function HeroBanner() {
               Take It Easy Car Rentals &amp; Tours — A Yah Suh Nice!
             </h1>
 
-            {/* Desktop Frosted Glass Cards (Floats naturally over the asphalt road without obscuring text) */}
-            <div className="hidden sm:flex absolute bottom-2.5 left-4 md:bottom-3 md:left-6 lg:bottom-4 lg:left-8 items-center gap-2 md:gap-2.5 lg:gap-3 z-10">
+            {/* Desktop Frosted Glass Cards (Floats naturally over the asphalt road curve without obscuring the vehicle on the left or text on the right) */}
+            <div className="hidden sm:flex absolute bottom-2.5 right-4 md:bottom-3 md:right-6 lg:bottom-4 lg:right-8 items-center gap-2 md:gap-2.5 lg:gap-3 z-10">
               
               {/* Card 1: Island-Wide Support */}
               <div className="bg-white/15 hover:bg-white/20 backdrop-blur-md border border-white/25 rounded-2xl p-1.5 md:p-2 lg:p-2.5 flex items-center gap-2 lg:gap-2.5 shadow-lg min-w-[125px] md:min-w-[145px] shrink-0 transition-colors">
