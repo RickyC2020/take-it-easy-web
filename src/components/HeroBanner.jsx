@@ -29,12 +29,12 @@ export default function HeroBanner({
         <div className="relative rounded-xl overflow-hidden bg-transparent">
           {/* =========================================================
               HERO BANNER ARTWORK
-              - Native 1024x317 ultra-panoramic widescreen aspect ratio
+              - Native 1024x434 panoramic widescreen aspect ratio
               - "A Yah Suh Nice!" script + Pearl-white Mazda CX-5
              ========================================================= */}
-          <div className="relative aspect-[1024/317] min-h-[220px] sm:min-h-[260px] lg:min-h-[330px] xl:min-h-0 w-full select-none overflow-hidden">
+          <div className="relative aspect-[1024/434] min-h-[240px] sm:min-h-[280px] lg:min-h-[360px] xl:min-h-0 w-full select-none overflow-hidden">
             <img
-              src="/hero-banner.jpg?v=6"
+              src="/hero-banner.jpg?v=7"
               alt="Take It Easy Car Rentals - A Yah Suh Nice! Pearl white Mazda CX-5 driving on Jamaica's coastal highway beside the turquoise sea"
               className="w-full h-full object-cover"
             />
