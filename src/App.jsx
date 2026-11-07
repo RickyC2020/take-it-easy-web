@@ -30,6 +30,7 @@ import SignaturePad from './components/SignaturePad';
 import ContractDossierModal from './components/ContractDossierModal';
 import TourPackages from './components/TourPackages';
 import WhatsAppWidget from './components/WhatsAppWidget';
+import ScrollToTop from './components/ScrollToTop';
 import PublicCheckoutModal from './components/PublicCheckoutModal';
 import HeroBanner from './components/HeroBanner';
 import Footer from './components/Footer';
@@ -2798,7 +2799,8 @@ export default function App() {
         onClose={() => setIsContactModalOpen(false)}
       />
 
-      {/* Floating WhatsApp Support Widget */}
+      {/* Floating Action Buttons */}
+      <ScrollToTop />
       <WhatsAppWidget />
     </div>
   );

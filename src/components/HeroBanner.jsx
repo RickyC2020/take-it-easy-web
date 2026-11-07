@@ -202,7 +202,7 @@ export default function HeroBanner({
                   onClick={onBookCar}
                   className="w-full mt-2.5 min-h-[44px] px-4 py-2.5 rounded-xl bg-black/[0.15] hover:bg-black/[0.25] backdrop-blur-md border border-white/25 hover:border-white/40 active:scale-[0.98] text-white font-extrabold text-xs xl:text-sm tracking-wider uppercase shadow-[0_8px_24px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.25)] flex items-center justify-center transition-all cursor-pointer"
                 >
-                  <span>BOOK VEHICLE OF YOUR CHOICE</span>
+                  <span>GET INSTANT QUOTE, NO HIDDEN FEES</span>
                 </button>
               </div>
             </div>
@@ -358,7 +358,7 @@ export default function HeroBanner({
               onClick={onBookCar}
               className="w-full mt-3 min-h-[48px] px-5 py-3 rounded-xl bg-white/[0.10] hover:bg-white/[0.18] backdrop-blur-md border border-white/25 active:scale-[0.98] text-white font-extrabold text-sm sm:text-base tracking-wider uppercase shadow-xl flex items-center justify-center cursor-pointer transition-all"
             >
-              <span>BOOK VEHICLE OF YOUR CHOICE</span>
+              <span>GET INSTANT QUOTE, NO HIDDEN FEES</span>
             </button>
           </div>
         </div>
