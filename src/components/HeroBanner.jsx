@@ -25,7 +25,8 @@ export default function HeroBanner({
   return (
     <section aria-label="Hero Banner and Rental Search" className="py-2 sm:py-3 print:hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-800/80 bg-[#152528]">
+        {/* Banner container - border removed */}
+        <div className="relative rounded-xl overflow-hidden bg-transparent">
           {/* =========================================================
               HERO BANNER ARTWORK
               - Native 1024x317 ultra-panoramic widescreen aspect ratio
@@ -38,8 +39,8 @@ export default function HeroBanner({
               className="w-full h-full object-cover"
             />
 
-            {/* Subtle right-side gradient overlay on desktop for contrast */}
-            <div className="hidden lg:block absolute inset-0 bg-gradient-to-r from-transparent via-black/10 to-black/55 pointer-events-none" />
+            {/* Subtle right-side ambient tint on desktop */}
+            <div className="hidden lg:block absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-black/15 pointer-events-none" />
 
             {/* Semantic accessible headline for screen readers & SEO */}
             <h1 className="sr-only">
@@ -51,20 +52,20 @@ export default function HeroBanner({
                ========================================================= */}
             <div className="hidden lg:flex absolute inset-y-0 right-0 z-10 items-center justify-end p-4 xl:p-6 w-full max-w-[480px] xl:max-w-[520px]">
               <div className="w-full">
-                {/* Near-Transparent Glassmorphic Card */}
+                {/* Ultra-Transparent Glassmorphic Card */}
                 <div
                   id="hero-search-card"
-                  className="rounded-2xl bg-slate-950/40 backdrop-blur-md border border-white/25 p-3.5 xl:p-4 shadow-[0_8px_32px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.25)] text-white transition-all"
+                  className="rounded-2xl bg-black/[0.15] hover:bg-black/[0.20] backdrop-blur-md border border-white/20 p-3.5 xl:p-4 shadow-[0_8px_32px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.25)] text-white transition-all"
                 >
                   {/* Card Eyebrow */}
                   <div className="flex items-center justify-between mb-2.5">
                     <div className="flex items-center gap-2">
                       <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                      <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-emerald-300">
+                      <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-emerald-300 drop-shadow-xs">
                         Reserve Your Ride
                       </span>
                     </div>
-                    <span className="text-[11px] font-mono font-semibold px-2 py-0.5 rounded-full bg-amber-400/25 text-amber-300 border border-amber-400/40">
+                    <span className="text-[11px] font-mono font-semibold px-2 py-0.5 rounded-full bg-white/[0.10] text-amber-300 border border-white/20 backdrop-blur-xs">
                       {rentalDays} {rentalDays === 1 ? 'day' : 'days'}
                     </span>
                   </div>
@@ -72,10 +73,10 @@ export default function HeroBanner({
                   {/* 2x2 Search Inputs Grid */}
                   <div className="grid grid-cols-2 gap-2 text-xs">
                     {/* 1. Pickup Location */}
-                    <div className="p-2 rounded-xl bg-white/[0.08] hover:bg-white/[0.14] border border-white/20 transition-colors">
+                    <div className="p-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.10] border border-white/15 transition-colors backdrop-blur-xs">
                       <label
                         htmlFor="hero-desktop-location"
-                        className="flex items-center gap-1.5 font-mono text-[10.5px] uppercase tracking-wider text-emerald-300 mb-0.5 font-semibold"
+                        className="flex items-center gap-1.5 font-mono text-[10.5px] uppercase tracking-wider text-emerald-300 mb-0.5 font-semibold drop-shadow-xs"
                       >
                         <MapPin className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                         <span>Pickup Hub</span>
@@ -98,10 +99,10 @@ export default function HeroBanner({
                     </div>
 
                     {/* 2. Car Category */}
-                    <div className="p-2 rounded-xl bg-white/[0.08] hover:bg-white/[0.14] border border-white/20 transition-colors">
+                    <div className="p-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.10] border border-white/15 transition-colors backdrop-blur-xs">
                       <label
                         htmlFor="hero-desktop-category"
-                        className="flex items-center gap-1.5 font-mono text-[10.5px] uppercase tracking-wider text-amber-300 mb-0.5 font-semibold"
+                        className="flex items-center gap-1.5 font-mono text-[10.5px] uppercase tracking-wider text-amber-300 mb-0.5 font-semibold drop-shadow-xs"
                       >
                         <Car className="w-3.5 h-3.5 text-amber-400 shrink-0" />
                         <span>Vehicle Class</span>
@@ -124,10 +125,10 @@ export default function HeroBanner({
                     </div>
 
                     {/* 3. Pickup Date & Time */}
-                    <div className="p-2 rounded-xl bg-white/[0.08] hover:bg-white/[0.14] border border-white/20 transition-colors">
+                    <div className="p-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.10] border border-white/15 transition-colors backdrop-blur-xs">
                       <label
                         htmlFor="hero-desktop-pickup-date"
-                        className="flex items-center gap-1.5 font-mono text-[10.5px] uppercase tracking-wider text-emerald-300 mb-0.5 font-semibold"
+                        className="flex items-center gap-1.5 font-mono text-[10.5px] uppercase tracking-wider text-emerald-300 mb-0.5 font-semibold drop-shadow-xs"
                       >
                         <Calendar className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                         <span>Pickup Date</span>
@@ -159,10 +160,10 @@ export default function HeroBanner({
                     </div>
 
                     {/* 4. Return Date & Time */}
-                    <div className="p-2 rounded-xl bg-white/[0.08] hover:bg-white/[0.14] border border-white/20 transition-colors">
+                    <div className="p-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.10] border border-white/15 transition-colors backdrop-blur-xs">
                       <label
                         htmlFor="hero-desktop-return-date"
-                        className="flex items-center gap-1.5 font-mono text-[10.5px] uppercase tracking-wider text-amber-300 mb-0.5 font-semibold"
+                        className="flex items-center gap-1.5 font-mono text-[10.5px] uppercase tracking-wider text-amber-300 mb-0.5 font-semibold drop-shadow-xs"
                       >
                         <Clock className="w-3.5 h-3.5 text-amber-400 shrink-0" />
                         <span>Return Date</span>
@@ -195,11 +196,11 @@ export default function HeroBanner({
                   </div>
                 </div>
 
-                {/* Primary Action Button: Below the card */}
+                {/* Primary Action Button: Transparent glassmorphic look matching the card */}
                 <button
                   type="button"
                   onClick={onBookCar}
-                  className="w-full mt-2.5 min-h-[44px] px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 via-emerald-500 to-amber-500 hover:from-emerald-500 hover:to-amber-400 active:scale-[0.98] text-white font-extrabold text-sm tracking-wide shadow-[0_4px_20px_rgba(16,185,129,0.4)] flex items-center justify-center gap-2 transition-all cursor-pointer border border-white/25"
+                  className="w-full mt-2.5 min-h-[44px] px-4 py-2.5 rounded-xl bg-black/[0.15] hover:bg-black/[0.25] backdrop-blur-md border border-white/25 hover:border-white/40 active:scale-[0.98] text-white font-extrabold text-sm tracking-wide shadow-[0_8px_24px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.25)] flex items-center justify-center gap-2 transition-all cursor-pointer"
                 >
                   <Car className="w-4 h-4 text-amber-300 shrink-0" />
                   <span>Book a Car Now</span>
@@ -212,8 +213,8 @@ export default function HeroBanner({
           {/* =========================================================
               MOBILE / TABLET (< lg): GLASSMORPHIC SEARCH CARD
              ========================================================= */}
-          <div className="lg:hidden p-4 sm:p-5 bg-gradient-to-b from-[#192b2d] to-[#122224] border-t border-white/10">
-            <div className="rounded-2xl bg-white/[0.08] backdrop-blur-md border border-white/20 p-4 shadow-xl text-white">
+          <div className="lg:hidden p-4 sm:p-5 bg-gradient-to-b from-[#192b2d] to-[#122224]">
+            <div className="rounded-2xl bg-white/[0.05] backdrop-blur-md border border-white/15 p-4 shadow-xl text-white">
               {/* Card Eyebrow */}
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
@@ -222,7 +223,7 @@ export default function HeroBanner({
                     Find Your Rental Vehicle
                   </span>
                 </div>
-                <span className="text-xs font-mono font-semibold px-2 py-0.5 rounded-full bg-amber-400/25 text-amber-300 border border-amber-400/35">
+                <span className="text-xs font-mono font-semibold px-2 py-0.5 rounded-full bg-white/[0.10] text-amber-300 border border-white/20">
                   {rentalDays} {rentalDays === 1 ? 'day' : 'days'}
                 </span>
               </div>
@@ -230,7 +231,7 @@ export default function HeroBanner({
               {/* 2-Column Responsive Inputs */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
                 {/* 1. Pickup Location */}
-                <div className="p-2.5 rounded-xl bg-white/[0.06] border border-white/15">
+                <div className="p-2.5 rounded-xl bg-white/[0.04] border border-white/10">
                   <label
                     htmlFor="hero-mobile-location"
                     className="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-emerald-300 mb-1 font-semibold"
@@ -256,7 +257,7 @@ export default function HeroBanner({
                 </div>
 
                 {/* 2. Car Category */}
-                <div className="p-2.5 rounded-xl bg-white/[0.06] border border-white/15">
+                <div className="p-2.5 rounded-xl bg-white/[0.04] border border-white/10">
                   <label
                     htmlFor="hero-mobile-category"
                     className="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-amber-300 mb-1 font-semibold"
@@ -282,7 +283,7 @@ export default function HeroBanner({
                 </div>
 
                 {/* 3. Pickup Date & Time */}
-                <div className="p-2.5 rounded-xl bg-white/[0.06] border border-white/15">
+                <div className="p-2.5 rounded-xl bg-white/[0.04] border border-white/10">
                   <label
                     htmlFor="hero-mobile-pickup-date"
                     className="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-emerald-300 mb-1 font-semibold"
@@ -317,7 +318,7 @@ export default function HeroBanner({
                 </div>
 
                 {/* 4. Return Date & Time */}
-                <div className="p-2.5 rounded-xl bg-white/[0.06] border border-white/15">
+                <div className="p-2.5 rounded-xl bg-white/[0.04] border border-white/10">
                   <label
                     htmlFor="hero-mobile-return-date"
                     className="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-amber-300 mb-1 font-semibold"
@@ -353,11 +354,11 @@ export default function HeroBanner({
               </div>
             </div>
 
-            {/* Mobile Action Button below card */}
+            {/* Mobile Action Button below card: Transparent glass look */}
             <button
               type="button"
               onClick={onBookCar}
-              className="w-full mt-3 min-h-[48px] px-5 py-3 rounded-xl bg-gradient-to-r from-emerald-600 via-emerald-500 to-amber-500 active:scale-[0.98] text-white font-extrabold text-base tracking-wide shadow-xl flex items-center justify-center gap-2 cursor-pointer border border-white/20"
+              className="w-full mt-3 min-h-[48px] px-5 py-3 rounded-xl bg-white/[0.10] hover:bg-white/[0.18] backdrop-blur-md border border-white/25 active:scale-[0.98] text-white font-extrabold text-base tracking-wide shadow-xl flex items-center justify-center gap-2 cursor-pointer transition-all"
             >
               <Car className="w-5 h-5 text-amber-300 shrink-0" />
               <span>Book a Car Now</span>
