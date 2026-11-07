@@ -160,17 +160,6 @@ export default function Navbar({
 
           {/* 3. Right-Side Actions (Desktop) */}
           <div className="hidden md:flex items-center gap-3 shrink-0">
-            {/* Primary CTA Button: WhatsApp Us */}
-            <a
-              href="https://wa.me/18767899051"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="min-h-[44px] px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 via-emerald-500 to-amber-500 hover:from-emerald-500 hover:to-amber-400 text-white font-bold text-sm shadow-[0_4px_16px_rgba(16,185,129,0.35)] border border-emerald-300/30 flex items-center gap-2 transition-all cursor-pointer active:scale-[0.98]"
-            >
-              <MessageCircle className="w-4 h-4 fill-white/20" />
-              <span>WhatsApp Us</span>
-            </a>
-
             {/* Staff Dropdown Menu */}
             <div className="relative" ref={dropdownRef}>
               <button
@@ -231,16 +220,6 @@ export default function Navbar({
 
           {/* 4. Mobile Hamburger Button */}
           <div className="flex items-center gap-2 md:hidden">
-            <a
-              href="https://wa.me/18767899051"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="WhatsApp Us"
-              className="p-2.5 rounded-xl bg-emerald-600 text-white shadow-sm flex items-center justify-center cursor-pointer min-h-[44px] min-w-[44px]"
-            >
-              <MessageCircle className="w-5 h-5" />
-            </a>
-
             <button
               type="button"
               onClick={() => setMobileMenuOpen((prev) => !prev)}
@@ -378,3 +357,4 @@ export default function Navbar({
     </header>
   );
 }
+

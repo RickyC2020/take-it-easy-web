@@ -132,3 +132,4 @@ export default function ContactModal({ isOpen, onClose }) {
     </div>
   );
 }
+
