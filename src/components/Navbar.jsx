@@ -88,7 +88,7 @@ export default function Navbar({
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-brand-header/95 backdrop-blur-md border-b border-white/10 shadow-[0_6px_24px_rgba(16,32,34,0.16)] print:hidden transition-all">
+    <header className="bg-[#203030] bg-brand-header border-b border-white/10 shadow-[0_6px_24px_rgba(16,32,34,0.16)] print:hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-20 md:h-24 gap-4">
           {/* 1. Left: Brand Logo */}
@@ -183,7 +183,7 @@ export default function Navbar({
 
               {/* Dropdown Content */}
               {staffDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-56 rounded-2xl bg-[#0f241d] border border-white/15 shadow-2xl py-2 z-50 animate-fadeIn">
+                <div className="absolute right-0 mt-2 w-56 rounded-2xl bg-[#203030] border border-white/15 shadow-2xl py-2 z-50 animate-fadeIn">
                   <div className="px-3.5 py-1.5 border-b border-white/10 text-[11px] font-mono uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
                     <Lock className="w-3 h-3 text-amber-400" />
                     <span>Staff Counter Portal</span>
@@ -235,7 +235,7 @@ export default function Navbar({
 
       {/* 5. Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-white/10 bg-[#0d211a] px-4 pt-4 pb-6 space-y-4 shadow-2xl animate-fadeIn">
+        <div className="md:hidden border-t border-white/10 bg-[#203030] px-4 pt-4 pb-6 space-y-4 shadow-2xl animate-fadeIn">
           {/* Main Navigation Links */}
           <div className="space-y-1">
             <button
