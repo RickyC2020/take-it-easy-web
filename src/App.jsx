@@ -1051,12 +1051,22 @@ export default function App() {
         onOpenRentalInfo={() => setIsRentalInfoModalOpen(true)}
         onOpenMyBooking={() => setDrawerMode('bookings')}
         onOpenContact={() => {
-          const el = document.getElementById('contact-section');
-          if (el) {
-            el.scrollIntoView({ behavior: 'smooth' });
-          } else {
-            setIsContactModalOpen(true);
-          }
+          if (currentRoute !== 'home') navigateTo('/');
+          setTimeout(() => {
+            const el = document.getElementById('contact-section');
+            if (el) {
+              const headerEl = document.querySelector('header');
+              const headerHeight = headerEl ? headerEl.offsetHeight : 80;
+              const rect = el.getBoundingClientRect();
+              const targetScrollTop = window.pageYOffset + rect.top - headerHeight - 16;
+              window.scrollTo({
+                top: Math.max(0, targetScrollTop),
+                behavior: 'smooth'
+              });
+            } else {
+              setIsContactModalOpen(true);
+            }
+          }, 80);
         }}
         onOpenReturnPOS={() => {
           if (activeReturnBooking) openReturnDrawerFor(activeReturnBooking);

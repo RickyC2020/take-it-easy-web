@@ -6,8 +6,6 @@ import {
   ChevronDown,
   Wrench,
   FileCheck2,
-  Phone,
-  MessageCircle,
   Car,
   Compass,
   Info,
@@ -95,30 +93,57 @@ export default function Navbar({
   };
 
   const scrollToFleet = () => {
-    const el = document.getElementById('fleet-section');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    } else if (onNavigateFleet) {
-      onNavigateFleet();
-    }
+    setTimeout(() => {
+      const el = document.getElementById('fleet-section');
+      if (el) {
+        const headerEl = document.querySelector('header');
+        const headerHeight = headerEl ? headerEl.offsetHeight : 80;
+        const rect = el.getBoundingClientRect();
+        const targetScrollTop = window.pageYOffset + rect.top - headerHeight - 16;
+        window.scrollTo({
+          top: Math.max(0, targetScrollTop),
+          behavior: 'smooth'
+        });
+      } else if (onNavigateFleet) {
+        onNavigateFleet();
+      }
+    }, 60);
   };
 
   const scrollToTours = () => {
-    const el = document.getElementById('tour-packages-heading') || document.querySelector('[aria-labelledby="tour-packages-heading"]');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    } else if (onNavigateTours) {
-      onNavigateTours();
-    }
+    setTimeout(() => {
+      const el = document.getElementById('tour-packages-heading') || document.querySelector('[aria-labelledby="tour-packages-heading"]');
+      if (el) {
+        const headerEl = document.querySelector('header');
+        const headerHeight = headerEl ? headerEl.offsetHeight : 80;
+        const rect = el.getBoundingClientRect();
+        const targetScrollTop = window.pageYOffset + rect.top - headerHeight - 16;
+        window.scrollTo({
+          top: Math.max(0, targetScrollTop),
+          behavior: 'smooth'
+        });
+      } else if (onNavigateTours) {
+        onNavigateTours();
+      }
+    }, 60);
   };
 
   const scrollToContact = () => {
-    const el = document.getElementById('contact-section');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    } else if (onOpenContact) {
-      onOpenContact();
-    }
+    setTimeout(() => {
+      const el = document.getElementById('contact-section');
+      if (el) {
+        const headerEl = document.querySelector('header');
+        const headerHeight = headerEl ? headerEl.offsetHeight : 80;
+        const rect = el.getBoundingClientRect();
+        const targetScrollTop = window.pageYOffset + rect.top - headerHeight - 16;
+        window.scrollTo({
+          top: Math.max(0, targetScrollTop),
+          behavior: 'smooth'
+        });
+      } else if (onOpenContact) {
+        onOpenContact();
+      }
+    }, 60);
   };
 
   return (
@@ -357,47 +382,6 @@ export default function Navbar({
                 <FileCheck2 className="w-4 h-4 text-[#6BC47D]" />
                 <span>Contracts ({reservationsCount})</span>
               </button>
-            </div>
-          </div>
-
-          {/* Bottom Direct Quick Actions */}
-          <div className="pt-3 border-t border-white/10 space-y-2">
-            <a
-              href="https://wa.me/18767899051"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => setMobileMenuOpen(false)}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 text-white font-bold text-sm shadow-md cursor-pointer"
-            >
-              <MessageCircle className="w-4 h-4" />
-              <span>WhatsApp Direct (+1 876-789-9051)</span>
-            </a>
-
-            <div className="grid grid-cols-3 gap-1.5 text-center">
-              <a
-                href="tel:+18767899051"
-                onClick={() => setMobileMenuOpen(false)}
-                className="px-2 py-2 rounded-lg bg-white/[0.06] hover:bg-white/[0.12] text-white/90 text-xs font-mono flex items-center justify-center gap-1"
-              >
-                <Phone className="w-3 h-3 text-emerald-400" />
-                <span>789-9051</span>
-              </a>
-              <a
-                href="tel:+18768852355"
-                onClick={() => setMobileMenuOpen(false)}
-                className="px-2 py-2 rounded-lg bg-white/[0.06] hover:bg-white/[0.12] text-white/90 text-xs font-mono flex items-center justify-center gap-1"
-              >
-                <Phone className="w-3 h-3 text-emerald-400" />
-                <span>885-2355</span>
-              </a>
-              <a
-                href="tel:+18764426735"
-                onClick={() => setMobileMenuOpen(false)}
-                className="px-2 py-2 rounded-lg bg-white/[0.06] hover:bg-white/[0.12] text-white/90 text-xs font-mono flex items-center justify-center gap-1"
-              >
-                <Phone className="w-3 h-3 text-emerald-400" />
-                <span>442-6735</span>
-              </a>
             </div>
           </div>
         </div>
