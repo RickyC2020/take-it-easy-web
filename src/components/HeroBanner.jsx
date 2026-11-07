@@ -56,8 +56,8 @@ export default function HeroBanner({
                 >
                   {/* Card Eyebrow */}
                   <div className="flex items-center justify-between gap-2 mb-2 xl:mb-2.5">
-                    <span className="text-[11px] xl:text-xs 2xl:text-[13px] font-mono font-bold uppercase tracking-wide text-emerald-300 drop-shadow-xs truncate">
-                      GET INSTANT QUOTE | NO HIDDEN FEES
+                    <span className="text-xs xl:text-sm font-extrabold uppercase tracking-wider text-white drop-shadow-md truncate">
+                      GET INSTANT QUOTES | NO HIDDEN FEES
                     </span>
                     <span className="text-[11px] xl:text-xs font-mono font-bold px-2.5 py-0.5 xl:px-3 xl:py-1 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/35 backdrop-blur-md shadow-xs tracking-wide shrink-0">
                       {rentalDays} {rentalDays === 1 ? 'day' : 'days'}
@@ -209,8 +209,8 @@ export default function HeroBanner({
             <div className="rounded-2xl bg-white/[0.03] backdrop-blur-xs border border-white/15 p-4 shadow-xl text-white">
               {/* Card Eyebrow */}
               <div className="flex items-center justify-between gap-2 mb-3">
-                <span className="text-xs sm:text-sm font-mono font-bold uppercase tracking-wider text-emerald-300 drop-shadow-xs truncate">
-                  GET INSTANT QUOTE | NO HIDDEN FEES
+                <span className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-white drop-shadow-md truncate">
+                  GET INSTANT QUOTES | NO HIDDEN FEES
                 </span>
                 <span className="text-xs sm:text-sm font-mono font-bold px-3 py-1 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/35 backdrop-blur-md shadow-xs tracking-wide shrink-0">
                   {rentalDays} {rentalDays === 1 ? 'day' : 'days'}
