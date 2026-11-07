@@ -37,6 +37,9 @@ import TourPackages from './components/TourPackages';
 import WhatsAppWidget from './components/WhatsAppWidget';
 import PublicCheckoutModal from './components/PublicCheckoutModal';
 import HeroBanner from './components/HeroBanner';
+import Footer from './components/Footer';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfUse from './pages/TermsOfUse';
 
 // --- LOCATIONS & FLEET DATA ---
 const LOCATIONS = [
@@ -282,7 +285,6 @@ function formatExpiry(value) {
   return digits;
 }
 
-const CURRENT_YEAR = new Date().getFullYear();
 const DEFAULT_PICKUP_DATE = (() => {
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
@@ -358,6 +360,46 @@ const INITIAL_SAMPLE_RENTAL = {
 };
 
 export default function App() {
+  // Routing state for /privacy and /terms
+  const [currentRoute, setCurrentRoute] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const path = window.location.pathname.toLowerCase();
+      if (path === '/privacy' || path.startsWith('/privacy')) return 'privacy';
+      if (path === '/terms' || path.startsWith('/terms')) return 'terms';
+    }
+    return 'home';
+  });
+
+  useEffect(() => {
+    const handlePopState = () => {
+      const path = window.location.pathname.toLowerCase();
+      if (path === '/privacy' || path.startsWith('/privacy')) {
+        setCurrentRoute('privacy');
+      } else if (path === '/terms' || path.startsWith('/terms')) {
+        setCurrentRoute('terms');
+      } else {
+        setCurrentRoute('home');
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const navigateTo = (path) => {
+    window.history.pushState({}, '', path);
+    const normalized = path.toLowerCase();
+    if (normalized.startsWith('/privacy')) {
+      setCurrentRoute('privacy');
+    } else if (normalized.startsWith('/terms')) {
+      setCurrentRoute('terms');
+    } else {
+      setCurrentRoute('home');
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   // Phase 1: Acquisition & Sticky Search Strip State
   const [acquisitionChannel] = useState(ACQUISITION_CHANNELS[0].id);
   const [locationId, setLocationId] = useState('MBJ');
@@ -947,6 +989,23 @@ export default function App() {
   const depositRefund = Math.max(0, returnDepositAmount - returnEffectiveCost);
   const excessPosDraw = Math.max(0, returnEffectiveCost - returnDepositAmount);
 
+  if (currentRoute === 'privacy') {
+    return (
+      <PrivacyPolicy
+        onNavigateHome={() => navigateTo('/')}
+        backLabel={guestCheckoutVehicle ? '← Return to Checkout' : 'Back to Home'}
+      />
+    );
+  }
+  if (currentRoute === 'terms') {
+    return (
+      <TermsOfUse
+        onNavigateHome={() => navigateTo('/')}
+        backLabel={guestCheckoutVehicle ? '← Return to Checkout' : 'Back to Home'}
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen print:min-h-0 glass-canvas print:bg-white text-brand-ink flex flex-col">
       {/* =========================================================
@@ -1389,14 +1448,9 @@ export default function App() {
       </main>
 
       {/* =========================================================
-          MINIMAL FOOTER
+          FOOTER WITH LEGAL & REGULATORY LINKS
          ========================================================= */}
-      <footer className="glass-bar border-t mt-auto print:hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-sm text-slate-600">
-          <span>© {CURRENT_YEAR} Take It Easy Car Rental. All rates in USD.</span>
-
-        </div>
-      </footer>
+      <Footer onNavigate={navigateTo} />
 
       {/* =========================================================
           INLINE RIGHT-HAND WORKFLOW DRAWER

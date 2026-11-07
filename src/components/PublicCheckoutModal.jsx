@@ -15,6 +15,8 @@ import {
 import { TOUR_PACKAGES } from '../data/tourPackages';
 import SignaturePad from './SignaturePad';
 import CheckoutPayment from './CheckOutPayment';
+import PrivacyPolicy from '../pages/PrivacyPolicy';
+import TermsOfUse from '../pages/TermsOfUse';
 
 const COUNTRIES = [
   'United States',
@@ -53,6 +55,7 @@ export default function PublicCheckoutModal({
 
   const [currentStep, setCurrentStep] = useState(1);
   const [stepError, setStepError] = useState('');
+  const [previewDoc, setPreviewDoc] = useState(null); // 'terms' | 'privacy' | null
 
   // Step 1 State — Customer Info (persisted across all Back/Next transitions)
   const [customerInfo, setCustomerInfo] = useState({
@@ -1008,9 +1011,53 @@ export default function PublicCheckoutModal({
                       className="w-5 h-5 mt-0.5 sm:mt-0 rounded accent-emerald-800 shrink-0 disabled:cursor-not-allowed cursor-pointer"
                     />
                     <span className="text-xs sm:text-sm font-semibold text-gray-900 leading-snug">
-                      I have read, understood, and accept all rental terms, fuel replacement rules, and the ${depositAmount} USD card deposit hold conditions.
+                      I have read and agree to the{' '}
+                      <a
+                        href="/terms"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          setPreviewDoc('terms');
+                        }}
+                        className="text-emerald-800 underline hover:text-emerald-950 font-bold cursor-pointer"
+                      >
+                        Terms of Use
+                      </a>{' '}
+                      and{' '}
+                      <a
+                        href="/privacy"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          setPreviewDoc('privacy');
+                        }}
+                        className="text-emerald-800 underline hover:text-emerald-950 font-bold cursor-pointer"
+                      >
+                        Privacy Policy
+                      </a>
+                      , including fuel replacement rules and the ${depositAmount} USD card deposit hold conditions.
                     </span>
                   </label>
+
+                  {/* Non-destructive quick preview action bar */}
+                  <div className="flex items-center gap-2 text-xs text-gray-500 font-mono px-1">
+                    <span>Quick Preview (No page reload):</span>
+                    <button
+                      type="button"
+                      onClick={() => setPreviewDoc('terms')}
+                      className="text-emerald-800 hover:text-emerald-950 underline font-medium cursor-pointer"
+                    >
+                      [View Terms of Use]
+                    </button>
+                    <span>•</span>
+                    <button
+                      type="button"
+                      onClick={() => setPreviewDoc('privacy')}
+                      className="text-emerald-800 hover:text-emerald-950 underline font-medium cursor-pointer"
+                    >
+                      [View Privacy Policy]
+                    </button>
+                  </div>
 
                   {/* Digital Signature Box (Type Full Name or Draw Signature) */}
                   <div className="space-y-2.5">
@@ -1145,6 +1192,39 @@ export default function PublicCheckoutModal({
           )}
         </div>
       </div>
+
+      {/* Quick Non-Destructive In-Modal Preview for Terms of Use or Privacy Policy */}
+      {previewDoc && (
+        <div className="fixed inset-0 z-[80] flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm animate-fade-in">
+          <div className="relative w-full max-w-4xl max-h-[90vh] bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col border border-gray-200">
+            <div className="p-3.5 sm:p-4 border-b border-gray-200 flex items-center justify-between bg-slate-50 gap-3 shrink-0">
+              <span className="font-bold text-gray-900 text-sm sm:text-base truncate">
+                {previewDoc === 'terms' ? 'Terms of Use & Rental Guidelines' : 'Privacy Policy & Data Protection (JDPA 2020)'}
+              </span>
+              <button
+                type="button"
+                onClick={() => setPreviewDoc(null)}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-bold bg-emerald-800 hover:bg-emerald-900 text-white transition-colors cursor-pointer shrink-0 shadow-xs"
+              >
+                <span>← Back to Step 3</span>
+              </button>
+            </div>
+            <div className="overflow-y-auto">
+              {previewDoc === 'terms' ? (
+                <TermsOfUse
+                  onNavigateHome={() => setPreviewDoc(null)}
+                  backLabel="← Back to Step 3 (Rental Agreement)"
+                />
+              ) : (
+                <PrivacyPolicy
+                  onNavigateHome={() => setPreviewDoc(null)}
+                  backLabel="← Back to Step 3 (Rental Agreement)"
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
