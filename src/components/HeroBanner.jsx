@@ -29,12 +29,12 @@ export default function HeroBanner({
         <div className="relative rounded-xl overflow-hidden bg-transparent">
           {/* =========================================================
               HERO BANNER ARTWORK
-              - Native 1024x374 widescreen aspect ratio (Full Resolution)
+              - Native 1024x374 widescreen aspect ratio (Full Image Visible, Zero Crop)
               - "A Yah Suh Nice!" script + Pearl-white Mazda CX-5 (TIE plate)
              ========================================================= */}
-          <div className="relative aspect-[1024/374] min-h-[240px] sm:min-h-[280px] lg:min-h-[374px] xl:min-h-0 w-full select-none overflow-hidden">
+          <div className="relative aspect-[1024/374] w-full select-none overflow-hidden">
             <img
-              src="/hero-banner.jpg?v=9"
+              src="/hero-banner.jpg?v=10"
               alt="Take It Easy Car Rentals - A Yah Suh Nice! Pearl white Mazda CX-5 with TIE plate driving on Jamaica's coastal highway beside the turquoise sea"
               className="w-full h-full object-cover"
             />
@@ -47,18 +47,18 @@ export default function HeroBanner({
             {/* =========================================================
                 DESKTOP OVERLAY: GLASSMORPHIC SEARCH CARD (SPANS BANNER HEIGHT)
                ========================================================= */}
-            <div className="hidden lg:flex absolute inset-y-0 right-0 z-10 w-full max-w-[470px] xl:max-w-[520px] p-2.5 xl:p-3.5">
+            <div className="hidden lg:flex absolute inset-y-0 right-0 z-10 w-full max-w-[430px] xl:max-w-[480px] 2xl:max-w-[500px] p-2 xl:p-3">
               {/* Ultra-Transparent Glassmorphic Card Spanning Full Height */}
               <div
                 id="hero-search-card"
-                className="w-full h-full rounded-2xl bg-black/[0.04] hover:bg-black/[0.08] backdrop-blur-xs border border-white/20 p-3.5 xl:p-5 shadow-[0_8px_32px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.25)] text-white flex flex-col justify-between transition-all"
+                className="w-full h-full rounded-2xl bg-black/[0.04] hover:bg-black/[0.08] backdrop-blur-xs border border-white/20 p-3 xl:p-4 shadow-[0_8px_32px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.25)] text-white flex flex-col justify-between transition-all"
               >
                 {/* 1. Noticeable Heading */}
-                <div className="flex items-center justify-between gap-3 border-b border-white/15 pb-2.5 xl:pb-3">
-                  <h2 className="text-sm xl:text-base 2xl:text-lg font-black tracking-wider uppercase text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] leading-tight truncate">
+                <div className="flex items-center justify-between gap-2.5 border-b border-white/15 pb-2 xl:pb-2.5">
+                  <h2 className="text-xs xl:text-sm font-black tracking-wider uppercase text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] leading-tight truncate">
                     GET INSTANT QUOTES <span className="text-emerald-300 font-bold">|</span> NO HIDDEN FEES
                   </h2>
-                  <span className="text-[11px] xl:text-xs font-mono font-bold px-2.5 py-0.5 xl:px-3 xl:py-1 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/35 backdrop-blur-md shadow-xs tracking-wide shrink-0">
+                  <span className="text-[10px] xl:text-xs font-mono font-bold px-2 py-0.5 xl:px-2.5 xl:py-1 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/35 backdrop-blur-md shadow-xs tracking-wide shrink-0">
                     {rentalDays} {rentalDays === 1 ? 'day' : 'days'}
                   </span>
                 </div>
@@ -192,7 +192,7 @@ export default function HeroBanner({
                 <button
                   type="button"
                   onClick={onBookCar}
-                  className="w-full min-h-[44px] xl:min-h-[48px] px-4 py-2.5 rounded-xl bg-black/[0.06] hover:bg-black/[0.14] backdrop-blur-xs border border-white/25 hover:border-white/40 active:scale-[0.98] text-white font-extrabold text-xs xl:text-sm tracking-wider uppercase shadow-[0_4px_20px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.25)] flex items-center justify-center transition-all cursor-pointer"
+                  className="w-full min-h-[40px] xl:min-h-[46px] px-4 py-2.5 rounded-xl bg-black/[0.06] hover:bg-black/[0.14] backdrop-blur-xs border border-white/25 hover:border-white/40 active:scale-[0.98] text-white font-extrabold text-xs xl:text-sm tracking-wider uppercase shadow-[0_4px_20px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.25)] flex items-center justify-center transition-all cursor-pointer"
                 >
                   <span>SEARCH</span>
                 </button>
