@@ -118,15 +118,32 @@ export default function HeroBanner({
                   </div>
 
                   {/* 3. Pickup Date & Time */}
-                  <div className="p-2.5 xl:p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/15 transition-colors flex flex-col justify-center">
-                    <label
-                      htmlFor="hero-desktop-pickup-date"
-                      className="flex items-center gap-1.5 font-mono text-xs xl:text-[13px] uppercase tracking-wider text-emerald-300 mb-1 font-bold drop-shadow-xs"
-                    >
-                      <Calendar className="w-4 h-4 text-emerald-400 shrink-0" />
-                      <span>Pickup Date &amp; Time</span>
-                    </label>
-                    <div className="flex items-center gap-2">
+                  <div className="p-2.5 xl:p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/15 transition-colors flex flex-col justify-between">
+                    <div className="flex items-center justify-between gap-1 mb-1">
+                      <label
+                        htmlFor="hero-desktop-pickup-date"
+                        className="flex items-center gap-1.5 font-mono text-xs xl:text-[13px] uppercase tracking-wider text-emerald-300 font-bold drop-shadow-xs truncate"
+                      >
+                        <Calendar className="w-4 h-4 text-emerald-400 shrink-0" />
+                        <span>Pickup Date</span>
+                      </label>
+                      <div className="flex items-center gap-1 bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 px-2 py-0.5 rounded-md shrink-0">
+                        <Clock className="w-3 h-3 text-emerald-400 shrink-0" />
+                        <select
+                          aria-label="Pickup Time"
+                          value={pickupTime}
+                          onChange={(e) => setPickupTime?.(e.target.value)}
+                          className="bg-transparent text-xs font-mono font-bold text-white focus:outline-none cursor-pointer"
+                        >
+                          {timeSlots.map((slot) => (
+                            <option key={slot} value={slot} className="bg-[#1b2b2b] text-white">
+                              {slot}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                    <div className="relative flex items-center min-w-0">
                       <input
                         id="hero-desktop-pickup-date"
                         type="date"
@@ -134,34 +151,38 @@ export default function HeroBanner({
                         min={minPickupDate}
                         onChange={(e) => onPickupDateChange?.(e.target.value)}
                         style={{ colorScheme: 'dark' }}
-                        className="w-full bg-transparent text-sm xl:text-base font-bold text-white tabular-nums focus:outline-none cursor-pointer"
+                        className="w-full min-w-0 bg-transparent text-sm xl:text-base font-bold text-white tabular-nums focus:outline-none cursor-pointer"
                       />
-                      <span className="h-4 w-px bg-white/20 shrink-0" />
-                      <select
-                        aria-label="Pickup Time"
-                        value={pickupTime}
-                        onChange={(e) => setPickupTime?.(e.target.value)}
-                        className="bg-transparent text-xs xl:text-sm font-mono font-bold text-white focus:outline-none cursor-pointer shrink-0"
-                      >
-                        {timeSlots.map((slot) => (
-                          <option key={slot} value={slot} className="bg-[#1b2b2b] text-white">
-                            {slot}
-                          </option>
-                        ))}
-                      </select>
                     </div>
                   </div>
 
                   {/* 4. Return Date & Time */}
-                  <div className="p-2.5 xl:p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/15 transition-colors flex flex-col justify-center">
-                    <label
-                      htmlFor="hero-desktop-return-date"
-                      className="flex items-center gap-1.5 font-mono text-xs xl:text-[13px] uppercase tracking-wider text-amber-300 mb-1 font-bold drop-shadow-xs"
-                    >
-                      <Clock className="w-4 h-4 text-amber-400 shrink-0" />
-                      <span>Return Date &amp; Time</span>
-                    </label>
-                    <div className="flex items-center gap-2">
+                  <div className="p-2.5 xl:p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/15 transition-colors flex flex-col justify-between">
+                    <div className="flex items-center justify-between gap-1 mb-1">
+                      <label
+                        htmlFor="hero-desktop-return-date"
+                        className="flex items-center gap-1.5 font-mono text-xs xl:text-[13px] uppercase tracking-wider text-amber-300 font-bold drop-shadow-xs truncate"
+                      >
+                        <Clock className="w-4 h-4 text-amber-400 shrink-0" />
+                        <span>Return Date</span>
+                      </label>
+                      <div className="flex items-center gap-1 bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 px-2 py-0.5 rounded-md shrink-0">
+                        <Clock className="w-3 h-3 text-amber-400 shrink-0" />
+                        <select
+                          aria-label="Return Time"
+                          value={returnTime}
+                          onChange={(e) => setReturnTime?.(e.target.value)}
+                          className="bg-transparent text-xs font-mono font-bold text-white focus:outline-none cursor-pointer"
+                        >
+                          {timeSlots.map((slot) => (
+                            <option key={slot} value={slot} className="bg-[#1b2b2b] text-white">
+                              {slot}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                    <div className="relative flex items-center min-w-0">
                       <input
                         id="hero-desktop-return-date"
                         type="date"
@@ -169,21 +190,8 @@ export default function HeroBanner({
                         min={minReturnDate}
                         onChange={(e) => onReturnDateChange?.(e.target.value)}
                         style={{ colorScheme: 'dark' }}
-                        className="w-full bg-transparent text-sm xl:text-base font-bold text-white tabular-nums focus:outline-none cursor-pointer"
+                        className="w-full min-w-0 bg-transparent text-sm xl:text-base font-bold text-white tabular-nums focus:outline-none cursor-pointer"
                       />
-                      <span className="h-4 w-px bg-white/20 shrink-0" />
-                      <select
-                        aria-label="Return Time"
-                        value={returnTime}
-                        onChange={(e) => setReturnTime?.(e.target.value)}
-                        className="bg-transparent text-xs xl:text-sm font-mono font-bold text-white focus:outline-none cursor-pointer shrink-0"
-                      >
-                        {timeSlots.map((slot) => (
-                          <option key={slot} value={slot} className="bg-[#1b2b2b] text-white">
-                            {slot}
-                          </option>
-                        ))}
-                      </select>
                     </div>
                   </div>
                 </div>
@@ -270,15 +278,32 @@ export default function HeroBanner({
                 </div>
 
                 {/* 3. Pickup Date & Time */}
-                <div className="p-3 rounded-xl bg-white/[0.02] border border-white/10">
-                  <label
-                    htmlFor="hero-mobile-pickup-date"
-                    className="flex items-center gap-1.5 font-mono text-xs sm:text-[13px] uppercase tracking-wider text-emerald-300 mb-1 font-bold"
-                  >
-                    <Calendar className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Pickup Date &amp; Time</span>
-                  </label>
-                  <div className="flex items-center gap-2 min-h-[42px]">
+                <div className="p-3 rounded-xl bg-white/[0.02] border border-white/10 flex flex-col justify-between">
+                  <div className="flex items-center justify-between gap-1 mb-1">
+                    <label
+                      htmlFor="hero-mobile-pickup-date"
+                      className="flex items-center gap-1.5 font-mono text-xs sm:text-[13px] uppercase tracking-wider text-emerald-300 font-bold truncate"
+                    >
+                      <Calendar className="w-4 h-4 text-emerald-400 shrink-0" />
+                      <span>Pickup Date</span>
+                    </label>
+                    <div className="flex items-center gap-1 bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 px-2 py-0.5 rounded-md shrink-0">
+                      <Clock className="w-3 h-3 text-emerald-400 shrink-0" />
+                      <select
+                        aria-label="Mobile Pickup Time"
+                        value={pickupTime}
+                        onChange={(e) => setPickupTime?.(e.target.value)}
+                        className="bg-transparent text-xs font-mono font-bold text-white focus:outline-none cursor-pointer"
+                      >
+                        {timeSlots.map((slot) => (
+                          <option key={slot} value={slot} className="bg-[#1b2b2b] text-white">
+                            {slot}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="relative flex items-center min-w-0 min-h-[42px]">
                     <input
                       id="hero-mobile-pickup-date"
                       type="date"
@@ -286,34 +311,38 @@ export default function HeroBanner({
                       min={minPickupDate}
                       onChange={(e) => onPickupDateChange?.(e.target.value)}
                       style={{ colorScheme: 'dark' }}
-                      className="min-h-[42px] w-full bg-transparent text-base font-bold text-white tabular-nums focus:outline-none cursor-pointer"
+                      className="min-h-[42px] w-full min-w-0 bg-transparent text-base font-bold text-white tabular-nums focus:outline-none cursor-pointer"
                     />
-                    <span className="h-4 w-px bg-white/20 shrink-0" />
-                    <select
-                      aria-label="Mobile Pickup Time"
-                      value={pickupTime}
-                      onChange={(e) => setPickupTime?.(e.target.value)}
-                      className="min-h-[42px] bg-transparent text-sm font-mono font-bold text-white focus:outline-none cursor-pointer shrink-0"
-                    >
-                      {timeSlots.map((slot) => (
-                        <option key={slot} value={slot} className="bg-[#1b2b2b] text-white">
-                          {slot}
-                        </option>
-                      ))}
-                    </select>
                   </div>
                 </div>
 
                 {/* 4. Return Date & Time */}
-                <div className="p-3 rounded-xl bg-white/[0.02] border border-white/10">
-                  <label
-                    htmlFor="hero-mobile-return-date"
-                    className="flex items-center gap-1.5 font-mono text-xs sm:text-[13px] uppercase tracking-wider text-amber-300 mb-1 font-bold"
-                  >
-                    <Clock className="w-4 h-4 text-amber-400 shrink-0" />
-                    <span>Return Date &amp; Time</span>
-                  </label>
-                  <div className="flex items-center gap-2 min-h-[42px]">
+                <div className="p-3 rounded-xl bg-white/[0.02] border border-white/10 flex flex-col justify-between">
+                  <div className="flex items-center justify-between gap-1 mb-1">
+                    <label
+                      htmlFor="hero-mobile-return-date"
+                      className="flex items-center gap-1.5 font-mono text-xs sm:text-[13px] uppercase tracking-wider text-amber-300 font-bold truncate"
+                    >
+                      <Clock className="w-4 h-4 text-amber-400 shrink-0" />
+                      <span>Return Date</span>
+                    </label>
+                    <div className="flex items-center gap-1 bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 px-2 py-0.5 rounded-md shrink-0">
+                      <Clock className="w-3 h-3 text-amber-400 shrink-0" />
+                      <select
+                        aria-label="Mobile Return Time"
+                        value={returnTime}
+                        onChange={(e) => setReturnTime?.(e.target.value)}
+                        className="bg-transparent text-xs font-mono font-bold text-white focus:outline-none cursor-pointer"
+                      >
+                        {timeSlots.map((slot) => (
+                          <option key={slot} value={slot} className="bg-[#1b2b2b] text-white">
+                            {slot}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="relative flex items-center min-w-0 min-h-[42px]">
                     <input
                       id="hero-mobile-return-date"
                       type="date"
@@ -321,21 +350,8 @@ export default function HeroBanner({
                       min={minReturnDate}
                       onChange={(e) => onReturnDateChange?.(e.target.value)}
                       style={{ colorScheme: 'dark' }}
-                      className="min-h-[42px] w-full bg-transparent text-base font-bold text-white tabular-nums focus:outline-none cursor-pointer"
+                      className="min-h-[42px] w-full min-w-0 bg-transparent text-base font-bold text-white tabular-nums focus:outline-none cursor-pointer"
                     />
-                    <span className="h-4 w-px bg-white/20 shrink-0" />
-                    <select
-                      aria-label="Mobile Return Time"
-                      value={returnTime}
-                      onChange={(e) => setReturnTime?.(e.target.value)}
-                      className="min-h-[42px] bg-transparent text-sm font-mono font-bold text-white focus:outline-none cursor-pointer shrink-0"
-                    >
-                      {timeSlots.map((slot) => (
-                        <option key={slot} value={slot} className="bg-[#1b2b2b] text-white">
-                          {slot}
-                        </option>
-                      ))}
-                    </select>
                   </div>
                 </div>
               </div>
