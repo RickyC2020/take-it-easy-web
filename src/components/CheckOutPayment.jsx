@@ -210,14 +210,9 @@ export default function CheckoutPayment({
            ========================================================= */}
                 <aside className="w-full md:w-5/12 bg-white rounded-xl shadow-sm border border-gray-100 p-6 space-y-5">
                     <div className="flex items-center justify-between border-b border-gray-100 pb-4">
-                        <div>
-                            <span className="text-xs font-mono font-semibold uppercase tracking-wider text-emerald-800 block">
-                                Reservation Overview
-                            </span>
-                            <h2 className="text-lg sm:text-xl font-bold text-gray-900 mt-0.5">
-                                Booking Summary
-                            </h2>
-                        </div>
+                        <h2 className="text-lg sm:text-xl font-bold text-gray-900 mt-0.5">
+                            Booking Summary
+                        </h2>
                         <span className="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-900 border border-emerald-200/70 text-xs font-semibold">
                             {rentalDays} {rentalDays === 1 ? 'Day' : 'Days'}
                         </span>
@@ -338,14 +333,9 @@ export default function CheckoutPayment({
 
                     {/* Highlighted Total to Authorize */}
                     <div className="bg-emerald-50 border border-emerald-200/80 rounded-xl p-4 flex items-center justify-between gap-3">
-                        <div>
-                            <span className="text-emerald-900 font-bold text-sm sm:text-base block">
-                                Total to Authorize
-                            </span>
-                            <span className="text-xs text-emerald-800/80">
-                                Pre-authorization hold only
-                            </span>
-                        </div>
+                        <span className="text-emerald-900 font-bold text-sm sm:text-base block">
+                            TOTAL
+                        </span>
                         <div className="text-right">
                             <span className="text-2xl font-black text-emerald-900 font-mono tabular-nums">
                                 ${totalToAuthorize.toLocaleString()}
@@ -360,23 +350,15 @@ export default function CheckoutPayment({
            ========================================================= */}
                 <section className="w-full md:w-7/12 bg-white rounded-xl shadow-sm border border-gray-100 p-6 sm:p-7">
                     <div className="border-b border-gray-100 pb-4 mb-6">
-                        <span className="text-xs font-mono font-semibold uppercase tracking-wider text-emerald-800 block">
-                            Step 4 of 4 · Secure Payment Authorization
-                        </span>
                         <h2 className="text-xl font-bold text-gray-900 mt-0.5">
                             Guest Details &amp; Payment
                         </h2>
-                        <p className="text-sm text-gray-500 mt-1">
-                            Confirm your contact details below and enter your test card information to complete authorization.
-                        </p>
                     </div>
 
                     <form onSubmit={handlePaymentSubmit} className="space-y-6" noValidate>
                         {/* Guest Information Inputs */}
                         <div className="space-y-4">
-                            <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-gray-500">
-                                Guest Information
-                            </h3>
+
 
                             <div>
                                 <label

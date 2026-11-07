@@ -33,10 +33,10 @@ const COUNTRIES = [
 ];
 
 const WIZARD_STEPS = [
-  { id: 1, shortLabel: 'Customer Info', subtitle: 'Guest & Arrival Details' },
-  { id: 2, shortLabel: 'Check Sheet', subtitle: 'Pre-Inspection Baseline' },
-  { id: 3, shortLabel: 'Contract', subtitle: 'Digital Rental Agreement' },
-  { id: 4, shortLabel: 'Payment', subtitle: 'Authorize Reservation' }
+  { id: 1, shortLabel: 'Customer Info' },
+  { id: 2, shortLabel: 'Check Sheet' },
+  { id: 3, shortLabel: 'Contract' },
+  { id: 4, shortLabel: 'Payment' }
 ];
 
 export default function PublicCheckoutModal({
@@ -270,33 +270,36 @@ export default function PublicCheckoutModal({
                       type="button"
                       onClick={() => goToStep(step.id)}
                       aria-current={isActive ? 'step' : undefined}
-                      className={`min-h-[54px] px-2 sm:px-4 py-2.5 text-left transition-all cursor-pointer flex items-center gap-2 sm:gap-3 relative ${
-                        isActive
-                          ? 'bg-white text-emerald-900'
-                          : isCompleted
-                            ? 'bg-emerald-50/50 text-emerald-900 hover:bg-emerald-50'
-                            : 'text-gray-400 hover:text-gray-600 hover:bg-gray-50'
-                      }`}
+                      className={`min-h-[54px] px-2 sm:px-4 py-2.5 text-left transition-all cursor-pointer flex items-center gap-2 sm:gap-3 relative ${isActive
+                        ? 'bg-white text-emerald-900'
+                        : isCompleted
+                          ? 'bg-emerald-50/50 text-emerald-900 hover:bg-emerald-50'
+                          : 'text-gray-400 hover:text-gray-600 hover:bg-gray-50'
+                        }`}
                     >
                       <span
-                        className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full text-xs font-mono font-bold flex items-center justify-center shrink-0 transition-colors ${
-                          isActive
-                            ? 'bg-emerald-900 text-white shadow-xs'
-                            : isCompleted
-                              ? 'bg-emerald-700 text-white'
-                              : 'bg-gray-200/80 text-gray-500'
-                        }`}
+                        className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full text-xs font-mono font-bold flex items-center justify-center shrink-0 transition-colors ${isActive
+                          ? 'bg-emerald-900 text-white shadow-xs'
+                          : isCompleted
+                            ? 'bg-emerald-700 text-white'
+                            : 'bg-gray-200/80 text-gray-500'
+                          }`}
                       >
                         {isCompleted ? <Check className="w-3.5 h-3.5 stroke-[2.5]" /> : step.id}
                       </span>
 
                       <div className="min-w-0">
-                        <span className="block text-xs sm:text-sm font-bold truncate leading-tight">
+                        <span className="hidden sm:block text-xs sm:text-sm font-bold truncate leading-tight">
                           {step.shortLabel}
                         </span>
-                        <span className="hidden md:block text-[11px] text-gray-500 truncate mt-0.5">
-                          {step.subtitle}
+                        <span className="sm:hidden block text-[11px] font-bold truncate leading-tight">
+                          {step.id === 1 ? 'Info' : step.id === 2 ? 'Sheet' : step.shortLabel}
                         </span>
+                        {step.subtitle && (
+                          <span className="hidden md:block text-[11px] text-gray-500 truncate mt-0.5">
+                            {step.subtitle}
+                          </span>
+                        )}
                       </div>
 
                       {isActive && (
@@ -386,30 +389,10 @@ export default function PublicCheckoutModal({
                  ========================================================= */}
               {currentStep === 1 && (
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 sm:p-8 space-y-7">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-100 pb-5">
-                    <div>
-                      <span className="text-xs font-mono font-semibold uppercase tracking-wider text-emerald-800 block">
-                        Step 1 of 4 · Customer Info
-                      </span>
-                      <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mt-0.5">
-                        Tell Us About Your Arrival
-                      </h3>
-                      <p className="text-sm text-gray-500 mt-1">
-                        We use your WhatsApp and flight details to stage your {vehicle.name} right on time.
-                      </p>
-                    </div>
-
-                    <div className="rounded-xl bg-emerald-50 border border-emerald-200/70 px-4 py-2.5 text-left sm:text-right shrink-0">
-                      <span className="text-[11px] font-mono uppercase text-emerald-800 block">
-                        Est. Rental + Add-Ons
-                      </span>
-                      <span className="text-lg font-black font-mono text-emerald-900 tabular-nums">
-                        ${(rentalSubtotal + toursSubtotal).toLocaleString()} USD
-                      </span>
-                      <span className="block text-[11px] text-emerald-800/80">
-                        + ${depositAmount} refundable deposit
-                      </span>
-                    </div>
+                  <div className="flex items-center justify-between gap-3 border-b border-gray-100 pb-4 sm:pb-5">
+                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mt-0.5">
+                      Enter Basic Information
+                    </h3>
                   </div>
 
                   {/* Customer Info Form Grid */}
@@ -533,11 +516,10 @@ export default function PublicCheckoutModal({
                         return (
                           <div
                             key={tour.id}
-                            className={`rounded-xl border p-3.5 flex flex-col justify-between gap-3 transition-all bg-white ${
-                              isAdded
-                                ? 'border-emerald-700 ring-2 ring-emerald-700/15'
-                                : 'border-gray-200 hover:border-gray-300'
-                            }`}
+                            className={`rounded-xl border p-3.5 flex flex-col justify-between gap-3 transition-all bg-white ${isAdded
+                              ? 'border-emerald-700 ring-2 ring-emerald-700/15'
+                              : 'border-gray-200 hover:border-gray-300'
+                              }`}
                           >
                             <div className="flex items-start gap-3">
                               <img
@@ -564,11 +546,10 @@ export default function PublicCheckoutModal({
                             <button
                               type="button"
                               onClick={() => onToggleTour && onToggleTour(tour)}
-                              className={`w-full min-h-[44px] px-3 py-2 rounded-lg text-xs sm:text-sm font-bold inline-flex items-center justify-center gap-1.5 transition-colors cursor-pointer ${
-                                isAdded
-                                  ? 'bg-emerald-900 text-white hover:bg-emerald-800'
-                                  : 'bg-amber-500/15 hover:bg-amber-500/25 text-amber-950 border border-amber-400/60'
-                              }`}
+                              className={`w-full min-h-[44px] px-3 py-2 rounded-lg text-xs sm:text-sm font-bold inline-flex items-center justify-center gap-1.5 transition-colors cursor-pointer ${isAdded
+                                ? 'bg-emerald-900 text-white hover:bg-emerald-800'
+                                : 'bg-amber-500/15 hover:bg-amber-500/25 text-amber-950 border border-amber-400/60'
+                                }`}
                             >
                               {isAdded ? (
                                 <>
@@ -606,16 +587,10 @@ export default function PublicCheckoutModal({
                  ========================================================= */}
               {currentStep === 2 && (
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 sm:p-8 space-y-6">
-                  <div className="border-b border-gray-100 pb-5">
-                    <span className="text-xs font-mono font-semibold uppercase tracking-wider text-emerald-800 block">
-                      Step 2 of 4 · Customer Pre-Inspection Baseline
-                    </span>
+                  <div className="border-b border-gray-100 pb-4 sm:pb-5">
                     <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mt-0.5">
-                      Vehicle Condition &amp; Pickup Walk-Around Standards
+                      Verify Vehicle Condition with Agent
                     </h3>
-                    <p className="text-sm text-gray-500 mt-1">
-                      Review what is guaranteed before your keys are handed over—no surprises on return.
-                    </p>
                   </div>
 
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -625,12 +600,10 @@ export default function PublicCheckoutModal({
                         <div className="flex items-center gap-2">
                           <Car className="w-4 h-4 text-emerald-800" />
                           <h4 className="text-sm font-bold text-gray-900 uppercase tracking-wide font-mono">
-                            4-Zone Condition Standard
+                            What to Check For?
                           </h4>
                         </div>
-                        <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-900 text-xs font-semibold">
-                          Pre-Checked Ready
-                        </span>
+
                       </div>
 
                       {/* Clean Visual Top-Down Inspection Diagram */}
@@ -793,7 +766,7 @@ export default function PublicCheckoutModal({
                               2
                             </span>
                             <span>
-                              Complete a quick <strong>5-minute joint walk-around</strong> of Zones 1–4 and feel free to capture a personal walk-around clip on your phone.
+                              Complete a quick <strong>5-minute joint walk-around</strong> of Zones 1–4 and feel free to capture a personal walk-around video on your phone.
                             </span>
                           </li>
                           <li className="flex items-start gap-2.5">
@@ -812,11 +785,10 @@ export default function PublicCheckoutModal({
                   {/* Customer Acknowledgment Checkbox */}
                   <label
                     htmlFor="customer-checksheet-ack"
-                    className={`min-h-[56px] rounded-xl border p-4 flex items-start sm:items-center gap-3.5 cursor-pointer transition-all select-none ${
-                      checkSheetAgreed
-                        ? 'bg-emerald-50/90 border-emerald-700 ring-2 ring-emerald-700/15'
-                        : 'bg-gray-50 border-gray-200 hover:border-emerald-700/50'
-                    }`}
+                    className={`min-h-[56px] rounded-xl border p-4 flex items-start sm:items-center gap-3.5 cursor-pointer transition-all select-none ${checkSheetAgreed
+                      ? 'bg-emerald-50/90 border-emerald-700 ring-2 ring-emerald-700/15'
+                      : 'bg-gray-50 border-gray-200 hover:border-emerald-700/50'
+                      }`}
                   >
                     <input
                       id="customer-checksheet-ack"
@@ -859,23 +831,10 @@ export default function PublicCheckoutModal({
                  ========================================================= */}
               {currentStep === 3 && (
                 <div className="bg-white rounded-2xl shadow-md border-2 border-slate-200/80 p-6 sm:p-8 space-y-6">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-100 pb-5">
-                    <div>
-                      <span className="text-xs font-mono font-bold uppercase tracking-wider text-emerald-800 block">
-                        Step 3 of 4 · Digital Rental Agreement
-                      </span>
-                      <h3 className="text-xl sm:text-2xl font-black text-gray-900 mt-0.5 tracking-tight">
-                        Review &amp; Sign Your Rental Contract
-                      </h3>
-                      <p className="text-sm text-gray-600 mt-1">
-                        Please review the official rental terms below and sign digitally before proceeding to payment.
-                      </p>
-                    </div>
-
-                    <div className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-emerald-50 border border-emerald-200 text-xs font-mono text-emerald-900 font-semibold self-start sm:self-auto">
-                      <FileCheck2 className="w-4 h-4 text-emerald-700 shrink-0" />
-                      <span>Renter: {customerInfo.fullName || 'Guest'}</span>
-                    </div>
+                  <div className="flex items-center justify-between gap-3 border-b border-gray-100 pb-4 sm:pb-5">
+                    <h3 className="text-xl sm:text-2xl font-black text-gray-900 mt-0.5 tracking-tight">
+                      Review &amp; Sign Your Rental Contract
+                    </h3>
                   </div>
 
                   {/* High-Visibility Official Rental Agreement Box */}
@@ -890,9 +849,7 @@ export default function PublicCheckoutModal({
                           <span className="font-bold text-white text-xs sm:text-sm tracking-wide block">
                             OFFICIAL DIGITAL RENTAL AGREEMENT
                           </span>
-                          <span className="text-[10.5px] font-mono text-emerald-200/80">
-                            Take It Easy Car Rentals &amp; Tours · JDPA 2020 Compliant
-                          </span>
+
                         </div>
                       </div>
 
@@ -900,14 +857,11 @@ export default function PublicCheckoutModal({
                         {hasScrolledToBottom ? (
                           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-500 text-white font-bold text-xs shadow-xs">
                             <Check className="w-3.5 h-3.5 text-white stroke-[3]" />
-                            <span>✓ Agreement fully reviewed</span>
+                            <span>Agreement fully reviewed</span>
                           </span>
                         ) : (
                           <>
-                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-amber-400 text-slate-950 font-bold text-xs shadow-xs animate-pulse">
-                              <AlertCircle className="w-3.5 h-3.5 text-slate-950 shrink-0" />
-                              <span>Scroll to bottom to unlock</span>
-                            </span>
+
                             <button
                               type="button"
                               onClick={scrollToContractEnd}
@@ -1017,13 +971,12 @@ export default function PublicCheckoutModal({
                   {/* Mandatory Terms Acknowledgment Checkbox (Enforced by Scroll) */}
                   <label
                     htmlFor="contract-terms-ack"
-                    className={`min-h-[56px] rounded-xl border-2 p-4 flex items-start sm:items-center gap-3.5 transition-all select-none ${
-                      !hasScrolledToBottom
-                        ? 'opacity-60 cursor-not-allowed bg-slate-50 border-slate-200 text-slate-500'
-                        : contractTermsAgreed
-                          ? 'bg-emerald-50/90 border-emerald-700 ring-4 ring-emerald-700/15 shadow-sm cursor-pointer'
-                          : 'bg-white border-emerald-600/50 hover:border-emerald-700 hover:bg-emerald-50/30 shadow-xs cursor-pointer'
-                    }`}
+                    className={`min-h-[56px] rounded-xl border-2 p-4 flex items-start sm:items-center gap-3.5 transition-all select-none ${!hasScrolledToBottom
+                      ? 'opacity-60 cursor-not-allowed bg-slate-50 border-slate-200 text-slate-500'
+                      : contractTermsAgreed
+                        ? 'bg-emerald-50/90 border-emerald-700 ring-4 ring-emerald-700/15 shadow-sm cursor-pointer'
+                        : 'bg-white border-emerald-600/50 hover:border-emerald-700 hover:bg-emerald-50/30 shadow-xs cursor-pointer'
+                      }`}
                   >
                     <input
                       id="contract-terms-ack"
@@ -1066,33 +1019,13 @@ export default function PublicCheckoutModal({
                     </span>
                   </label>
 
-                  {/* Non-destructive quick preview action bar */}
-                  <div className="flex items-center gap-2 text-xs text-gray-500 font-mono px-1">
-                    <span>Quick Preview (No page reload):</span>
-                    <button
-                      type="button"
-                      onClick={() => setPreviewDoc('terms')}
-                      className="text-emerald-800 hover:text-emerald-950 underline font-medium cursor-pointer"
-                    >
-                      [View Terms of Use]
-                    </button>
-                    <span>•</span>
-                    <button
-                      type="button"
-                      onClick={() => setPreviewDoc('privacy')}
-                      className="text-emerald-800 hover:text-emerald-950 underline font-medium cursor-pointer"
-                    >
-                      [View Privacy Policy]
-                    </button>
-                  </div>
+
 
                   {/* Digital Signature Box (Type Full Name or Draw Signature) */}
                   <div className="space-y-2.5">
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <div className="flex items-center gap-2">
-                        <span className="text-sm font-bold text-gray-900">
-                          Digital Renter Signature <span className="text-red-500">*</span>
-                        </span>
+
                         {hasScrolledToBottom ? (
                           <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs font-semibold">
                             <span>✓ Agreement viewed in full</span>
@@ -1123,11 +1056,10 @@ export default function PublicCheckoutModal({
                             setSigFillVersion((v) => v + 1);
                             if (stepError) setStepError('');
                           }}
-                          className={`text-xs font-semibold transition-colors ${
-                            !hasScrolledToBottom
-                              ? 'opacity-50 cursor-not-allowed text-gray-400'
-                              : 'text-emerald-800 hover:text-emerald-950 underline cursor-pointer'
-                          }`}
+                          className={`text-xs font-semibold transition-colors ${!hasScrolledToBottom
+                            ? 'opacity-50 cursor-not-allowed text-gray-400'
+                            : 'text-emerald-800 hover:text-emerald-950 underline cursor-pointer'
+                            }`}
                         >
                           Quick-fill &ldquo;{customerInfo.fullName.trim()}&rdquo;
                         </button>
@@ -1165,11 +1097,10 @@ export default function PublicCheckoutModal({
                     <button
                       type="button"
                       onClick={() => goToStep(4)}
-                      className={`min-h-[50px] px-7 py-3 rounded-xl font-bold text-base shadow-sm transition-all ${
-                        !hasScrolledToBottom
-                          ? 'opacity-50 cursor-not-allowed bg-gray-300 text-gray-700'
-                          : 'bg-emerald-900 hover:bg-emerald-800 active:scale-[0.99] text-white cursor-pointer'
-                      }`}
+                      className={`min-h-[50px] px-7 py-3 rounded-xl font-bold text-base shadow-sm transition-all ${!hasScrolledToBottom
+                        ? 'opacity-50 cursor-not-allowed bg-gray-300 text-gray-700'
+                        : 'bg-emerald-900 hover:bg-emerald-800 active:scale-[0.99] text-white cursor-pointer'
+                        }`}
                     >
                       Agree &amp; Proceed to Payment →
                     </button>
@@ -1233,19 +1164,19 @@ export default function PublicCheckoutModal({
                 onClick={() => setPreviewDoc(null)}
                 className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-bold bg-emerald-800 hover:bg-emerald-900 text-white transition-colors cursor-pointer shrink-0 shadow-xs"
               >
-                <span>← Back to Step 3</span>
+                <span>Back to Step 3</span>
               </button>
             </div>
             <div className="overflow-y-auto">
               {previewDoc === 'terms' ? (
                 <TermsOfUse
                   onNavigateHome={() => setPreviewDoc(null)}
-                  backLabel="← Back to Step 3 (Rental Agreement)"
+                  backLabel="Back to Step 3 (Rental Agreement)"
                 />
               ) : (
                 <PrivacyPolicy
                   onNavigateHome={() => setPreviewDoc(null)}
-                  backLabel="← Back to Step 3 (Rental Agreement)"
+                  backLabel="Back to Step 3 (Rental Agreement)"
                 />
               )}
             </div>

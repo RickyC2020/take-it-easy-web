@@ -32,7 +32,7 @@ export default function HeroBanner({
               - Native 1024x317 ultra-panoramic widescreen aspect ratio
               - "A Yah Suh Nice!" script + Pearl-white Mazda CX-5
              ========================================================= */}
-          <div className="relative aspect-[1024/317] w-full select-none overflow-hidden">
+          <div className="relative aspect-[1024/317] min-h-[220px] sm:min-h-[260px] lg:min-h-[330px] xl:min-h-0 w-full select-none overflow-hidden">
             <img
               src="/hero-banner.jpg?v=6"
               alt="Take It Easy Car Rentals - A Yah Suh Nice! Pearl white Mazda CX-5 driving on Jamaica's coastal highway beside the turquoise sea"
@@ -50,22 +50,19 @@ export default function HeroBanner({
             {/* =========================================================
                 DESKTOP OVERLAY: GLASSMORPHIC SEARCH CARD (RIGHT SIDE)
                ========================================================= */}
-            <div className="hidden lg:flex absolute inset-y-0 right-0 z-10 items-center justify-end p-4 xl:p-6 w-full max-w-[480px] xl:max-w-[520px]">
+            <div className="hidden lg:flex absolute inset-y-0 right-0 z-10 items-center justify-end p-3.5 xl:p-6 w-full max-w-[470px] xl:max-w-[510px]">
               <div className="w-full">
                 {/* Ultra-Transparent Glassmorphic Card */}
                 <div
                   id="hero-search-card"
-                  className="rounded-2xl bg-black/[0.15] hover:bg-black/[0.20] backdrop-blur-md border border-white/20 p-3.5 xl:p-4 shadow-[0_8px_32px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.25)] text-white transition-all"
+                  className="rounded-2xl bg-black/[0.15] hover:bg-black/[0.20] backdrop-blur-md border border-white/20 p-3 xl:p-4 shadow-[0_8px_32px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.25)] text-white transition-all"
                 >
                   {/* Card Eyebrow */}
-                  <div className="flex items-center justify-between mb-2.5">
-                    <div className="flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                      <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-emerald-300 drop-shadow-xs">
-                        Reserve Your Ride
-                      </span>
-                    </div>
-                    <span className="text-xs sm:text-sm font-mono font-bold px-3 py-1 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/35 backdrop-blur-md shadow-xs tracking-wide">
+                  <div className="flex items-center justify-between gap-2 mb-2 xl:mb-2.5">
+                    <span className="text-[11px] xl:text-xs 2xl:text-[13px] font-mono font-bold uppercase tracking-wide text-emerald-300 drop-shadow-xs truncate">
+                      GET INSTANT QUOTE | NO HIDDEN FEES
+                    </span>
+                    <span className="text-[11px] xl:text-xs font-mono font-bold px-2.5 py-0.5 xl:px-3 xl:py-1 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/35 backdrop-blur-md shadow-xs tracking-wide shrink-0">
                       {rentalDays} {rentalDays === 1 ? 'day' : 'days'}
                     </span>
                   </div>
@@ -202,7 +199,7 @@ export default function HeroBanner({
                   onClick={onBookCar}
                   className="w-full mt-2.5 min-h-[44px] px-4 py-2.5 rounded-xl bg-black/[0.15] hover:bg-black/[0.25] backdrop-blur-md border border-white/25 hover:border-white/40 active:scale-[0.98] text-white font-extrabold text-xs xl:text-sm tracking-wider uppercase shadow-[0_8px_24px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.25)] flex items-center justify-center transition-all cursor-pointer"
                 >
-                  <span>GET INSTANT QUOTE, NO HIDDEN FEES</span>
+                  <span>SEARCH</span>
                 </button>
               </div>
             </div>
@@ -214,14 +211,11 @@ export default function HeroBanner({
           <div className="lg:hidden p-4 sm:p-5 bg-gradient-to-b from-[#192b2d] to-[#122224]">
             <div className="rounded-2xl bg-white/[0.05] backdrop-blur-md border border-white/15 p-4 shadow-xl text-white">
               {/* Card Eyebrow */}
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                  <span className="text-xs font-mono font-bold uppercase tracking-wider text-emerald-300">
-                    Find Your Rental Vehicle
-                  </span>
-                </div>
-                <span className="text-sm font-mono font-bold px-3.5 py-1 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/35 backdrop-blur-md shadow-xs tracking-wide">
+              <div className="flex items-center justify-between gap-2 mb-3">
+                <span className="text-xs sm:text-sm font-mono font-bold uppercase tracking-wider text-emerald-300 drop-shadow-xs truncate">
+                  GET INSTANT QUOTE | NO HIDDEN FEES
+                </span>
+                <span className="text-xs sm:text-sm font-mono font-bold px-3 py-1 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/35 backdrop-blur-md shadow-xs tracking-wide shrink-0">
                   {rentalDays} {rentalDays === 1 ? 'day' : 'days'}
                 </span>
               </div>
@@ -358,7 +352,7 @@ export default function HeroBanner({
               onClick={onBookCar}
               className="w-full mt-3 min-h-[48px] px-5 py-3 rounded-xl bg-white/[0.10] hover:bg-white/[0.18] backdrop-blur-md border border-white/25 active:scale-[0.98] text-white font-extrabold text-sm sm:text-base tracking-wider uppercase shadow-xl flex items-center justify-center cursor-pointer transition-all"
             >
-              <span>GET INSTANT QUOTE, NO HIDDEN FEES</span>
+              <span>SEARCH</span>
             </button>
           </div>
         </div>

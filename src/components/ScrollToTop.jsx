@@ -42,3 +42,4 @@ export default function ScrollToTop({ threshold = 280 }) {
     </button>
   );
 }
+
