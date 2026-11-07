@@ -1,11 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import {
-  MapPin,
   Search,
   Pencil,
-  Calendar,
-  Clock,
-  Car,
   Users,
   Gauge,
   Briefcase,
@@ -21,7 +17,6 @@ import {
   Lock,
   Sparkles,
   SlidersHorizontal,
-  ChevronDown,
   FileCheck2,
   Video,
   Camera,
@@ -544,7 +539,7 @@ export default function App() {
 
   const handleExpandCompactSearch = () => {
     manualExpandScrollYRef.current = window.scrollY;
-    setIsCompact(false);
+    document.getElementById('hero-search-card')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   useEffect(() => {
@@ -1071,201 +1066,66 @@ export default function App() {
       />
 
       {/* =========================================================
-          HERO BANNER SECTION (ADVENTURE TRACKER)
+          HERO BANNER & REPOSITIONED GLASSMORPHIC SEARCH
          ========================================================= */}
-      <HeroBanner />
+      <HeroBanner
+        locationId={locationId}
+        setLocationId={setLocationId}
+        pickupDate={pickupDate}
+        pickupTime={pickupTime}
+        setPickupTime={setPickupTime}
+        returnDate={returnDate}
+        returnTime={returnTime}
+        setReturnTime={setReturnTime}
+        rentalDays={rentalDays}
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+        locations={LOCATIONS}
+        timeSlots={TIME_SLOTS}
+        categories={CATEGORIES}
+        minPickupDate={DEFAULT_PICKUP_DATE}
+        minReturnDate={addDays(pickupDate, 1)}
+        onPickupDateChange={handlePickupDateChange}
+        onReturnDateChange={handleReturnDateChange}
+        onBookCar={() => {
+          document.getElementById('fleet-section')?.scrollIntoView({ behavior: 'smooth' });
+        }}
+      />
 
       {/* =========================================================
-          PERSISTENT STICKY SEARCH STRIP (MOBILE SCROLL-TRIGGERED COMPACT VIEW)
+          PERSISTENT STICKY SEARCH SUMMARY (SCROLL-TRIGGERED COMPACT VIEW)
          ========================================================= */}
       <div ref={searchAnchorRef} aria-hidden="true" />
       <div
-        onClick={isCompact ? handleExpandCompactSearch : undefined}
-        className={`sticky top-0 z-50 transition-colors duration-300 print:hidden ${
+        onClick={handleExpandCompactSearch}
+        className={`sticky top-0 z-30 transition-all duration-300 print:hidden ${
           isCompact
-            ? 'bg-white/95 backdrop-blur-md shadow-md border-b border-brand-ink/10 cursor-pointer md:glass-bar md:border-y md:shadow-none md:cursor-default'
-            : 'glass-bar border-y'
+            ? 'bg-white/95 backdrop-blur-md shadow-md border-b border-brand-ink/10 cursor-pointer block'
+            : 'hidden'
         }`}
       >
-        {/* Slim Sticky Mobile Compact Summary Row */}
-        <div
-          aria-hidden={!isCompact}
-          inert={!isCompact || undefined}
-          className={`md:hidden grid transition-all duration-300 ease-out ${
-            isCompact
-              ? 'grid-rows-[1fr] opacity-100'
-              : 'grid-rows-[0fr] opacity-0 pointer-events-none'
-          }`}
-        >
-          <div className="overflow-hidden">
-            <div className="px-4 py-3">
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleExpandCompactSearch();
-                }}
-                aria-label="Expand search form to edit pickup location or dates"
-                className="w-full min-h-[44px] flex items-center justify-between gap-3 text-left cursor-pointer group"
-              >
-                <div className="flex items-center gap-2.5 min-w-0">
-                  <span className="w-9 h-9 rounded-full bg-brand-palm/10 border border-brand-palm/25 flex items-center justify-center shrink-0 text-brand-palm">
-                    <Search className="w-4 h-4" />
-                  </span>
-                  <span className="text-sm font-semibold text-brand-ink truncate">
-                    {selectedLocation.compactName} • {formatShortDate(pickupDate)} –{' '}
-                    {formatShortDate(returnDate)}
-                  </span>
-                </div>
-
-                <span className="w-9 h-9 rounded-xl border border-brand-ink/15 bg-brand-canvas/90 flex items-center justify-center shrink-0 text-brand-palm">
-                  <Pencil className="w-4 h-4" />
-                </span>
-              </button>
-            </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <span className="w-8 h-8 rounded-full bg-brand-palm/10 border border-brand-palm/25 flex items-center justify-center shrink-0 text-brand-palm">
+              <Search className="w-4 h-4" />
+            </span>
+            <span className="text-xs sm:text-sm font-semibold text-brand-ink truncate">
+              {selectedLocation.compactName} • {formatShortDate(pickupDate)} –{' '}
+              {formatShortDate(returnDate)} ({rentalDays} {rentalDays === 1 ? 'day' : 'days'})
+            </span>
           </div>
-        </div>
 
-        {/* Full Expanded Search Grid */}
-        <div
-          aria-hidden={isCompact}
-          inert={isCompact || undefined}
-          className={`grid transition-all duration-300 ease-out md:grid-rows-[1fr] md:opacity-100 md:pointer-events-auto ${
-            isCompact
-              ? 'grid-rows-[0fr] opacity-0 pointer-events-none'
-              : 'grid-rows-[1fr] opacity-100'
-          }`}
-        >
-          <div className="overflow-hidden">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 divide-y sm:divide-y-0 sm:divide-x divide-brand-ink/10 border-x border-white/65">
-            {/* 1. Pickup Location */}
-            <div className="lg:col-span-4 px-4 py-3 hover:bg-white/45 transition-colors">
-              <label
-                htmlFor="search-location"
-                className="flex items-center gap-2 text-xs sm:text-[13px] font-mono font-medium uppercase tracking-wider text-slate-600 mb-1"
-              >
-                <MapPin className="w-4 h-4 text-brand-teal" />
-                Pickup Airport / Office
-              </label>
-              <div className="relative flex items-center min-h-[44px]">
-                <select
-                  id="search-location"
-                  value={locationId}
-                  onChange={(e) => setLocationId(e.target.value)}
-                  className="w-full min-h-[44px] appearance-none bg-transparent pr-7 text-base font-semibold text-brand-ink focus:outline-none cursor-pointer truncate"
-                >
-                  {LOCATIONS.map((loc) => (
-                    <option key={loc.id} value={loc.id}>
-                      {loc.name}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown className="w-4 h-4 text-slate-500 pointer-events-none absolute right-0" />
-              </div>
-            </div>
-
-            {/* 2. Pickup Date & Time */}
-            <div className="lg:col-span-3 px-4 py-3 hover:bg-white/45 transition-colors">
-              <label
-                htmlFor="search-pickup-date"
-                className="flex items-center gap-2 text-xs sm:text-[13px] font-mono font-medium uppercase tracking-wider text-slate-600 mb-1"
-              >
-                <Calendar className="w-4 h-4 text-brand-teal" />
-                Pickup Date & Time
-              </label>
-              <div className="flex items-center gap-2.5 min-h-[44px]">
-                <input
-                  id="search-pickup-date"
-                  type="date"
-                  value={pickupDate}
-                  min={DEFAULT_PICKUP_DATE}
-                  onChange={(e) => handlePickupDateChange(e.target.value)}
-                  className="min-h-[44px] bg-transparent text-base font-semibold text-brand-ink tabular-nums focus:outline-none cursor-pointer min-w-0 flex-1"
-                />
-                <span className="h-5 w-px bg-brand-ink/15 shrink-0" />
-                <select
-                  aria-label="Pickup time"
-                  value={pickupTime}
-                  onChange={(e) => setPickupTime(e.target.value)}
-                  className="min-h-[44px] bg-transparent text-base font-mono font-medium text-slate-700 focus:outline-none cursor-pointer shrink-0"
-                >
-                  {TIME_SLOTS.map((slot) => (
-                    <option key={slot} value={slot}>
-                      {slot}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            {/* 3. Return Date */}
-            <div className="lg:col-span-3 px-4 py-3 hover:bg-white/45 transition-colors">
-              <div className="flex items-center justify-between mb-1">
-                <label
-                  htmlFor="search-return-date"
-                  className="flex items-center gap-2 text-xs sm:text-[13px] font-mono font-medium uppercase tracking-wider text-slate-600"
-                >
-                  <Clock className="w-4 h-4 text-brand-teal" />
-                  Return Date
-                </label>
-                <span className="text-xs font-mono font-semibold text-brand-amber-ink bg-brand-amber-soft/80 border border-brand-amber-border/80 backdrop-blur-xs px-2 py-0.5 rounded-md tabular-nums">
-                  {rentalDays} {rentalDays === 1 ? 'day' : 'days'}
-                </span>
-              </div>
-              <div className="flex items-center gap-2.5 min-h-[44px]">
-                <input
-                  id="search-return-date"
-                  type="date"
-                  value={returnDate}
-                  min={addDays(pickupDate, 1)}
-                  onChange={(e) => handleReturnDateChange(e.target.value)}
-                  className="min-h-[44px] bg-transparent text-base font-semibold text-brand-ink tabular-nums focus:outline-none cursor-pointer min-w-0 flex-1"
-                />
-                <span className="h-5 w-px bg-brand-ink/15 shrink-0" />
-                <select
-                  aria-label="Return time"
-                  value={returnTime}
-                  onChange={(e) => setReturnTime(e.target.value)}
-                  className="min-h-[44px] bg-transparent text-base font-mono font-medium text-slate-700 focus:outline-none cursor-pointer shrink-0"
-                >
-                  {TIME_SLOTS.map((slot) => (
-                    <option key={slot} value={slot}>
-                      {slot}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            {/* 4. Car Category */}
-            <div className="lg:col-span-2 px-4 py-3 hover:bg-white/45 transition-colors flex flex-col justify-center">
-              <label
-                htmlFor="search-category"
-                className="flex items-center gap-2 text-xs sm:text-[13px] font-mono font-medium uppercase tracking-wider text-slate-600 mb-1"
-              >
-                <Car className="w-4 h-4 text-brand-teal" />
-                Car Category
-              </label>
-              <div className="relative flex items-center min-h-[44px]">
-                <select
-                  id="search-category"
-                  value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="w-full min-h-[44px] appearance-none bg-transparent pr-7 text-base font-semibold text-brand-ink focus:outline-none cursor-pointer"
-                >
-                  {CATEGORIES.map((cat) => (
-                    <option key={cat.id} value={cat.id}>
-                      {cat.label}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown className="w-4 h-4 text-slate-500 pointer-events-none absolute right-0" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleExpandCompactSearch();
+            }}
+            className="px-3 py-1.5 rounded-lg border border-brand-ink/15 bg-brand-canvas/90 hover:bg-brand-palm hover:text-white transition-colors text-xs font-semibold text-brand-palm flex items-center gap-1.5 shrink-0 cursor-pointer"
+          >
+            <Pencil className="w-3.5 h-3.5" />
+            <span>Edit Search</span>
+          </button>
         </div>
       </div>
 
