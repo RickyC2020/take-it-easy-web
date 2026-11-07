@@ -38,6 +38,10 @@ import WhatsAppWidget from './components/WhatsAppWidget';
 import PublicCheckoutModal from './components/PublicCheckoutModal';
 import HeroBanner from './components/HeroBanner';
 import Footer from './components/Footer';
+import Navbar from './components/Navbar';
+import ContactSection from './components/ContactSection';
+import ContactModal from './components/ContactModal';
+import RentalInfoModal from './components/RentalInfoModal';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfUse from './pages/TermsOfUse';
 
@@ -425,6 +429,8 @@ export default function App() {
   const [guestCheckoutVehicle, setGuestCheckoutVehicle] = useState(null);
   const [formError, setFormError] = useState('');
   const [successNotification, setSuccessNotification] = useState(null);
+  const [isRentalInfoModalOpen, setIsRentalInfoModalOpen] = useState(false);
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
   // --- PHASE 2 STATE: OFFICE DOCUMENTATION & APPLICATION ---
   const [sendViaWhatsApp, setSendViaWhatsApp] = useState(true);
@@ -1029,44 +1035,40 @@ export default function App() {
       )}
 
       {/* =========================================================
-          TOP UTILITY HEADER
+          TOP NAVIGATION BAR & STAFF PORTAL
          ========================================================= */}
-      <header className="bg-brand-header border-b border-white/10 shadow-[0_6px_24px_rgba(16,32,34,0.16)] print:hidden">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between md:px-6 md:py-4 md:gap-6">
-          <div className="px-4 py-3.5 md:p-0 flex items-center justify-center sm:justify-start min-w-0">
-            <img
-              src="/logo.jpg?v=4"
-              alt="Take It Easy Car Rentals & Tours"
-              className="block h-auto max-h-16 sm:max-h-20 md:max-h-20 lg:max-h-28 w-auto max-w-full select-none"
-            />
-          </div>
-
-          <div className="px-4 py-2.5 border-t border-white/12 md:border-t-0 md:p-0 grid grid-cols-2 md:flex items-center gap-2.5 shrink-0">
-            <button
-              type="button"
-              onClick={() => {
-                if (activeReturnBooking) openReturnDrawerFor(activeReturnBooking);
-              }}
-              className="min-h-[44px] inline-flex items-center justify-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl border border-white/22 bg-white/[0.08] hover:bg-white/[0.15] hover:border-white/38 backdrop-blur-md shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_4px_12px_rgba(0,0,0,0.18)] text-sm sm:text-base font-medium text-white transition-all cursor-pointer"
-            >
-              <Wrench className="w-4 h-4 text-[#66C7BF] shrink-0" />
-              <span>Return & POS</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setDrawerMode('bookings')}
-              className="min-h-[44px] inline-flex items-center justify-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl border border-white/22 bg-white/[0.08] hover:bg-white/[0.15] hover:border-white/38 backdrop-blur-md shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_4px_12px_rgba(0,0,0,0.18)] text-sm sm:text-base font-medium text-white transition-all cursor-pointer"
-            >
-              <FileCheck2 className="w-4 h-4 text-[#6BC47D] shrink-0" />
-              <span>Contracts</span>
-              <span className="px-2 py-0.5 rounded-md font-mono text-xs tabular-nums bg-brand-palm/90 border border-white/25 text-white">
-                {reservations.length}
-              </span>
-            </button>
-          </div>
-        </div>
-      </header>
+      <Navbar
+        onNavigateFleet={() => {
+          if (currentRoute !== 'home') navigateTo('/');
+          setTimeout(() => {
+            document.getElementById('fleet-section')?.scrollIntoView({ behavior: 'smooth' });
+          }, 50);
+        }}
+        onNavigateTours={() => {
+          if (currentRoute !== 'home') navigateTo('/');
+          setTimeout(() => {
+            const el =
+              document.getElementById('tour-packages-heading') ||
+              document.querySelector('[aria-labelledby="tour-packages-heading"]');
+            el?.scrollIntoView({ behavior: 'smooth' });
+          }, 50);
+        }}
+        onOpenRentalInfo={() => setIsRentalInfoModalOpen(true)}
+        onOpenMyBooking={() => setDrawerMode('bookings')}
+        onOpenContact={() => {
+          const el = document.getElementById('contact-section');
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth' });
+          } else {
+            setIsContactModalOpen(true);
+          }
+        }}
+        onOpenReturnPOS={() => {
+          if (activeReturnBooking) openReturnDrawerFor(activeReturnBooking);
+        }}
+        onOpenContracts={() => setDrawerMode('bookings')}
+        reservationsCount={reservations.length}
+      />
 
       {/* =========================================================
           HERO BANNER SECTION (ADVENTURE TRACKER)
@@ -1270,7 +1272,7 @@ export default function App() {
       {/* =========================================================
           MAIN FLEET GRID WITH INSTANT SPECS & PRICE BREAKDOWN
          ========================================================= */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-8 print:hidden">
+      <main id="fleet-section" className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-8 print:hidden scroll-mt-20">
         {/* Category Filter Tabs & Sort */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3.5 pb-5 border-b border-brand-ink/10">
           <div className="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0">
@@ -1446,6 +1448,11 @@ export default function App() {
         />
 
       </main>
+
+      {/* =========================================================
+          CONTACT TAKE IT EASY SECTION
+         ========================================================= */}
+      <ContactSection />
 
       {/* =========================================================
           FOOTER WITH LEGAL & REGULATORY LINKS
@@ -2907,6 +2914,19 @@ export default function App() {
           onClose={() => setDossierBooking(null)}
         />
       )}
+
+      {/* =========================================================
+          RENTAL INFORMATION & CONTACT MODALS
+         ========================================================= */}
+      <RentalInfoModal
+        isOpen={isRentalInfoModalOpen}
+        onClose={() => setIsRentalInfoModalOpen(false)}
+      />
+
+      <ContactModal
+        isOpen={isContactModalOpen}
+        onClose={() => setIsContactModalOpen(false)}
+      />
 
       {/* Floating WhatsApp Support Widget */}
       <WhatsAppWidget />

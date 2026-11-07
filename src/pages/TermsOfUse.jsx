@@ -236,7 +236,7 @@ export default function TermsOfUse({ onNavigateHome, backLabel = 'Back to Home' 
                 <strong>Ensure Safety:</strong> Pull over to a safe area, activate hazard lights, and confirm all occupants are secure.
               </li>
               <li>
-                <strong>Call 24/7 Island-Wide Support:</strong> Contact Take It Easy dispatch immediately via our 24/7 hotline or WhatsApp at <strong>+1 (876) 555-EASY</strong>.
+                <strong>Call 24/7 Island-Wide Support:</strong> Contact Take It Easy dispatch immediately via our 24/7 hotline or WhatsApp at <a href="tel:+18767899051" className="font-bold underline text-emerald-700">876-789-9051</a>, <a href="tel:+18768852355" className="font-bold underline text-emerald-700">876-885-2355</a>, or <a href="tel:+18764426735" className="font-bold underline text-emerald-700">876-442-6735</a> (Director: Andray Williams).
               </li>
               <li>
                 <strong>Police Notification:</strong> Under Jamaican law, any motor vehicle collision involving another party, property damage, or bodily injury must be reported to the <strong>Jamaica Constabulary Force (JCF)</strong> within twenty-four (24) hours. Obtain the investigating officer&apos;s name and police incident report number.
@@ -267,8 +267,11 @@ export default function TermsOfUse({ onNavigateHome, backLabel = 'Back to Home' 
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4 p-6 rounded-2xl bg-slate-900 text-white">
             <div>
               <p className="font-bold text-white text-base">Questions regarding our rental terms?</p>
+              <p className="text-xs text-slate-300 mt-1">
+                Take It Easy Car Rentals &amp; Tours • Director: Andray Williams
+              </p>
               <p className="text-xs text-slate-300 mt-0.5">
-                Our Montego Bay airport counter team is available 24/7 via WhatsApp or telephone.
+                Email: <a href="mailto:takeiteasycarrentals@gmail.com" className="text-amber-400 underline">takeiteasycarrentals@gmail.com</a> • WhatsApp / Tel: <a href="tel:+18767899051" className="text-amber-400 underline">876-789-9051</a> · <a href="tel:+18768852355" className="text-amber-400 underline">876-885-2355</a> · <a href="tel:+18764426735" className="text-amber-400 underline">876-442-6735</a>
               </p>
             </div>
             <button
