@@ -28,19 +28,38 @@ export default function Navbar({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [staffDropdownOpen, setStaffDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const mobileMenuRef = useRef(null);
+  const hamburgerBtnRef = useRef(null);
 
-  // Close dropdown on outside click
+  // Close dropdown and mobile menu on outside tap / click (supports touch and mouse)
   useEffect(() => {
-    function handleClickOutside(event) {
+    function handlePointerDown(event) {
+      // 1. Close staff dropdown if tapped outside
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setStaffDropdownOpen(false);
       }
-    }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
 
-  // Close mobile menu on ESC
+      // 2. Close mobile menu if tapped outside drawer and outside hamburger toggle
+      if (
+        mobileMenuOpen &&
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target) &&
+        hamburgerBtnRef.current &&
+        !hamburgerBtnRef.current.contains(event.target)
+      ) {
+        setMobileMenuOpen(false);
+      }
+    }
+
+    document.addEventListener('pointerdown', handlePointerDown);
+    document.addEventListener('touchstart', handlePointerDown, { passive: true });
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown);
+      document.removeEventListener('touchstart', handlePointerDown);
+    };
+  }, [mobileMenuOpen]);
+
+  // Close menus on ESC
   useEffect(() => {
     function handleKeyDown(e) {
       if (e.key === 'Escape') {
@@ -50,6 +69,21 @@ export default function Navbar({
     }
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  // Close mobile menu on resize to desktop (>= 1024px) or device orientation change
+  useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth >= 1024) {
+        setMobileMenuOpen(false);
+      }
+    }
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('orientationchange', () => setMobileMenuOpen(false));
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('orientationchange', () => setMobileMenuOpen(false));
+    };
   }, []);
 
   const handleNavAction = (action) => {
@@ -88,7 +122,7 @@ export default function Navbar({
   };
 
   return (
-    <header className="bg-[#203030] bg-brand-header border-b border-white/10 shadow-[0_6px_24px_rgba(16,32,34,0.16)] print:hidden">
+    <header className="relative z-40 bg-[#203030] bg-brand-header border-b border-white/10 shadow-[0_6px_24px_rgba(16,32,34,0.16)] print:hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-20 md:h-24 gap-4">
           {/* 1. Left: Brand Logo */}
@@ -110,7 +144,7 @@ export default function Navbar({
             </a>
           </div>
 
-          {/* 2. Center: Desktop Navigation Tabs */}
+          {/* 2. Center: Desktop Navigation Tabs (Visible on lg: >= 1024px) */}
           <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
             <button
               type="button"
@@ -158,8 +192,8 @@ export default function Navbar({
             </button>
           </nav>
 
-          {/* 3. Right-Side Actions (Desktop) */}
-          <div className="hidden md:flex items-center gap-3 shrink-0">
+          {/* 3. Right-Side Actions (Desktop: Visible on lg: >= 1024px) */}
+          <div className="hidden lg:flex items-center gap-3 shrink-0">
             {/* Staff Dropdown Menu */}
             <div className="relative" ref={dropdownRef}>
               <button
@@ -218,9 +252,10 @@ export default function Navbar({
             </div>
           </div>
 
-          {/* 4. Mobile Hamburger Button */}
-          <div className="flex items-center gap-2 md:hidden">
+          {/* 4. Hamburger Toggle Button (Visible on < lg: < 1024px, including mobile landscape & tablets) */}
+          <div className="flex items-center gap-2 lg:hidden">
             <button
+              ref={hamburgerBtnRef}
               type="button"
               onClick={() => setMobileMenuOpen((prev) => !prev)}
               aria-expanded={mobileMenuOpen}
@@ -233,9 +268,22 @@ export default function Navbar({
         </div>
       </div>
 
-      {/* 5. Mobile Drawer Menu */}
+      {/* 5. Mobile Backdrop Overlay: Tapping anywhere outside drawer on touch screens closes it */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-white/10 bg-[#203030] px-4 pt-4 pb-6 space-y-4 shadow-2xl animate-fadeIn">
+        <div
+          className="fixed inset-0 top-20 md:top-24 bg-black/60 backdrop-blur-xs z-30 lg:hidden animate-fadeIn"
+          onClick={() => setMobileMenuOpen(false)}
+          onTouchStart={() => setMobileMenuOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
+      {/* 6. Mobile Drawer Menu (< lg: < 1024px) */}
+      {mobileMenuOpen && (
+        <div
+          ref={mobileMenuRef}
+          className="relative z-40 lg:hidden border-t border-white/10 bg-[#203030] px-4 pt-4 pb-6 space-y-4 shadow-2xl animate-fadeIn max-h-[calc(100vh-5rem)] overflow-y-auto"
+        >
           {/* Main Navigation Links */}
           <div className="space-y-1">
             <button
@@ -357,4 +405,3 @@ export default function Navbar({
     </header>
   );
 }
-
