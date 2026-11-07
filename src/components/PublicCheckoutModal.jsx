@@ -858,48 +858,60 @@ export default function PublicCheckoutModal({
                   STEP 3: CONTRACT (STANDALONE DIGITAL RENTAL AGREEMENT)
                  ========================================================= */}
               {currentStep === 3 && (
-                <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 sm:p-8 space-y-6">
+                <div className="bg-white rounded-2xl shadow-md border-2 border-slate-200/80 p-6 sm:p-8 space-y-6">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-100 pb-5">
                     <div>
-                      <span className="text-xs font-mono font-semibold uppercase tracking-wider text-emerald-800 block">
+                      <span className="text-xs font-mono font-bold uppercase tracking-wider text-emerald-800 block">
                         Step 3 of 4 · Digital Rental Agreement
                       </span>
-                      <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mt-0.5">
+                      <h3 className="text-xl sm:text-2xl font-black text-gray-900 mt-0.5 tracking-tight">
                         Review &amp; Sign Your Rental Contract
                       </h3>
-                      <p className="text-sm text-gray-500 mt-1">
-                        Please review the key rental terms below and sign digitally before proceeding to payment.
+                      <p className="text-sm text-gray-600 mt-1">
+                        Please review the official rental terms below and sign digitally before proceeding to payment.
                       </p>
                     </div>
 
-                    <div className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-gray-50 border border-gray-200 text-xs font-mono text-gray-700 self-start sm:self-auto">
-                      <FileCheck2 className="w-4 h-4 text-emerald-800 shrink-0" />
+                    <div className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-emerald-50 border border-emerald-200 text-xs font-mono text-emerald-900 font-semibold self-start sm:self-auto">
+                      <FileCheck2 className="w-4 h-4 text-emerald-700 shrink-0" />
                       <span>Renter: {customerInfo.fullName || 'Guest'}</span>
                     </div>
                   </div>
 
-                  {/* Scrollable Rental Agreement Terms */}
-                  <div className="rounded-xl border border-gray-200 bg-gray-50/80 overflow-hidden shadow-2xs">
-                    <div className="px-4 py-2.5 bg-gray-100/90 border-b border-gray-200 flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
-                      <span className="font-semibold text-gray-700">
-                        TAKE IT EASY CAR RENTALS &amp; TOURS — RENTAL TERMS SUMMARY
-                      </span>
+                  {/* High-Visibility Official Rental Agreement Box */}
+                  <div className="rounded-2xl border-2 border-emerald-700/80 ring-4 ring-emerald-700/10 bg-white overflow-hidden shadow-md">
+                    {/* Official Document Banner Header */}
+                    <div className="px-4 sm:px-5 py-3.5 bg-gradient-to-r from-emerald-950 via-[#102b21] to-emerald-900 border-b border-emerald-800 flex flex-wrap items-center justify-between gap-3 text-white">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-lg bg-emerald-800/90 border border-emerald-600/60 flex items-center justify-center text-amber-300 shrink-0">
+                          <FileCheck2 className="w-4 h-4" />
+                        </div>
+                        <div>
+                          <span className="font-bold text-white text-xs sm:text-sm tracking-wide block">
+                            OFFICIAL DIGITAL RENTAL AGREEMENT
+                          </span>
+                          <span className="text-[10.5px] font-mono text-emerald-200/80">
+                            Take It Easy Car Rentals &amp; Tours · JDPA 2020 Compliant
+                          </span>
+                        </div>
+                      </div>
+
                       <div className="flex items-center gap-2">
                         {hasScrolledToBottom ? (
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-800 border border-emerald-300 font-semibold text-xs">
-                            <Check className="w-3.5 h-3.5 text-emerald-700 stroke-[2.5]" />
-                            <span>✓ Agreement viewed in full</span>
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-500 text-white font-bold text-xs shadow-xs">
+                            <Check className="w-3.5 h-3.5 text-white stroke-[3]" />
+                            <span>✓ Agreement fully reviewed</span>
                           </span>
                         ) : (
                           <>
-                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-amber-50 text-amber-900 border border-amber-300 font-semibold text-xs animate-pulse">
-                              <AlertCircle className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-                              <span>Scroll to bottom of contract to unlock signature</span>
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-amber-400 text-slate-950 font-bold text-xs shadow-xs animate-pulse">
+                              <AlertCircle className="w-3.5 h-3.5 text-slate-950 shrink-0" />
+                              <span>Scroll to bottom to unlock</span>
                             </span>
                             <button
                               type="button"
                               onClick={scrollToContractEnd}
-                              className="min-h-[30px] px-2.5 py-1 rounded-md bg-white hover:bg-emerald-50 text-emerald-900 border border-emerald-300 hover:border-emerald-500 font-semibold text-xs shadow-2xs transition-all cursor-pointer flex items-center gap-1"
+                              className="min-h-[30px] px-3 py-1 rounded-lg bg-white/15 hover:bg-white/25 text-white border border-white/30 font-bold text-xs shadow-xs transition-all cursor-pointer flex items-center gap-1"
                             >
                               <span>Scroll to End ↓</span>
                             </button>
@@ -908,65 +920,72 @@ export default function PublicCheckoutModal({
                       </div>
                     </div>
 
+                    {/* Scrollable Viewport */}
                     <div
                       ref={contractScrollRef}
                       onScroll={handleContractScroll}
-                      className="max-h-64 sm:max-h-72 overflow-y-auto p-5 space-y-4 text-sm text-gray-700 leading-relaxed bg-white"
+                      className="max-h-64 sm:max-h-80 overflow-y-auto p-5 sm:p-6 space-y-4 text-sm text-slate-700 leading-relaxed bg-slate-50/70"
                     >
-                      <div className="rounded-lg bg-emerald-50/60 border border-emerald-200/70 p-3.5 text-xs sm:text-sm text-emerald-950 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {/* Summary Banner Card */}
+                      <div className="rounded-xl bg-gradient-to-r from-emerald-900 to-[#123024] text-white border border-emerald-700/80 p-4 shadow-xs grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
                         <div>
-                          <span className="text-gray-500 block text-xs">Renter &amp; Residence</span>
-                          <strong>
-                            {customerInfo.fullName} ({customerInfo.country})
+                          <span className="text-emerald-200 block text-xs font-mono uppercase tracking-wider">Primary Renter &amp; Origin</span>
+                          <strong className="text-white text-sm">
+                            {customerInfo.fullName || 'Guest'} ({customerInfo.country || 'International'})
                           </strong>
                         </div>
                         <div>
-                          <span className="text-gray-500 block text-xs">Assigned Vehicle Class</span>
-                          <strong>
+                          <span className="text-emerald-200 block text-xs font-mono uppercase tracking-wider">Assigned Vehicle Class</span>
+                          <strong className="text-white text-sm">
                             {vehicle.name} · ${vehicle.ratePerDay} USD/day ({rentalDays}{' '}
                             {rentalDays === 1 ? 'day' : 'days'})
                           </strong>
                         </div>
                       </div>
 
-                      <div>
-                        <h4 className="font-bold text-gray-900">
-                          1. Unlimited Island Mileage &amp; Permitted Use
+                      {/* Contract clauses */}
+                      <div className="bg-white p-4 rounded-xl border border-slate-200/90 shadow-2xs space-y-1">
+                        <h4 className="font-bold text-slate-900 flex items-center gap-2">
+                          <span className="inline-flex items-center justify-center w-5 h-5 rounded-md bg-emerald-800 text-white font-mono text-[11px] font-bold">1</span>
+                          <span>Unlimited Island Mileage &amp; Permitted Road Use</span>
                         </h4>
-                        <p className="mt-1 text-gray-600">
+                        <p className="text-slate-600 text-xs sm:text-sm pl-7">
                           Your rental includes <strong>unlimited mileage</strong> on paved public roads across Jamaica.
                           Vehicles may only be operated by licensed drivers named on the agreement (valid physical driver&apos;s
-                          license presented at handoff). Off-road driving, beach/sand driving, or commercial sub-hire is prohibited.
+                          license presented at handoff). Off-road riverbed driving, beach/sand driving, racing, or commercial sub-hire is strictly prohibited.
                         </p>
                       </div>
 
-                      <div>
-                        <h4 className="font-bold text-gray-900">
-                          2. Insurance Coverage &amp; Collision Excess
+                      <div className="bg-white p-4 rounded-xl border border-slate-200/90 shadow-2xs space-y-1">
+                        <h4 className="font-bold text-slate-900 flex items-center gap-2">
+                          <span className="inline-flex items-center justify-center w-5 h-5 rounded-md bg-emerald-800 text-white font-mono text-[11px] font-bold">2</span>
+                          <span>Third-Party Insurance &amp; Collision Liability</span>
                         </h4>
-                        <p className="mt-1 text-gray-600">
-                          Standard statutory third-party motor liability coverage is included in your daily rate. The renter
+                        <p className="text-slate-600 text-xs sm:text-sm pl-7">
+                          Standard statutory third-party motor liability coverage is included in your daily rate under Jamaican road regulations. The renter
                           remains responsible for new exterior, glass, tire, rim, or undercarriage damage occurring during the
-                          rental period up to the applicable vehicle collision excess, as verified against the pickup Check Sheet.
+                          rental period up to the applicable vehicle collision excess, as verified against the digital pickup Check Sheet.
                         </p>
                       </div>
 
-                      <div>
-                        <h4 className="font-bold text-gray-900">
-                          3. Fuel Replacement Policy (8/8 Full-to-Full)
+                      <div className="bg-white p-4 rounded-xl border border-slate-200/90 shadow-2xs space-y-1">
+                        <h4 className="font-bold text-slate-900 flex items-center gap-2">
+                          <span className="inline-flex items-center justify-center w-5 h-5 rounded-md bg-emerald-800 text-white font-mono text-[11px] font-bold">3</span>
+                          <span>Full-to-Full Fuel Policy (8/8 Level)</span>
                         </h4>
-                        <p className="mt-1 text-gray-600">
+                        <p className="text-slate-600 text-xs sm:text-sm pl-7">
                           Every Take It Easy vehicle is released with a verified <strong>8/8 full tank</strong>. If the vehicle
                           is returned below 8/8, fuel replacement is charged at current local pump rates plus a{' '}
                           <strong>$15 USD</strong> refueling service fee.
                         </p>
                       </div>
 
-                      <div>
-                        <h4 className="font-bold text-gray-900">
-                          4. ${depositAmount} USD Card Security Deposit Hold Terms
+                      <div className="bg-white p-4 rounded-xl border border-slate-200/90 shadow-2xs space-y-1">
+                        <h4 className="font-bold text-slate-900 flex items-center gap-2">
+                          <span className="inline-flex items-center justify-center w-5 h-5 rounded-md bg-emerald-800 text-white font-mono text-[11px] font-bold">4</span>
+                          <span>${depositAmount} USD Card Security Deposit Pre-Authorization Hold</span>
                         </h4>
-                        <p className="mt-1 text-gray-600">
+                        <p className="text-slate-600 text-xs sm:text-sm pl-7">
                           A mandatory <strong>${depositAmount} USD security deposit pre-authorization hold</strong> is placed
                           on your payment card at checkout alongside your rental charges. Funds are held—not permanently
                           captured—and the full ${depositAmount} USD security deposit is automatically released upon timely
@@ -974,15 +993,23 @@ export default function PublicCheckoutModal({
                         </p>
                       </div>
 
-                      <div>
-                        <h4 className="font-bold text-gray-900">
-                          5. Return Schedule &amp; Grace Period
+                      <div className="bg-white p-4 rounded-xl border border-slate-200/90 shadow-2xs space-y-1">
+                        <h4 className="font-bold text-slate-900 flex items-center gap-2">
+                          <span className="inline-flex items-center justify-center w-5 h-5 rounded-md bg-emerald-800 text-white font-mono text-[11px] font-bold">5</span>
+                          <span>Return Schedule &amp; Curbside Airport Grace Period</span>
                         </h4>
-                        <p className="mt-1 text-gray-600">
+                        <p className="text-slate-600 text-xs sm:text-sm pl-7">
                           Scheduled return is <strong>{returnDateLabel}</strong> at{' '}
                           <strong>{location.shortName}</strong>. A 59-minute airport traffic grace period is provided; late
                           returns beyond 1 hour without prior WhatsApp notice may incur an additional pro-rated or daily charge.
                         </p>
+                      </div>
+
+                      <div className="pt-2 text-center">
+                        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-100 text-emerald-900 text-xs font-bold font-mono border border-emerald-300">
+                          <Check className="w-4 h-4 text-emerald-700" />
+                          <span>End of Agreement Terms — Ready for Signature Below</span>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -990,12 +1017,12 @@ export default function PublicCheckoutModal({
                   {/* Mandatory Terms Acknowledgment Checkbox (Enforced by Scroll) */}
                   <label
                     htmlFor="contract-terms-ack"
-                    className={`min-h-[52px] rounded-xl border p-3.5 sm:p-4 flex items-start sm:items-center gap-3.5 transition-all select-none ${
+                    className={`min-h-[56px] rounded-xl border-2 p-4 flex items-start sm:items-center gap-3.5 transition-all select-none ${
                       !hasScrolledToBottom
-                        ? 'opacity-50 cursor-not-allowed bg-gray-50 border-gray-200'
+                        ? 'opacity-60 cursor-not-allowed bg-slate-50 border-slate-200 text-slate-500'
                         : contractTermsAgreed
-                          ? 'bg-emerald-50/90 border-emerald-700 ring-2 ring-emerald-700/15 cursor-pointer'
-                          : 'bg-white border-gray-200 hover:border-emerald-700/50 cursor-pointer'
+                          ? 'bg-emerald-50/90 border-emerald-700 ring-4 ring-emerald-700/15 shadow-sm cursor-pointer'
+                          : 'bg-white border-emerald-600/50 hover:border-emerald-700 hover:bg-emerald-50/30 shadow-xs cursor-pointer'
                     }`}
                   >
                     <input
