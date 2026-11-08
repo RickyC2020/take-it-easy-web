@@ -160,12 +160,14 @@ const FLEET = [
     badge: 'Touring Comfort'
   },
   {
-    id: 'rav4',
+    id: 'cx5',
     category: 'suv',
     categoryLabel: 'Standard SUV',
-    name: 'Toyota RAV4 XLE',
-    subtitle: 'AWD Crossover SUV · 2025 Fleet',
-    image: '/vehicles/rav4.jpg',
+    name: 'Mazda CX-5',
+    year: '2017',
+    color: 'Red',
+    subtitle: 'Red Crossover SUV · 2017 Fleet',
+    image: '/vehicles/cx5.jpg',
     seats: 5,
     transmission: 'Auto',
     luggage: 5,

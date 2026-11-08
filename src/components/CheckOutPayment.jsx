@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
 export default function CheckoutPayment({
-    vehicleName = 'Toyota RAV4 AWD',
-    vehicleCategory = 'Compact SUV',
+    vehicleName = 'Mazda CX-5 (2017)',
+    vehicleCategory = 'Standard SUV',
     vehicleImage = null,
     pickupLocation = 'Sangster Intl Airport, Montego Bay',
     pickupDateLabel = 'Nov 6, 2026 · 10:00 AM',
