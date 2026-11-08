@@ -51,12 +51,12 @@ export default function HeroBanner({
         <div className="relative rounded-xl overflow-hidden bg-transparent">
           {/* =========================================================
               HERO BANNER ARTWORK
-              - Native 1024x374 widescreen aspect ratio (Full Image Visible, Zero Crop)
+              - Native 1024x391 widescreen aspect ratio (Full Image Visible, Zero Crop)
               - "A Yah Suh Nice!" script + Pearl-white Mazda CX-5 (TIE plate)
              ========================================================= */}
-          <div className="relative aspect-[1024/374] w-full select-none overflow-hidden">
+          <div className="relative aspect-[1024/391] w-full select-none overflow-hidden">
             <img
-              src="/hero-banner.jpg?v=10"
+              src="/hero-banner.jpg?v=11"
               alt="Take It Easy Car Rentals - A Yah Suh Nice! Pearl white Mazda CX-5 with TIE plate driving on Jamaica's coastal highway beside the turquoise sea"
               className="w-full h-full object-cover"
             />
@@ -69,26 +69,26 @@ export default function HeroBanner({
             {/* =========================================================
                 DESKTOP OVERLAY: GLASSMORPHIC SEARCH CARD (SPANS BANNER HEIGHT)
                ========================================================= */}
-            <div className="hidden lg:flex absolute inset-y-0 right-0 z-10 w-full max-w-[430px] xl:max-w-[480px] 2xl:max-w-[500px] p-2 xl:p-3">
-              {/* Ultra-Transparent Glassmorphic Card Spanning Full Height */}
+            <div className="hidden lg:flex absolute inset-y-0 right-0 z-10 w-full max-w-[470px] xl:max-w-[525px] 2xl:max-w-[550px] p-2 xl:p-3">
+              {/* Ultra-Transparent Glassmorphic Card Spanning Full Height with Thin White Border */}
               <div
                 id="hero-search-card"
-                className="w-full h-full rounded-2xl bg-black/[0.04] hover:bg-black/[0.08] backdrop-blur-xs border border-white/20 p-3 xl:p-4 shadow-[0_8px_32px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.25)] text-white flex flex-col justify-between transition-all"
+                className="w-full h-full rounded-2xl bg-black/[0.05] hover:bg-black/[0.08] backdrop-blur-xs border border-white/40 hover:border-white/55 p-3 xl:p-4 shadow-[0_8px_32px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.35)] text-white flex flex-col justify-between transition-all"
               >
                 {/* 1. Noticeable Heading */}
-                <div className="flex items-center justify-between gap-2.5 border-b border-white/15 pb-2 xl:pb-2.5">
+                <div className="flex items-center justify-between gap-2.5 border-b border-white/25 pb-2 xl:pb-2.5">
                   <h2 className="text-xs xl:text-sm font-black tracking-wider uppercase text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] leading-tight truncate">
                     GET INSTANT QUOTES <span className="text-emerald-300 font-bold">|</span> NO HIDDEN FEES
                   </h2>
-                  <span className="text-[10px] xl:text-xs font-mono font-bold px-2 py-0.5 xl:px-2.5 xl:py-1 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/35 backdrop-blur-md shadow-xs tracking-wide shrink-0">
+                  <span className="text-[10px] xl:text-xs font-mono font-bold px-2.5 py-0.5 xl:px-3 xl:py-1 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/40 backdrop-blur-md shadow-xs tracking-wide shrink-0">
                     {rentalDays} {rentalDays === 1 ? 'day' : 'days'}
                   </span>
                 </div>
 
                 {/* 2. Middle Grid: Expands to Fill Available Card Space */}
-                <div className="grid grid-cols-2 gap-2 xl:gap-3 flex-1 my-2.5 xl:my-3">
+                <div className="grid grid-cols-2 gap-2 xl:gap-3 flex-1 my-2 xl:my-2.5">
                   {/* 1. Pickup Location */}
-                  <div className="p-2.5 xl:p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/15 transition-colors flex flex-col justify-center">
+                  <div className="p-2.5 xl:p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/35 hover:border-white/55 transition-all flex flex-col justify-center">
                     <label
                       htmlFor="hero-desktop-location"
                       className="flex items-center gap-1.5 font-mono text-xs xl:text-[13px] uppercase tracking-wider text-emerald-300 mb-1 font-bold drop-shadow-xs"
@@ -114,7 +114,7 @@ export default function HeroBanner({
                   </div>
 
                   {/* 2. Car Category */}
-                  <div className="p-2.5 xl:p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/15 transition-colors flex flex-col justify-center">
+                  <div className="p-2.5 xl:p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/35 hover:border-white/55 transition-all flex flex-col justify-center">
                     <label
                       htmlFor="hero-desktop-category"
                       className="flex items-center gap-1.5 font-mono text-xs xl:text-[13px] uppercase tracking-wider text-amber-300 mb-1 font-bold drop-shadow-xs"
@@ -140,14 +140,14 @@ export default function HeroBanner({
                   </div>
 
                   {/* 3. Pickup */}
-                  <div className="p-2.5 xl:p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/15 transition-colors flex flex-col justify-between">
+                  <div className="p-2.5 xl:p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/35 hover:border-white/55 transition-all flex flex-col justify-between">
                     <div className="flex items-center gap-1.5 font-mono text-xs xl:text-[13px] uppercase tracking-wider text-emerald-300 font-bold drop-shadow-xs">
                       <Calendar className="w-4 h-4 text-emerald-400 shrink-0" />
                       <span>PICKUP</span>
                     </div>
                     <div className="flex items-center justify-between gap-2 mt-1">
                       {/* Date display: Abbreviated Month in all caps, Day & Year beneath spanning same length */}
-                      <div className="relative flex flex-col items-center justify-center cursor-pointer group py-0.5 px-2 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 transition-colors">
+                      <div className="relative flex flex-col items-center justify-center cursor-pointer group py-1 px-2.5 rounded-lg bg-white/[0.04] hover:bg-white/[0.09] border border-white/35 hover:border-white/50 transition-colors">
                         <span className="text-base xl:text-lg font-black uppercase text-white tracking-[0.22em] pl-[0.22em] leading-tight text-center drop-shadow-xs select-none">
                           {pickupParts.month}
                         </span>
@@ -172,7 +172,7 @@ export default function HeroBanner({
                       </div>
 
                       {/* Time Pill */}
-                      <div className="flex items-center gap-1 bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 px-2 py-1.5 rounded-lg transition-colors shrink-0">
+                      <div className="flex items-center gap-1.5 bg-white/[0.06] hover:bg-white/[0.12] border border-white/35 hover:border-white/50 px-2.5 py-1.5 rounded-lg transition-colors shrink-0">
                         <Clock className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                         <select
                           aria-label="Pickup Time"
@@ -191,14 +191,14 @@ export default function HeroBanner({
                   </div>
 
                   {/* 4. Return */}
-                  <div className="p-2.5 xl:p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/15 transition-colors flex flex-col justify-between">
+                  <div className="p-2.5 xl:p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/35 hover:border-white/55 transition-all flex flex-col justify-between">
                     <div className="flex items-center gap-1.5 font-mono text-xs xl:text-[13px] uppercase tracking-wider text-amber-300 font-bold drop-shadow-xs">
                       <Clock className="w-4 h-4 text-amber-400 shrink-0" />
                       <span>RETURN</span>
                     </div>
                     <div className="flex items-center justify-between gap-2 mt-1">
                       {/* Date display: Abbreviated Month in all caps, Day & Year beneath spanning same length */}
-                      <div className="relative flex flex-col items-center justify-center cursor-pointer group py-0.5 px-2 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 transition-colors">
+                      <div className="relative flex flex-col items-center justify-center cursor-pointer group py-1 px-2.5 rounded-lg bg-white/[0.04] hover:bg-white/[0.09] border border-white/35 hover:border-white/50 transition-colors">
                         <span className="text-base xl:text-lg font-black uppercase text-white tracking-[0.22em] pl-[0.22em] leading-tight text-center drop-shadow-xs select-none">
                           {returnParts.month}
                         </span>
@@ -223,7 +223,7 @@ export default function HeroBanner({
                       </div>
 
                       {/* Time Pill */}
-                      <div className="flex items-center gap-1 bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 px-2 py-1.5 rounded-lg transition-colors shrink-0">
+                      <div className="flex items-center gap-1.5 bg-white/[0.06] hover:bg-white/[0.12] border border-white/35 hover:border-white/50 px-2.5 py-1.5 rounded-lg transition-colors shrink-0">
                         <Clock className="w-3.5 h-3.5 text-amber-400 shrink-0" />
                         <select
                           aria-label="Return Time"
@@ -242,11 +242,11 @@ export default function HeroBanner({
                   </div>
                 </div>
 
-                {/* 3. Bottom Button: Prominent & Stretched */}
+                {/* 3. Bottom Button: Prominent & Stretched with Thin White Border */}
                 <button
                   type="button"
                   onClick={onBookCar}
-                  className="w-full min-h-[40px] xl:min-h-[46px] px-4 py-2.5 rounded-xl bg-black/[0.06] hover:bg-black/[0.14] backdrop-blur-xs border border-white/25 hover:border-white/40 active:scale-[0.98] text-white font-extrabold text-xs xl:text-sm tracking-wider uppercase shadow-[0_4px_20px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.25)] flex items-center justify-center transition-all cursor-pointer"
+                  className="w-full min-h-[42px] xl:min-h-[48px] px-5 py-2.5 rounded-xl bg-white/[0.08] hover:bg-white/[0.16] backdrop-blur-xs border border-white/40 hover:border-white/60 active:scale-[0.98] text-white font-extrabold text-xs xl:text-sm tracking-wider uppercase shadow-[0_4px_20px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.35)] flex items-center justify-center transition-all cursor-pointer"
                 >
                   <span>SEARCH</span>
                 </button>
@@ -258,13 +258,13 @@ export default function HeroBanner({
               MOBILE / TABLET (< lg): GLASSMORPHIC SEARCH CARD
              ========================================================= */}
           <div className="lg:hidden p-4 sm:p-5 bg-gradient-to-b from-[#192b2d] to-[#122224]">
-            <div className="rounded-2xl bg-white/[0.03] backdrop-blur-xs border border-white/15 p-4 shadow-xl text-white">
+            <div className="rounded-2xl bg-white/[0.03] backdrop-blur-xs border border-white/35 p-4 shadow-xl text-white">
               {/* Noticeable Heading */}
-              <div className="flex items-center justify-between gap-3 border-b border-white/15 pb-2.5 mb-3.5">
+              <div className="flex items-center justify-between gap-3 border-b border-white/25 pb-2.5 mb-3.5">
                 <h2 className="text-sm sm:text-base font-black tracking-wider uppercase text-white drop-shadow-md truncate">
                   GET INSTANT QUOTES <span className="text-emerald-300 font-bold">|</span> NO HIDDEN FEES
                 </h2>
-                <span className="text-xs sm:text-sm font-mono font-bold px-3 py-1 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/35 backdrop-blur-md shadow-xs tracking-wide shrink-0">
+                <span className="text-xs sm:text-sm font-mono font-bold px-3 py-1 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/40 backdrop-blur-md shadow-xs tracking-wide shrink-0">
                   {rentalDays} {rentalDays === 1 ? 'day' : 'days'}
                 </span>
               </div>
@@ -272,7 +272,7 @@ export default function HeroBanner({
               {/* 2-Column Responsive Inputs */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
                 {/* 1. Pickup Location */}
-                <div className="p-3 rounded-xl bg-white/[0.02] border border-white/10">
+                <div className="p-3 rounded-xl bg-white/[0.02] border border-white/30 hover:border-white/45 transition-colors">
                   <label
                     htmlFor="hero-mobile-location"
                     className="flex items-center gap-1.5 font-mono text-xs sm:text-[13px] uppercase tracking-wider text-emerald-300 mb-1 font-bold"
@@ -298,7 +298,7 @@ export default function HeroBanner({
                 </div>
 
                 {/* 2. Car Category */}
-                <div className="p-3 rounded-xl bg-white/[0.02] border border-white/10">
+                <div className="p-3 rounded-xl bg-white/[0.02] border border-white/30 hover:border-white/45 transition-colors">
                   <label
                     htmlFor="hero-mobile-category"
                     className="flex items-center gap-1.5 font-mono text-xs sm:text-[13px] uppercase tracking-wider text-amber-300 mb-1 font-bold"
@@ -324,14 +324,14 @@ export default function HeroBanner({
                 </div>
 
                 {/* 3. Pickup */}
-                <div className="p-3 rounded-xl bg-white/[0.02] border border-white/10 flex flex-col justify-between">
+                <div className="p-3 rounded-xl bg-white/[0.02] border border-white/30 hover:border-white/45 transition-colors flex flex-col justify-between">
                   <div className="flex items-center gap-1.5 font-mono text-xs sm:text-[13px] uppercase tracking-wider text-emerald-300 font-bold">
                     <Calendar className="w-4 h-4 text-emerald-400 shrink-0" />
                     <span>PICKUP</span>
                   </div>
                   <div className="flex items-center justify-between gap-2 mt-2">
                     {/* Date display: Abbreviated Month in all caps, Day & Year beneath spanning same length */}
-                    <div className="relative flex flex-col items-center justify-center cursor-pointer group py-1 px-3 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 transition-colors">
+                    <div className="relative flex flex-col items-center justify-center cursor-pointer group py-1 px-3 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] border border-white/30 transition-colors">
                       <span className="text-base sm:text-lg font-black uppercase text-white tracking-[0.22em] pl-[0.22em] leading-tight text-center select-none">
                         {pickupParts.month}
                       </span>
@@ -356,7 +356,7 @@ export default function HeroBanner({
                     </div>
 
                     {/* Time Pill */}
-                    <div className="flex items-center gap-1 bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 px-3 py-2 rounded-lg transition-colors shrink-0">
+                    <div className="flex items-center gap-1 bg-white/[0.06] hover:bg-white/[0.12] border border-white/30 px-3 py-2 rounded-lg transition-colors shrink-0">
                       <Clock className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                       <select
                         aria-label="Mobile Pickup Time"
@@ -375,14 +375,14 @@ export default function HeroBanner({
                 </div>
 
                 {/* 4. Return */}
-                <div className="p-3 rounded-xl bg-white/[0.02] border border-white/10 flex flex-col justify-between">
+                <div className="p-3 rounded-xl bg-white/[0.02] border border-white/30 hover:border-white/45 transition-colors flex flex-col justify-between">
                   <div className="flex items-center gap-1.5 font-mono text-xs sm:text-[13px] uppercase tracking-wider text-amber-300 font-bold">
                     <Clock className="w-4 h-4 text-amber-400 shrink-0" />
                     <span>RETURN</span>
                   </div>
                   <div className="flex items-center justify-between gap-2 mt-2">
                     {/* Date display: Abbreviated Month in all caps, Day & Year beneath spanning same length */}
-                    <div className="relative flex flex-col items-center justify-center cursor-pointer group py-1 px-3 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 transition-colors">
+                    <div className="relative flex flex-col items-center justify-center cursor-pointer group py-1 px-3 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] border border-white/30 transition-colors">
                       <span className="text-base sm:text-lg font-black uppercase text-white tracking-[0.22em] pl-[0.22em] leading-tight text-center select-none">
                         {returnParts.month}
                       </span>
@@ -407,7 +407,7 @@ export default function HeroBanner({
                     </div>
 
                     {/* Time Pill */}
-                    <div className="flex items-center gap-1 bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 px-3 py-2 rounded-lg transition-colors shrink-0">
+                    <div className="flex items-center gap-1 bg-white/[0.06] hover:bg-white/[0.12] border border-white/30 px-3 py-2 rounded-lg transition-colors shrink-0">
                       <Clock className="w-3.5 h-3.5 text-amber-400 shrink-0" />
                       <select
                         aria-label="Mobile Return Time"
@@ -431,7 +431,7 @@ export default function HeroBanner({
             <button
               type="button"
               onClick={onBookCar}
-              className="w-full mt-3 min-h-[48px] px-5 py-3 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] backdrop-blur-xs border border-white/20 active:scale-[0.98] text-white font-extrabold text-sm sm:text-base tracking-wider uppercase shadow-lg flex items-center justify-center cursor-pointer transition-all"
+              className="w-full mt-3 min-h-[48px] px-5 py-3 rounded-xl bg-white/[0.08] hover:bg-white/[0.16] backdrop-blur-xs border border-white/40 hover:border-white/60 active:scale-[0.98] text-white font-extrabold text-sm sm:text-base tracking-wider uppercase shadow-lg flex items-center justify-center cursor-pointer transition-all"
             >
               <span>SEARCH</span>
             </button>
