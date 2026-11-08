@@ -113,12 +113,14 @@ const CATEGORIES = [
 
 const FLEET = [
   {
-    id: 'yaris',
+    id: 'demio',
     category: 'compact',
     categoryLabel: 'Compact Car',
-    name: 'Toyota Yaris',
-    subtitle: 'Hatchback · 2025 Fleet',
-    image: '/vehicles/yaris.jpg',
+    name: 'Mazda Demio',
+    year: '2016',
+    color: 'Red',
+    subtitle: 'Red Hatchback · 2016 Fleet',
+    image: '/vehicles/demio.jpg',
     seats: 5,
     transmission: 'Auto',
     luggage: 2,
