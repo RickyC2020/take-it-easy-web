@@ -228,8 +228,14 @@ export default function HeroBanner({
           {/* =========================================================
               MOBILE / TABLET (< lg): GLASSMORPHIC SEARCH CARD
              ========================================================= */}
-          <div className="lg:hidden p-4 sm:p-5 bg-gradient-to-b from-[#192b2d] to-[#122224]">
-            <div className="rounded-2xl bg-white/[0.03] backdrop-blur-xs border border-white/35 p-4 shadow-xl text-white">
+          <div
+            id="mobile-search-card"
+            className="lg:hidden p-4 sm:p-5 bg-gradient-to-b from-[#192b2d] to-[#122224] scroll-mt-6"
+          >
+            <div
+              id="hero-search-card-mobile"
+              className="rounded-2xl bg-white/[0.03] backdrop-blur-xs border border-white/35 p-4 shadow-xl text-white"
+            >
               {/* Noticeable Heading: A Little Less Transparent (Section Only) */}
               <div className="flex items-center justify-center px-4 py-2.5 rounded-xl bg-black/45 backdrop-blur-md border border-white/35 shadow-inner mb-3">
                 <h2 className="text-xs sm:text-sm font-black tracking-wider uppercase text-white drop-shadow-md text-center">

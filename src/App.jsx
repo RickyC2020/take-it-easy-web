@@ -415,7 +415,6 @@ export default function App() {
   const [sortBy, setSortBy] = useState('recommended');
   const [isCompact, setIsCompact] = useState(false);
   const searchAnchorRef = useRef(null);
-  const manualExpandScrollYRef = useRef(null);
 
   // Drawer & Modal State
   // drawerMode: 'checkout' (Phases 2-4) | 'bookings' (List) | 'return' (Phases 5-6) | null
@@ -490,7 +489,6 @@ export default function App() {
     const checkCompactState = () => {
       // Only collapse on mobile view (< 768px); desktop stays expanded
       if (window.innerWidth > MOBILE_MAX_WIDTH) {
-        manualExpandScrollYRef.current = null;
         setIsCompact((prev) => (prev ? false : prev));
         return;
       }
@@ -498,20 +496,9 @@ export default function App() {
       if (!searchAnchorRef.current) return;
       const anchorTop = searchAnchorRef.current.getBoundingClientRect().top;
 
-      // If the user tapped the compact bar to edit while scrolled down, keep it open
-      // until they scroll further away (> 75px)
-      if (manualExpandScrollYRef.current !== null) {
-        if (Math.abs(window.scrollY - manualExpandScrollYRef.current) > 75) {
-          manualExpandScrollYRef.current = null;
-          setIsCompact(true);
-        }
-        return;
-      }
-
       // Hysteresis threshold:
       // Collapse when top of search anchor reaches viewport top (anchorTop <= 0)
       // Only expand back when scrolled well back up (anchorTop > 50)
-      // This eliminates rapid toggling/flutter (jitter) around the scroll boundary.
       setIsCompact((prevCompact) => {
         if (!prevCompact && anchorTop <= 0) {
           return true;
@@ -543,8 +530,23 @@ export default function App() {
   }, []);
 
   const handleExpandCompactSearch = () => {
-    manualExpandScrollYRef.current = window.scrollY;
-    document.getElementById('hero-search-card')?.scrollIntoView({ behavior: 'smooth' });
+    setIsCompact(false);
+    const mobileEl = document.getElementById('mobile-search-card');
+    const desktopEl = document.getElementById('hero-search-card');
+    const targetEl = (window.innerWidth < 1024 ? mobileEl : desktopEl) || mobileEl || desktopEl;
+
+    if (targetEl) {
+      targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Smooth focus on first input once in view
+      setTimeout(() => {
+        const inputToFocus = document.getElementById(
+          window.innerWidth < 1024 ? 'hero-mobile-pickup-date' : 'pickup-date-input'
+        );
+        inputToFocus?.focus?.({ preventScroll: true });
+      }, 450);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   useEffect(() => {
@@ -1134,8 +1136,11 @@ export default function App() {
             ? 'bg-white/95 backdrop-blur-md shadow-md border-b border-brand-ink/10 cursor-pointer block'
             : 'hidden'
           }`}
+        style={{
+          paddingTop: 'max(env(safe-area-inset-top, 0px), 10px)'
+        }}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between gap-3">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2 sm:py-2.5 flex items-center justify-between gap-3">
           <div className="flex items-center gap-2.5 min-w-0">
             <span className="w-8 h-8 rounded-full bg-brand-palm/10 border border-brand-palm/25 flex items-center justify-center shrink-0 text-brand-palm">
               <Search className="w-4 h-4" />
@@ -1152,7 +1157,8 @@ export default function App() {
               e.stopPropagation();
               handleExpandCompactSearch();
             }}
-            className="px-3 py-1.5 rounded-lg border border-brand-ink/15 bg-brand-canvas/90 hover:bg-brand-palm hover:text-white transition-colors text-xs font-semibold text-brand-palm flex items-center gap-1.5 shrink-0 cursor-pointer"
+            aria-label="Edit Search Dates and Location"
+            className="px-3.5 py-1.5 rounded-lg border border-brand-ink/15 bg-brand-canvas/90 hover:bg-brand-palm hover:text-white active:scale-95 transition-all text-xs font-semibold text-brand-palm flex items-center gap-1.5 shrink-0 cursor-pointer shadow-xs"
           >
             <Pencil className="w-3.5 h-3.5" />
             <span>Edit Search</span>
