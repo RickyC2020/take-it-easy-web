@@ -102,8 +102,22 @@ export default function PublicCheckoutModal({
     }
   };
 
-  // Post-Step 4 State — Completed Authorization Confirmation
   const [completedBooking, setCompletedBooking] = useState(null);
+
+  // Guarantee background scroll freeze and immediate focus on mount
+  useEffect(() => {
+    modalScrollRef.current?.focus({ preventScroll: true });
+
+    const origBodyOverflow = document.body.style.overflow;
+    const origHtmlOverflow = document.documentElement.style.overflow;
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = origBodyOverflow;
+      document.documentElement.style.overflow = origHtmlOverflow;
+    };
+  }, []);
 
   const rentalSubtotal = vehicle.ratePerDay * rentalDays;
   const toursSubtotal = selectedTours.reduce(
@@ -204,8 +218,7 @@ export default function PublicCheckoutModal({
 
   return (
     <div
-      ref={modalScrollRef}
-      className="fixed inset-0 z-[58] overflow-y-auto print:hidden"
+      className="fixed inset-0 z-[58] print:hidden"
       role="dialog"
       aria-modal="true"
       aria-label="Customer Reservation Checkout Wizard"
@@ -213,12 +226,30 @@ export default function PublicCheckoutModal({
       {/* Backdrop */}
       <div
         onClick={onClose}
-        className="fixed inset-0 bg-slate-950/45 backdrop-blur-sm animate-fade-in"
+        className="fixed inset-0 bg-slate-950/45 backdrop-blur-sm animate-fade-in touch-none"
         aria-hidden="true"
       />
 
-      <div className="relative z-10 min-h-full flex flex-col items-center justify-start py-4 px-3 sm:py-8 sm:px-6">
-        <div className="w-full max-w-5xl space-y-4">
+      {/* Primary Scroll Viewport (occupies entire viewport, overscroll-contain prevents chaining) */}
+      <div
+        ref={modalScrollRef}
+        tabIndex={-1}
+        className="relative z-10 w-full h-full overflow-y-auto overscroll-contain focus:outline-none"
+        onClick={(e) => {
+          if (e.target === e.currentTarget) {
+            onClose();
+          }
+        }}
+      >
+        <div
+          className="min-h-full flex flex-col items-center justify-start py-4 px-3 sm:py-8 sm:px-6"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              onClose();
+            }
+          }}
+        >
+          <div className="w-full max-w-5xl space-y-4">
           {/* =========================================================
               MODAL HEADER + 4-STEP CUSTOMER WIZARD STEPPER
              ========================================================= */}
@@ -1150,6 +1181,7 @@ export default function PublicCheckoutModal({
           )}
         </div>
       </div>
+    </div>
 
       {/* Quick Non-Destructive In-Modal Preview for Terms of Use or Privacy Policy */}
       {previewDoc && (

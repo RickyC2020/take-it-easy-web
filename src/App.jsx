@@ -564,15 +564,32 @@ export default function App() {
   }, [drawerMode, dossierBooking, guestCheckoutVehicle]);
 
   useEffect(() => {
-    if (drawerMode || dossierBooking || guestCheckoutVehicle) {
+    const isModalOpen = Boolean(
+      drawerMode ||
+      dossierBooking ||
+      guestCheckoutVehicle ||
+      isRentalInfoModalOpen ||
+      isContactModalOpen
+    );
+
+    if (isModalOpen) {
       document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
     }
     return () => {
       document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
     };
-  }, [drawerMode, dossierBooking, guestCheckoutVehicle]);
+  }, [
+    drawerMode,
+    dossierBooking,
+    guestCheckoutVehicle,
+    isRentalInfoModalOpen,
+    isContactModalOpen
+  ]);
 
   const handlePickupDateChange = (nextPickup) => {
     setPickupDate(nextPickup);
