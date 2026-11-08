@@ -26,17 +26,29 @@ export default function Footer({ onNavigate }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-10 pb-6">
         {/* Top Info Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pb-8 text-center md:text-left">
-          {/* Column 1: Brand & Tagline */}
-          <div>
-            <div className="flex items-center justify-center md:justify-start gap-2.5">
-              <span className="font-black text-lg text-white tracking-tight">
-                TAKE IT EASY
-              </span>
-              <span className="text-xs font-mono px-2 py-0.5 rounded-full bg-emerald-900/80 text-emerald-300 border border-emerald-700/60">
-                Montego Bay · Kingston
-              </span>
-            </div>
-            <p className="text-xs text-slate-400 mt-2 max-w-sm">
+          {/* Column 1: Brand & Tagline with Emblem Logo */}
+          <div className="flex flex-col items-center md:items-start text-center md:text-left">
+            <a
+              href="/"
+              onClick={(e) => handleLinkClick(e, '/')}
+              className="inline-flex items-center justify-center md:justify-start gap-3.5 mb-3 group cursor-pointer"
+              aria-label="Take It Easy Home"
+            >
+              <img
+                src="/footer-logo.jpg"
+                alt="Take It Easy Car Rentals & Tours Logo"
+                className="h-14 sm:h-16 w-auto object-contain rounded-xl bg-[#203030] border border-emerald-800/60 shadow-md p-1 group-hover:border-emerald-500/80 transition-colors shrink-0"
+              />
+              <div className="text-left">
+                <span className="font-black text-lg sm:text-xl text-white tracking-tight block group-hover:text-emerald-300 transition-colors">
+                  TAKE IT EASY
+                </span>
+                <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-emerald-900/80 text-emerald-300 border border-emerald-700/60 inline-block mt-0.5">
+                  Montego Bay · Kingston
+                </span>
+              </div>
+            </a>
+            <p className="text-xs text-slate-400 mt-1 max-w-sm">
               Take It Easy Car Rentals &amp; Tours. Curbside airport handoff at Sangster Intl (MBJ) and Norman Manley (KIN). Island-wide adventures made effortless.
             </p>
             <div className="mt-3 flex items-center justify-center md:justify-start gap-1.5 text-xs text-slate-400">
