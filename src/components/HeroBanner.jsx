@@ -1,6 +1,22 @@
 import React from 'react';
 import { MapPin, Calendar, Clock, Car, ChevronDown } from 'lucide-react';
 
+function formatTripDate(dateStr) {
+  if (!dateStr) return '';
+  const parts = String(dateStr).split('-');
+  if (parts.length === 3) {
+    const y = parseInt(parts[0], 10);
+    const m = parseInt(parts[1], 10) - 1;
+    const d = parseInt(parts[2], 10);
+    const date = new Date(y, m, d);
+    if (!isNaN(date.getTime())) {
+      const month = date.toLocaleString('en-US', { month: 'short' });
+      return `${month} ${d}, ${y}`;
+    }
+  }
+  return dateStr;
+}
+
 export default function HeroBanner({
   locationId,
   setLocationId,
@@ -47,21 +63,18 @@ export default function HeroBanner({
             {/* =========================================================
                 DESKTOP OVERLAY: GLASSMORPHIC SEARCH CARD (RIGHT SIDE)
                ========================================================= */}
-            <div className="hidden lg:flex absolute inset-y-0 right-0 z-10 items-center justify-end p-3.5 xl:p-6 w-full max-w-[470px] xl:max-w-[525px] 2xl:max-w-[550px]">
+            <div className="hidden lg:flex absolute inset-y-0 right-0 z-10 items-center justify-end p-3.5 xl:p-6 w-full max-w-[540px] xl:max-w-[600px] 2xl:max-w-[640px]">
               <div className="w-full">
                 {/* Ultra-Transparent Glassmorphic Card (Natural Height, Vertically Centered) */}
                 <div
                   id="hero-search-card"
                   className="rounded-2xl bg-black/[0.05] hover:bg-black/[0.08] backdrop-blur-xs border border-white/40 hover:border-white/55 p-3.5 xl:p-4 shadow-[0_8px_32px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.35)] text-white transition-all"
                 >
-                  {/* 1. Noticeable Heading */}
-                  <div className="flex items-center justify-between gap-2.5 border-b border-white/25 pb-2.5 mb-2.5 xl:mb-3">
-                    <h2 className="text-xs xl:text-sm font-black tracking-wider uppercase text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] leading-tight truncate">
+                  {/* 1. Noticeable Heading: A Little Less Transparent (Section Only) */}
+                  <div className="flex items-center justify-center px-4 py-2.5 rounded-xl bg-black/45 backdrop-blur-md border border-white/35 shadow-inner mb-2.5 xl:mb-3">
+                    <h2 className="text-xs xl:text-sm font-black tracking-wider uppercase text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] leading-tight text-center">
                       GET INSTANT QUOTES <span className="text-emerald-300 font-bold">|</span> NO HIDDEN FEES
                     </h2>
-                    <span className="text-[10px] xl:text-xs font-mono font-bold px-2.5 py-0.5 xl:px-3 xl:py-1 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/40 backdrop-blur-md shadow-xs tracking-wide shrink-0">
-                      {rentalDays} {rentalDays === 1 ? 'day' : 'days'}
-                    </span>
                   </div>
 
                   {/* 2. Middle Grid: 2x2 Search Inputs */}
@@ -190,14 +203,24 @@ export default function HeroBanner({
                   </div>
                 </div>
 
-                {/* 3. Bottom Button: Below Card (Natural Compact Height) */}
-                <button
-                  type="button"
-                  onClick={onBookCar}
-                  className="w-full mt-2.5 min-h-[44px] px-5 py-2.5 rounded-xl bg-white/[0.08] hover:bg-white/[0.16] backdrop-blur-xs border border-white/40 hover:border-white/60 active:scale-[0.98] text-white font-extrabold text-xs xl:text-sm tracking-wider uppercase shadow-[0_4px_20px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.35)] flex items-center justify-center transition-all cursor-pointer"
-                >
-                  <span>SEARCH</span>
-                </button>
+                {/* 3. Bottom Row: Trip Summary Card (Left) + Search Button (Right) on the Same Line */}
+                <div className="flex items-center gap-2 xl:gap-2.5 mt-2.5">
+                  {/* Trip Summary Card */}
+                  <div className="flex-1 min-h-[44px] px-3.5 py-2 rounded-xl bg-black/35 hover:bg-black/45 backdrop-blur-xs border border-white/35 shadow-[0_4px_20px_rgba(0,0,0,0.15)] flex items-center justify-center text-center">
+                    <span className="text-xs xl:text-[13px] font-bold text-white tracking-wide truncate">
+                      <span className="text-amber-300 font-extrabold">{rentalDays} {rentalDays === 1 ? 'day' : 'days'}</span> from {formatTripDate(pickupDate)} to {formatTripDate(returnDate)}
+                    </span>
+                  </div>
+
+                  {/* Search Button */}
+                  <button
+                    type="button"
+                    onClick={onBookCar}
+                    className="shrink-0 min-h-[44px] px-6 xl:px-8 py-2.5 rounded-xl bg-white/[0.08] hover:bg-white/[0.16] backdrop-blur-xs border border-white/40 hover:border-white/60 active:scale-[0.98] text-white font-extrabold text-xs xl:text-sm tracking-wider uppercase shadow-[0_4px_20px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.35)] flex items-center justify-center transition-all cursor-pointer"
+                  >
+                    <span>SEARCH</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -207,14 +230,11 @@ export default function HeroBanner({
              ========================================================= */}
           <div className="lg:hidden p-4 sm:p-5 bg-gradient-to-b from-[#192b2d] to-[#122224]">
             <div className="rounded-2xl bg-white/[0.03] backdrop-blur-xs border border-white/35 p-4 shadow-xl text-white">
-              {/* Noticeable Heading */}
-              <div className="flex items-center justify-between gap-3 border-b border-white/25 pb-2.5 mb-3.5">
-                <h2 className="text-sm sm:text-base font-black tracking-wider uppercase text-white drop-shadow-md truncate">
+              {/* Noticeable Heading: A Little Less Transparent (Section Only) */}
+              <div className="flex items-center justify-center px-4 py-2.5 rounded-xl bg-black/45 backdrop-blur-md border border-white/35 shadow-inner mb-3">
+                <h2 className="text-xs sm:text-sm font-black tracking-wider uppercase text-white drop-shadow-md text-center">
                   GET INSTANT QUOTES <span className="text-emerald-300 font-bold">|</span> NO HIDDEN FEES
                 </h2>
-                <span className="text-xs sm:text-sm font-mono font-bold px-3 py-1 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/40 backdrop-blur-md shadow-xs tracking-wide shrink-0">
-                  {rentalDays} {rentalDays === 1 ? 'day' : 'days'}
-                </span>
               </div>
 
               {/* 2-Column Responsive Inputs */}
@@ -343,14 +363,21 @@ export default function HeroBanner({
               </div>
             </div>
 
-            {/* Mobile Action Button below card: Transparent glass look */}
-            <button
-              type="button"
-              onClick={onBookCar}
-              className="w-full mt-3 min-h-[48px] px-5 py-3 rounded-xl bg-white/[0.08] hover:bg-white/[0.16] backdrop-blur-xs border border-white/40 hover:border-white/60 active:scale-[0.98] text-white font-extrabold text-sm sm:text-base tracking-wider uppercase shadow-lg flex items-center justify-center cursor-pointer transition-all"
-            >
-              <span>SEARCH</span>
-            </button>
+            {/* Mobile Action Row: Trip Summary Card (Left) + Search Button (Right) */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 mt-3">
+              <div className="flex-1 min-h-[44px] px-3.5 py-2 rounded-xl bg-black/35 border border-white/35 backdrop-blur-xs flex items-center justify-center text-center">
+                <span className="text-xs sm:text-sm font-bold text-white tracking-wide">
+                  <span className="text-amber-300 font-extrabold">{rentalDays} {rentalDays === 1 ? 'day' : 'days'}</span> from {formatTripDate(pickupDate)} to {formatTripDate(returnDate)}
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={onBookCar}
+                className="sm:shrink-0 min-h-[44px] px-6 py-2.5 rounded-xl bg-white/[0.08] hover:bg-white/[0.16] backdrop-blur-xs border border-white/40 hover:border-white/60 active:scale-[0.98] text-white font-extrabold text-sm tracking-wider uppercase shadow-lg flex items-center justify-center cursor-pointer transition-all"
+              >
+                <span>SEARCH</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
