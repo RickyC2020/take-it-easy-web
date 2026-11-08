@@ -67,186 +67,188 @@ export default function HeroBanner({
             </h1>
 
             {/* =========================================================
-                DESKTOP OVERLAY: GLASSMORPHIC SEARCH CARD (SPANS BANNER HEIGHT)
+                DESKTOP OVERLAY: GLASSMORPHIC SEARCH CARD (RIGHT SIDE)
                ========================================================= */}
-            <div className="hidden lg:flex absolute inset-y-0 right-0 z-10 w-full max-w-[470px] xl:max-w-[525px] 2xl:max-w-[550px] p-2 xl:p-3">
-              {/* Ultra-Transparent Glassmorphic Card Spanning Full Height with Thin White Border */}
-              <div
-                id="hero-search-card"
-                className="w-full h-full rounded-2xl bg-black/[0.05] hover:bg-black/[0.08] backdrop-blur-xs border border-white/40 hover:border-white/55 p-3 xl:p-4 shadow-[0_8px_32px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.35)] text-white flex flex-col justify-between transition-all"
-              >
-                {/* 1. Noticeable Heading */}
-                <div className="flex items-center justify-between gap-2.5 border-b border-white/25 pb-2 xl:pb-2.5">
-                  <h2 className="text-xs xl:text-sm font-black tracking-wider uppercase text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] leading-tight truncate">
-                    GET INSTANT QUOTES <span className="text-emerald-300 font-bold">|</span> NO HIDDEN FEES
-                  </h2>
-                  <span className="text-[10px] xl:text-xs font-mono font-bold px-2.5 py-0.5 xl:px-3 xl:py-1 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/40 backdrop-blur-md shadow-xs tracking-wide shrink-0">
-                    {rentalDays} {rentalDays === 1 ? 'day' : 'days'}
-                  </span>
-                </div>
-
-                {/* 2. Middle Grid: Expands to Fill Available Card Space */}
-                <div className="grid grid-cols-2 gap-2 xl:gap-3 flex-1 my-2 xl:my-2.5">
-                  {/* 1. Pickup Location */}
-                  <div className="p-2.5 xl:p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/35 hover:border-white/55 transition-all flex flex-col justify-center">
-                    <label
-                      htmlFor="hero-desktop-location"
-                      className="flex items-center gap-1.5 font-mono text-xs xl:text-[13px] uppercase tracking-wider text-emerald-300 mb-1 font-bold drop-shadow-xs"
-                    >
-                      <MapPin className="w-4 h-4 text-emerald-400 shrink-0" />
-                      <span>Pickup Hub</span>
-                    </label>
-                    <div className="relative flex items-center">
-                      <select
-                        id="hero-desktop-location"
-                        value={locationId}
-                        onChange={(e) => setLocationId?.(e.target.value)}
-                        className="w-full appearance-none bg-transparent pr-5 text-sm xl:text-base font-bold text-white focus:outline-none cursor-pointer truncate"
-                      >
-                        {locations.map((loc) => (
-                          <option key={loc.id} value={loc.id} className="bg-[#1b2b2b] text-white">
-                            {loc.shortName || loc.name}
-                          </option>
-                        ))}
-                      </select>
-                      <ChevronDown className="w-4 h-4 text-slate-300 pointer-events-none absolute right-0 shrink-0" />
-                    </div>
+            <div className="hidden lg:flex absolute inset-y-0 right-0 z-10 items-center justify-end p-3.5 xl:p-6 w-full max-w-[470px] xl:max-w-[525px] 2xl:max-w-[550px]">
+              <div className="w-full">
+                {/* Ultra-Transparent Glassmorphic Card (Natural Height, Vertically Centered) */}
+                <div
+                  id="hero-search-card"
+                  className="rounded-2xl bg-black/[0.05] hover:bg-black/[0.08] backdrop-blur-xs border border-white/40 hover:border-white/55 p-3.5 xl:p-4 shadow-[0_8px_32px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.35)] text-white transition-all"
+                >
+                  {/* 1. Noticeable Heading */}
+                  <div className="flex items-center justify-between gap-2.5 border-b border-white/25 pb-2.5 mb-2.5 xl:mb-3">
+                    <h2 className="text-xs xl:text-sm font-black tracking-wider uppercase text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] leading-tight truncate">
+                      GET INSTANT QUOTES <span className="text-emerald-300 font-bold">|</span> NO HIDDEN FEES
+                    </h2>
+                    <span className="text-[10px] xl:text-xs font-mono font-bold px-2.5 py-0.5 xl:px-3 xl:py-1 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/40 backdrop-blur-md shadow-xs tracking-wide shrink-0">
+                      {rentalDays} {rentalDays === 1 ? 'day' : 'days'}
+                    </span>
                   </div>
 
-                  {/* 2. Car Category */}
-                  <div className="p-2.5 xl:p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/35 hover:border-white/55 transition-all flex flex-col justify-center">
-                    <label
-                      htmlFor="hero-desktop-category"
-                      className="flex items-center gap-1.5 font-mono text-xs xl:text-[13px] uppercase tracking-wider text-amber-300 mb-1 font-bold drop-shadow-xs"
-                    >
-                      <Car className="w-4 h-4 text-amber-400 shrink-0" />
-                      <span>Vehicle Class</span>
-                    </label>
-                    <div className="relative flex items-center">
-                      <select
-                        id="hero-desktop-category"
-                        value={selectedCategory}
-                        onChange={(e) => setSelectedCategory?.(e.target.value)}
-                        className="w-full appearance-none bg-transparent pr-5 text-sm xl:text-base font-bold text-white focus:outline-none cursor-pointer truncate"
+                  {/* 2. Middle Grid: 2x2 Search Inputs */}
+                  <div className="grid grid-cols-2 gap-2 xl:gap-2.5">
+                    {/* 1. Pickup Location */}
+                    <div className="p-2.5 xl:p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/35 hover:border-white/55 transition-all flex flex-col justify-center">
+                      <label
+                        htmlFor="hero-desktop-location"
+                        className="flex items-center gap-1.5 font-mono text-xs xl:text-[13px] uppercase tracking-wider text-emerald-300 mb-1 font-bold drop-shadow-xs"
                       >
-                        {categories.map((cat) => (
-                          <option key={cat.id} value={cat.id} className="bg-[#1b2b2b] text-white">
-                            {cat.label}
-                          </option>
-                        ))}
-                      </select>
-                      <ChevronDown className="w-4 h-4 text-slate-300 pointer-events-none absolute right-0 shrink-0" />
-                    </div>
-                  </div>
-
-                  {/* 3. Pickup */}
-                  <div className="p-2.5 xl:p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/35 hover:border-white/55 transition-all flex flex-col justify-between">
-                    <div className="flex items-center gap-1.5 font-mono text-xs xl:text-[13px] uppercase tracking-wider text-emerald-300 font-bold drop-shadow-xs">
-                      <Calendar className="w-4 h-4 text-emerald-400 shrink-0" />
-                      <span>PICKUP</span>
-                    </div>
-                    <div className="flex items-center justify-between gap-2 mt-1">
-                      {/* Date display: Abbreviated Month in all caps, Day & Year beneath spanning same length */}
-                      <div className="relative flex flex-col items-center justify-center cursor-pointer group py-1 px-2.5 rounded-lg bg-white/[0.04] hover:bg-white/[0.09] border border-white/35 hover:border-white/50 transition-colors">
-                        <span className="text-base xl:text-lg font-black uppercase text-white tracking-[0.22em] pl-[0.22em] leading-tight text-center drop-shadow-xs select-none">
-                          {pickupParts.month}
-                        </span>
-                        <span className="text-xs xl:text-[13px] font-bold text-slate-200 tabular-nums leading-tight text-center mt-0.5 drop-shadow-xs select-none">
-                          {pickupParts.day}, {pickupParts.year}
-                        </span>
-                        <input
-                          id="hero-desktop-pickup-date"
-                          type="date"
-                          value={pickupDate}
-                          min={minPickupDate}
-                          onChange={(e) => onPickupDateChange?.(e.target.value)}
-                          onClick={(e) => {
-                            try {
-                              e.target.showPicker?.();
-                            } catch {}
-                          }}
-                          style={{ colorScheme: 'dark' }}
-                          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                          aria-label="Pickup Date"
-                        />
-                      </div>
-
-                      {/* Time Pill */}
-                      <div className="flex items-center gap-1.5 bg-white/[0.06] hover:bg-white/[0.12] border border-white/35 hover:border-white/50 px-2.5 py-1.5 rounded-lg transition-colors shrink-0">
-                        <Clock className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                        <MapPin className="w-4 h-4 text-emerald-400 shrink-0" />
+                        <span>Pickup Hub</span>
+                      </label>
+                      <div className="relative flex items-center">
                         <select
-                          aria-label="Pickup Time"
-                          value={pickupTime}
-                          onChange={(e) => setPickupTime?.(e.target.value)}
-                          className="bg-transparent text-xs xl:text-sm font-mono font-bold text-white focus:outline-none cursor-pointer"
+                          id="hero-desktop-location"
+                          value={locationId}
+                          onChange={(e) => setLocationId?.(e.target.value)}
+                          className="w-full appearance-none bg-transparent pr-5 text-sm xl:text-base font-bold text-white focus:outline-none cursor-pointer truncate"
                         >
-                          {timeSlots.map((slot) => (
-                            <option key={slot} value={slot} className="bg-[#1b2b2b] text-white">
-                              {slot}
+                          {locations.map((loc) => (
+                            <option key={loc.id} value={loc.id} className="bg-[#1b2b2b] text-white">
+                              {loc.shortName || loc.name}
                             </option>
                           ))}
                         </select>
+                        <ChevronDown className="w-4 h-4 text-slate-300 pointer-events-none absolute right-0 shrink-0" />
                       </div>
                     </div>
-                  </div>
 
-                  {/* 4. Return */}
-                  <div className="p-2.5 xl:p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/35 hover:border-white/55 transition-all flex flex-col justify-between">
-                    <div className="flex items-center gap-1.5 font-mono text-xs xl:text-[13px] uppercase tracking-wider text-amber-300 font-bold drop-shadow-xs">
-                      <Clock className="w-4 h-4 text-amber-400 shrink-0" />
-                      <span>RETURN</span>
-                    </div>
-                    <div className="flex items-center justify-between gap-2 mt-1">
-                      {/* Date display: Abbreviated Month in all caps, Day & Year beneath spanning same length */}
-                      <div className="relative flex flex-col items-center justify-center cursor-pointer group py-1 px-2.5 rounded-lg bg-white/[0.04] hover:bg-white/[0.09] border border-white/35 hover:border-white/50 transition-colors">
-                        <span className="text-base xl:text-lg font-black uppercase text-white tracking-[0.22em] pl-[0.22em] leading-tight text-center drop-shadow-xs select-none">
-                          {returnParts.month}
-                        </span>
-                        <span className="text-xs xl:text-[13px] font-bold text-slate-200 tabular-nums leading-tight text-center mt-0.5 drop-shadow-xs select-none">
-                          {returnParts.day}, {returnParts.year}
-                        </span>
-                        <input
-                          id="hero-desktop-return-date"
-                          type="date"
-                          value={returnDate}
-                          min={minReturnDate}
-                          onChange={(e) => onReturnDateChange?.(e.target.value)}
-                          onClick={(e) => {
-                            try {
-                              e.target.showPicker?.();
-                            } catch {}
-                          }}
-                          style={{ colorScheme: 'dark' }}
-                          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                          aria-label="Return Date"
-                        />
-                      </div>
-
-                      {/* Time Pill */}
-                      <div className="flex items-center gap-1.5 bg-white/[0.06] hover:bg-white/[0.12] border border-white/35 hover:border-white/50 px-2.5 py-1.5 rounded-lg transition-colors shrink-0">
-                        <Clock className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                    {/* 2. Car Category */}
+                    <div className="p-2.5 xl:p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/35 hover:border-white/55 transition-all flex flex-col justify-center">
+                      <label
+                        htmlFor="hero-desktop-category"
+                        className="flex items-center gap-1.5 font-mono text-xs xl:text-[13px] uppercase tracking-wider text-amber-300 mb-1 font-bold drop-shadow-xs"
+                      >
+                        <Car className="w-4 h-4 text-amber-400 shrink-0" />
+                        <span>Vehicle Class</span>
+                      </label>
+                      <div className="relative flex items-center">
                         <select
-                          aria-label="Return Time"
-                          value={returnTime}
-                          onChange={(e) => setReturnTime?.(e.target.value)}
-                          className="bg-transparent text-xs xl:text-sm font-mono font-bold text-white focus:outline-none cursor-pointer"
+                          id="hero-desktop-category"
+                          value={selectedCategory}
+                          onChange={(e) => setSelectedCategory?.(e.target.value)}
+                          className="w-full appearance-none bg-transparent pr-5 text-sm xl:text-base font-bold text-white focus:outline-none cursor-pointer truncate"
                         >
-                          {timeSlots.map((slot) => (
-                            <option key={slot} value={slot} className="bg-[#1b2b2b] text-white">
-                              {slot}
+                          {categories.map((cat) => (
+                            <option key={cat.id} value={cat.id} className="bg-[#1b2b2b] text-white">
+                              {cat.label}
                             </option>
                           ))}
                         </select>
+                        <ChevronDown className="w-4 h-4 text-slate-300 pointer-events-none absolute right-0 shrink-0" />
+                      </div>
+                    </div>
+
+                    {/* 3. Pickup */}
+                    <div className="p-2.5 xl:p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/35 hover:border-white/55 transition-all flex flex-col justify-between">
+                      <div className="flex items-center gap-1.5 font-mono text-xs xl:text-[13px] uppercase tracking-wider text-emerald-300 font-bold drop-shadow-xs">
+                        <Calendar className="w-4 h-4 text-emerald-400 shrink-0" />
+                        <span>PICKUP</span>
+                      </div>
+                      <div className="flex items-center justify-between gap-2 mt-1">
+                        {/* Date display: Abbreviated Month in all caps, Day & Year beneath spanning same length */}
+                        <div className="relative flex flex-col items-center justify-center cursor-pointer group py-1 px-2.5 rounded-lg bg-white/[0.04] hover:bg-white/[0.09] border border-white/35 hover:border-white/50 transition-colors">
+                          <span className="text-base xl:text-lg font-black uppercase text-white tracking-[0.22em] pl-[0.22em] leading-tight text-center drop-shadow-xs select-none">
+                            {pickupParts.month}
+                          </span>
+                          <span className="text-xs xl:text-[13px] font-bold text-slate-200 tabular-nums leading-tight text-center mt-0.5 drop-shadow-xs select-none">
+                            {pickupParts.day}, {pickupParts.year}
+                          </span>
+                          <input
+                            id="hero-desktop-pickup-date"
+                            type="date"
+                            value={pickupDate}
+                            min={minPickupDate}
+                            onChange={(e) => onPickupDateChange?.(e.target.value)}
+                            onClick={(e) => {
+                              try {
+                                e.target.showPicker?.();
+                              } catch {}
+                            }}
+                            style={{ colorScheme: 'dark' }}
+                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                            aria-label="Pickup Date"
+                          />
+                        </div>
+
+                        {/* Time Pill */}
+                        <div className="flex items-center gap-1.5 bg-white/[0.06] hover:bg-white/[0.12] border border-white/35 hover:border-white/50 px-2.5 py-1.5 rounded-lg transition-colors shrink-0">
+                          <Clock className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                          <select
+                            aria-label="Pickup Time"
+                            value={pickupTime}
+                            onChange={(e) => setPickupTime?.(e.target.value)}
+                            className="bg-transparent text-xs xl:text-sm font-mono font-bold text-white focus:outline-none cursor-pointer"
+                          >
+                            {timeSlots.map((slot) => (
+                              <option key={slot} value={slot} className="bg-[#1b2b2b] text-white">
+                                {slot}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 4. Return */}
+                    <div className="p-2.5 xl:p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/35 hover:border-white/55 transition-all flex flex-col justify-between">
+                      <div className="flex items-center gap-1.5 font-mono text-xs xl:text-[13px] uppercase tracking-wider text-amber-300 font-bold drop-shadow-xs">
+                        <Clock className="w-4 h-4 text-amber-400 shrink-0" />
+                        <span>RETURN</span>
+                      </div>
+                      <div className="flex items-center justify-between gap-2 mt-1">
+                        {/* Date display: Abbreviated Month in all caps, Day & Year beneath spanning same length */}
+                        <div className="relative flex flex-col items-center justify-center cursor-pointer group py-1 px-2.5 rounded-lg bg-white/[0.04] hover:bg-white/[0.09] border border-white/35 hover:border-white/50 transition-colors">
+                          <span className="text-base xl:text-lg font-black uppercase text-white tracking-[0.22em] pl-[0.22em] leading-tight text-center drop-shadow-xs select-none">
+                            {returnParts.month}
+                          </span>
+                          <span className="text-xs xl:text-[13px] font-bold text-slate-200 tabular-nums leading-tight text-center mt-0.5 drop-shadow-xs select-none">
+                            {returnParts.day}, {returnParts.year}
+                          </span>
+                          <input
+                            id="hero-desktop-return-date"
+                            type="date"
+                            value={returnDate}
+                            min={minReturnDate}
+                            onChange={(e) => onReturnDateChange?.(e.target.value)}
+                            onClick={(e) => {
+                              try {
+                                e.target.showPicker?.();
+                              } catch {}
+                            }}
+                            style={{ colorScheme: 'dark' }}
+                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                            aria-label="Return Date"
+                          />
+                        </div>
+
+                        {/* Time Pill */}
+                        <div className="flex items-center gap-1.5 bg-white/[0.06] hover:bg-white/[0.12] border border-white/35 hover:border-white/50 px-2.5 py-1.5 rounded-lg transition-colors shrink-0">
+                          <Clock className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                          <select
+                            aria-label="Return Time"
+                            value={returnTime}
+                            onChange={(e) => setReturnTime?.(e.target.value)}
+                            className="bg-transparent text-xs xl:text-sm font-mono font-bold text-white focus:outline-none cursor-pointer"
+                          >
+                            {timeSlots.map((slot) => (
+                              <option key={slot} value={slot} className="bg-[#1b2b2b] text-white">
+                                {slot}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                {/* 3. Bottom Button: Prominent & Stretched with Thin White Border */}
+                {/* 3. Bottom Button: Below Card (Natural Compact Height) */}
                 <button
                   type="button"
                   onClick={onBookCar}
-                  className="w-full min-h-[42px] xl:min-h-[48px] px-5 py-2.5 rounded-xl bg-white/[0.08] hover:bg-white/[0.16] backdrop-blur-xs border border-white/40 hover:border-white/60 active:scale-[0.98] text-white font-extrabold text-xs xl:text-sm tracking-wider uppercase shadow-[0_4px_20px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.35)] flex items-center justify-center transition-all cursor-pointer"
+                  className="w-full mt-2.5 min-h-[44px] px-5 py-2.5 rounded-xl bg-white/[0.08] hover:bg-white/[0.16] backdrop-blur-xs border border-white/40 hover:border-white/60 active:scale-[0.98] text-white font-extrabold text-xs xl:text-sm tracking-wider uppercase shadow-[0_4px_20px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.35)] flex items-center justify-center transition-all cursor-pointer"
                 >
                   <span>SEARCH</span>
                 </button>
