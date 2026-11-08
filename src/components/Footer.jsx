@@ -22,7 +22,7 @@ export default function Footer({ onNavigate }) {
   };
 
   return (
-    <footer className="bg-[#0f221a] text-slate-300 print:hidden mt-12 border-t border-emerald-950">
+    <footer className="bg-[#203030] text-slate-300 print:hidden mt-12 border-t border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-10 pb-6">
         {/* Top Info Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pb-8 text-center md:text-left">
@@ -37,7 +37,7 @@ export default function Footer({ onNavigate }) {
               <img
                 src="/footer-logo.jpg"
                 alt="Take It Easy Car Rentals & Tours Logo"
-                className="h-14 sm:h-16 w-auto object-contain rounded-xl bg-[#203030] border border-emerald-800/60 shadow-md p-1 group-hover:border-emerald-500/80 transition-colors shrink-0"
+                className="h-14 sm:h-16 w-auto object-contain shrink-0"
               />
               <div className="text-left">
                 <span className="font-black text-lg sm:text-xl text-white tracking-tight block group-hover:text-emerald-300 transition-colors">
