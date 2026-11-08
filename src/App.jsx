@@ -1109,11 +1109,10 @@ export default function App() {
       <div ref={searchAnchorRef} aria-hidden="true" />
       <div
         onClick={handleExpandCompactSearch}
-        className={`sticky top-0 z-30 transition-all duration-300 print:hidden ${
-          isCompact
+        className={`sticky top-0 z-30 transition-all duration-300 print:hidden ${isCompact
             ? 'bg-white/95 backdrop-blur-md shadow-md border-b border-brand-ink/10 cursor-pointer block'
             : 'hidden'
-        }`}
+          }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between gap-3">
           <div className="flex items-center gap-2.5 min-w-0">
@@ -1176,9 +1175,7 @@ export default function App() {
           </div>
 
           <div className="flex items-center justify-between sm:justify-end gap-4 text-sm sm:text-base">
-            <span className="text-slate-600 font-mono tabular-nums">
-              {filteredFleet.length} options · {selectedLocation.code}
-            </span>
+
 
             <div className="min-h-[44px] flex items-center gap-2 glass-pill rounded-xl px-3.5 py-2">
               <SlidersHorizontal className="w-4 h-4 text-brand-teal shrink-0" />
