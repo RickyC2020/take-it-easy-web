@@ -46,34 +46,18 @@ const LOCATIONS = [
   {
     id: 'MBJ',
     code: 'MBJ',
-    name: 'Sangster Intl Airport, Montego Bay',
+    name: 'Montego Bay Airport (MBJ - Sangster International Airport)',
     shortName: 'Montego Bay Airport (MBJ)',
-    compactName: 'Sangster Intl',
-    pickupNote: 'Airport Terminal Sign → Rental Office Desk'
+    compactName: 'Montego Bay (MBJ)',
+    pickupNote: 'Sangster Intl Airport · Curbside Meet & Greet Arrivals'
   },
   {
     id: 'KIN',
     code: 'KIN',
-    name: 'Norman Manley Intl Airport, Kingston',
+    name: 'Kingston Airport (KIN - Norman Manley International Airport)',
     shortName: 'Kingston Airport (KIN)',
-    compactName: 'Norman Manley Intl',
-    pickupNote: 'Arrivals Terminal Sign → Office Desk #4'
-  },
-  {
-    id: 'OCJ',
-    code: 'OCJ',
-    name: 'Ian Fleming Intl Airport, Ocho Rios',
-    shortName: 'Ocho Rios Airport (OCJ)',
-    compactName: 'Ian Fleming Intl',
-    pickupNote: 'Arrivals Exit → Main Rental Office'
-  },
-  {
-    id: 'NEG',
-    code: 'NEG',
-    name: 'Negril Aerodrome & Seven Mile Office',
-    shortName: 'Negril Office (NEG)',
-    compactName: 'Negril Office',
-    pickupNote: 'Norman Manley Blvd — Rental Office'
+    compactName: 'Kingston (KIN)',
+    pickupNote: 'Norman Manley Intl Airport · Curbside Meet & Greet Arrivals'
   }
 ];
 
@@ -113,13 +97,64 @@ const CATEGORIES = [
 
 const FLEET = [
   {
-    id: 'demio',
+    id: 'voxy-2017-black',
+    category: 'bus',
+    categoryLabel: 'Bus / Van (7–8 Seater)',
+    name: '2017 Toyota Voxy',
+    year: '2017',
+    color: 'Black',
+    subtitle: 'Black 7–8 Seater Van · 2017 Fleet',
+    image: '/vehicles/voxy.jpg',
+    seats: 8,
+    transmission: 'Auto',
+    luggage: 6,
+    mpg: 30,
+    ratePerDay: 135,
+    deposit: 500,
+    badge: 'Popular Van'
+  },
+  {
+    id: 'voxy-2016-navy',
+    category: 'bus',
+    categoryLabel: 'Bus / Van (7–8 Seater)',
+    name: '2016 Toyota Voxy',
+    year: '2016',
+    color: 'Navy Blue',
+    subtitle: 'Navy Blue 7–8 Seater Van · 2016 Fleet',
+    image: '/vehicles/voxy.jpg',
+    seats: 8,
+    transmission: 'Auto',
+    luggage: 6,
+    mpg: 30,
+    ratePerDay: 130,
+    deposit: 500,
+    badge: 'Group Choice'
+  },
+  {
+    id: 'voxy-2018-white',
+    category: 'bus',
+    categoryLabel: 'Bus / Van (7–8 Seater)',
+    name: '2018 Toyota Voxy',
+    year: '2018',
+    color: 'White',
+    subtitle: 'White 7–8 Seater Van · 2018 Fleet',
+    image: '/vehicles/voxy.jpg',
+    seats: 8,
+    transmission: 'Auto',
+    luggage: 6,
+    mpg: 30,
+    ratePerDay: 140,
+    deposit: 500,
+    badge: 'Executive Van'
+  },
+  {
+    id: 'demio-2016-black',
     category: 'compact',
     categoryLabel: 'Compact Car',
-    name: 'Mazda Demio',
+    name: '2016 Mazda Demio',
     year: '2016',
-    color: 'Red',
-    subtitle: 'Red Hatchback · 2016 Fleet',
+    color: 'Black',
+    subtitle: 'Black Hatchback · 2016 Fleet',
     image: '/vehicles/demio.jpg',
     seats: 5,
     transmission: 'Auto',
@@ -130,81 +165,72 @@ const FLEET = [
     badge: 'Airport Best-Seller'
   },
   {
-    id: 'camry',
-    category: 'fullsize',
-    categoryLabel: 'Full-Size Car',
-    name: 'Toyota Camry SE',
-    subtitle: 'Full-Size Sedan · 2025 Fleet',
-    image: '/vehicles/camry.jpg',
+    id: 'demio-2015-navy',
+    category: 'compact',
+    categoryLabel: 'Compact Car',
+    name: '2015 Mazda Demio',
+    year: '2015',
+    color: 'Navy Blue',
+    subtitle: 'Navy Blue Hatchback · 2015 Fleet',
+    image: '/vehicles/demio.jpg',
     seats: 5,
     transmission: 'Auto',
-    luggage: 4,
-    mpg: 34,
-    ratePerDay: 85,
+    luggage: 2,
+    mpg: 38,
+    ratePerDay: 58,
     deposit: 500,
-    badge: 'Popular Full-Size'
+    badge: 'Great Value'
   },
   {
-    id: 'accord',
-    category: 'fullsize',
-    categoryLabel: 'Full-Size Car',
-    name: 'Honda Accord Sport',
-    subtitle: 'Executive Full-Size · 2025 Fleet',
-    image: '/vehicles/accord.jpg',
-    seats: 5,
-    transmission: 'Auto',
-    luggage: 4,
-    mpg: 35,
-    ratePerDay: 92,
-    deposit: 500,
-    badge: 'Touring Comfort'
-  },
-  {
-    id: 'cx5',
+    id: 'cx5-2016-pearlwhite',
     category: 'suv',
-    categoryLabel: 'Standard SUV',
-    name: 'Mazda CX-5',
-    year: '2017',
-    color: 'Red',
-    subtitle: 'Red Crossover SUV · 2017 Fleet',
+    categoryLabel: 'SUV',
+    name: '2016 Mazda CX-5',
+    year: '2016',
+    color: 'Pearl White',
+    subtitle: 'Pearl White Crossover · 2016 Fleet',
     image: '/vehicles/cx5.jpg',
     seats: 5,
     transmission: 'Auto',
     luggage: 5,
     mpg: 31,
-    ratePerDay: 110,
+    ratePerDay: 105,
     deposit: 500,
     badge: 'Island Explorer'
   },
   {
-    id: 'highlander',
+    id: 'cx5-2019-silver',
     category: 'suv',
-    categoryLabel: '7-Passenger SUV',
-    name: 'Toyota Highlander',
-    subtitle: '3-Row SUV · 2025 Fleet',
-    image: '/vehicles/highlander.jpg',
-    seats: 7,
+    categoryLabel: 'SUV',
+    name: '2019 Mazda CX-5',
+    year: '2019',
+    color: 'Silver',
+    subtitle: 'Silver Crossover SUV · 2019 Fleet',
+    image: '/vehicles/cx5.jpg',
+    seats: 5,
     transmission: 'Auto',
-    luggage: 6,
-    mpg: 28,
-    ratePerDay: 138,
+    luggage: 5,
+    mpg: 32,
+    ratePerDay: 115,
     deposit: 500,
-    badge: 'Family 3-Row'
+    badge: 'Popular SUV'
   },
   {
-    id: 'hiace',
-    category: 'bus',
-    categoryLabel: 'Passenger Bus',
-    name: 'Toyota HiAce 15-Seater Bus',
-    subtitle: 'High-Roof Commuter Bus · 2025 Fleet',
-    image: '/vehicles/hiace.jpg',
-    seats: 15,
+    id: 'sylphy-2015-silver',
+    category: 'fullsize',
+    categoryLabel: 'Full-Size Car',
+    name: '2015 Nissan Sylphy',
+    year: '2015',
+    color: 'Silver',
+    subtitle: 'Silver Standard Sedan · 2015 Fleet',
+    image: '/vehicles/sylphy.jpg',
+    seats: 5,
     transmission: 'Auto',
-    luggage: 10,
-    mpg: 23,
-    ratePerDay: 160,
+    luggage: 4,
+    mpg: 35,
+    ratePerDay: 75,
     deposit: 500,
-    badge: 'Group Bus'
+    badge: 'Executive Sedan'
   }
 ];
 
@@ -299,40 +325,106 @@ const DEFAULT_RETURN_DATE = addDays(DEFAULT_PICKUP_DATE, 4);
 // Seed one active out-on-road rental so Phase 5 & Phase 6 can also be tested immediately
 const INITIAL_SAMPLE_RENTAL = {
   id: 'TIE-508412',
+  raNumber: 'RA-2026-08412',
   createdAt: '09:40 AM',
   acquisitionChannel: 'Agent Approached at Airport ("Any rental car for you today?")',
-  vehicle: FLEET[0],
+  vehicle: FLEET[3], // 2016 Mazda Demio (Black)
+  plateNo: '2489-HX',
+  licDisc: 'LD-99214',
   location: LOCATIONS[0],
+  dropLocation: LOCATIONS[0],
   pickupDate: DEFAULT_PICKUP_DATE,
   pickupTime: '10:00 AM',
   returnDate: DEFAULT_RETURN_DATE,
   returnTime: '10:00 AM',
   rentalDays: 4,
+  rateType: 'daily',
   subtotal: 240,
   deposit: 500,
+  mileageOut: 48210,
+  mileageIn: 48690,
+  fuelLevelOut: 'F',
+  fuelLevelIn: 'F',
+  pickupDropFee: 0,
+  extraHours: 0,
+  tpiAmount: 0,
+  cdwAmount: 80,
+  cdwAccepted: true,
+  discount: 0,
+  extraCharges: 0,
+  fuelCharges: 0,
+  salesTax: 36,
   rentalPaymentMethod: 'cash',
   cardHolder: 'MARCUS STERLING',
   cardLast4: '4829',
   sendViaWhatsApp: true,
   driver: {
+    firstName: 'Marcus',
+    lastName: 'Sterling',
     fullName: 'Marcus Sterling',
     dob: '1988-06-14',
-    licenseNumber: 'JM-8492041-A',
-    licenseExpiry: '2029-11-30',
+    homeAddress: '142 Palm Crest Way, Fort Lauderdale, FL 33301, USA',
+    homePhone: '+1 (954) 555-0194',
     email: 'marcus.sterling@example.com',
     phone: '+1 (876) 555-0194',
+    localAddress: 'Half Moon Resort, Rose Hall, Montego Bay, Jamaica',
+    localPhone: '+1 (876) 885-2355',
+    licenseNumber: 'JM-8492041-A',
+    licenseExpiry: '2029-11-30',
+    relativeName: 'Eleanor Sterling (Sister)',
+    relativeAddress: '24 Coral Gardens, Montego Bay, Jamaica',
+    relativePhone: '+1 (876) 789-9051',
     idVerified: true
+  },
+  additionalDriver: {
+    hasDriver: true,
+    fullName: 'Sophia Sterling',
+    dob: '1990-09-22',
+    address: '142 Palm Crest Way, Fort Lauderdale, FL 33301, USA',
+    phone: '+1 (954) 555-0198',
+    idNumber: 'FL-D8492019',
+    licenseNumber: 'FL-940281-B',
+    licenseExpiry: '2030-05-15'
   },
   inspection: {
     noExistingDamage: true,
     damagedZones: [],
-    notes: 'Explicitly noted on check sheet: Vehicle has NO existing damage prior to handoff.',
+    notes: 'Exterior clean, no dents or scratches found upon pre-rental walkaround.',
+    gasLevel: 'Full',
+    mileageOut: 48210,
+    tyres: {
+      type: 'Radial Tubeless',
+      size: '185/65 R15',
+      frontLeft: 'New',
+      frontRight: 'New',
+      rearLeft: '1/4 Worn',
+      rearRight: '1/4 Worn',
+      spare: 'New'
+    },
+    checklist: {
+      hubCaps: 'O.K.',
+      bodyDamage: 'None',
+      emblems: 'O.K.',
+      trunkMat: 'O.K.',
+      tools: 'O.K.',
+      backBoard: 'O.K.',
+      mats: '4',
+      headRests: 'O.K.',
+      babySeatCount: '0',
+      babySeatCondition: 'N/A'
+    },
     customerVideoRecorded: true,
     agentVideoRecorded: true,
     checkSheetSignature: {
       mode: 'type',
       dataUrl: null,
       text: 'Marcus Sterling',
+      signedAt: '09:36 AM'
+    },
+    staffSignature: {
+      mode: 'type',
+      dataUrl: null,
+      text: 'Andray Williams (Agent)',
       signedAt: '09:36 AM'
     }
   },
@@ -349,6 +441,9 @@ const INITIAL_SAMPLE_RENTAL = {
   },
   returnAssessment: {
     inspected: false,
+    checkedPersonalBelongings: true,
+    mileageIn: 48690,
+    fuelLevelIn: 'Full',
     hasNewDamage: false,
     damageDescription: '',
     estimateCost: 0,
@@ -434,16 +529,59 @@ export default function App() {
   // --- PHASE 2 STATE: OFFICE DOCUMENTATION & APPLICATION ---
   const [sendViaWhatsApp, setSendViaWhatsApp] = useState(true);
   const [driver, setDriver] = useState({
+    firstName: '',
+    lastName: '',
     fullName: '',
     dob: '',
-    licenseNumber: '',
-    licenseExpiry: '',
+    homeAddress: '',
+    homePhone: '',
     email: '',
     phone: '',
+    localAddress: '',
+    localPhone: '',
+    licenseNumber: '',
+    licenseExpiry: '',
+    relativeName: '',
+    relativeAddress: '',
+    relativePhone: '',
     idVerified: false
+  });
+  const [additionalDriver, setAdditionalDriver] = useState({
+    hasDriver: false,
+    fullName: '',
+    dob: '',
+    address: '',
+    phone: '',
+    idNumber: '',
+    licenseNumber: '',
+    licenseExpiry: ''
   });
 
   // --- PHASE 3 STATE: VEHICLE INSPECTION, CHECK SHEET & DUAL VIDEOS ---
+  const [inspectionData, setInspectionData] = useState({
+    plateNo: '2489-HX',
+    raNumber: 'RA-508412',
+    licDisc: 'LD-99214',
+    mileageOut: 48210,
+    gasLevel: 'Full',
+    tyreType: 'Radial Tubeless',
+    tyreSize: '185/65 R15',
+    tyresFrontLeft: 'New',
+    tyresFrontRight: 'New',
+    tyresRearLeft: '1/4 Worn',
+    tyresRearRight: '1/4 Worn',
+    tyresSpare: 'New',
+    hubCaps: 'O.K.',
+    bodyDamage: 'None',
+    emblems: 'O.K.',
+    trunkMat: 'O.K.',
+    tools: 'O.K.',
+    backBoard: 'O.K.',
+    mats: '4',
+    headRests: 'O.K.',
+    babySeatCount: '0',
+    babySeatCondition: 'N/A'
+  });
   const [noExistingDamage, setNoExistingDamage] = useState(true);
   const [damagedZones, setDamagedZones] = useState([]);
   const [inspectionNotes, setInspectionNotes] = useState(
@@ -468,14 +606,16 @@ export default function App() {
 
   // --- PHASE 5 & 6 STATE: RETURN INSPECTION & POS RESOLUTION ---
   const [returnDraft, setReturnDraft] = useState({
-    hasNewDamage: true,
-    damageDescription:
-      'Deep front-right fender & bumper collision requiring panel replacement.',
-    estimateCost: 850,
-    isMajorDamage: true,
+    mileageIn: 48690,
+    fuelLevelIn: 'Full',
+    checkedPersonalBelongings: false,
+    hasNewDamage: false,
+    damageDescription: '',
+    estimateCost: 0,
+    isMajorDamage: false,
     professionalName: 'Devon Campbell (Certified Auto Body Estimator)',
     professionalVerified: true,
-    estimatePresentedToCustomer: true,
+    estimatePresentedToCustomer: false,
     informedDepositInsufficient: false,
     customerPosPermission: false
   });
@@ -729,13 +869,32 @@ export default function App() {
 
   const fillDemoApplication = () => {
     setDriver({
+      firstName: 'Nadine',
+      lastName: 'Wright',
       fullName: 'Nadine Wright',
       dob: '1991-03-22',
-      licenseNumber: 'JM-9940182-B',
-      licenseExpiry: '2030-08-19',
+      homeAddress: '744 Ocean Boulevard, Miami, FL 33139, USA',
+      homePhone: '+1 (305) 555-0842',
       email: 'nadine.wright@islandmail.com',
       phone: '+1 (876) 555-0842',
+      localAddress: 'S Hotel Jamaica, Jimmy Cliff Blvd, Montego Bay',
+      localPhone: '+1 (876) 885-2355',
+      licenseNumber: 'JM-9940182-B',
+      licenseExpiry: '2030-08-19',
+      relativeName: 'Marcus Wright (Brother)',
+      relativeAddress: '12 Queens Drive, Montego Bay, Jamaica',
+      relativePhone: '+1 (876) 789-9051',
       idVerified: true
+    });
+    setAdditionalDriver({
+      hasDriver: true,
+      fullName: 'Dwayne Wright',
+      dob: '1989-11-04',
+      address: '744 Ocean Boulevard, Miami, FL 33139, USA',
+      phone: '+1 (305) 555-0914',
+      idNumber: 'FL-D994102',
+      licenseNumber: 'FL-991204-B',
+      licenseExpiry: '2029-10-12'
     });
     setCard({
       holder: 'NADINE WRIGHT',
@@ -869,13 +1028,19 @@ export default function App() {
 
     setFormError('');
     const vehicleSubtotal = activeVehicle.ratePerDay * rentalDays;
-    const subtotal = vehicleSubtotal + toursTotal;
+    const cdwTotal = rentalDays * 20;
+    const subtotal = vehicleSubtotal + toursTotal + cdwTotal;
+    const randomRa = `RA-${Math.floor(100000 + Math.random() * 900000)}`;
     const newBooking = {
       id: `TIE-${Math.floor(100000 + Math.random() * 900000)}`,
+      raNumber: randomRa,
       createdAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       acquisitionChannel,
       vehicle: activeVehicle,
+      plateNo: inspectionData.plateNo || '2489-HX',
+      licDisc: inspectionData.licDisc || 'LD-99214',
       location: selectedLocation,
+      dropLocation: selectedLocation,
       pickupDate,
       pickupTime,
       returnDate,
@@ -886,18 +1051,61 @@ export default function App() {
       toursTotal,
       subtotal,
       deposit: activeVehicle.deposit,
+      mileageOut: inspectionData.mileageOut || 48210,
+      mileageIn: null,
+      fuelLevelOut: inspectionData.gasLevel === 'Full' ? 'F' : inspectionData.gasLevel || 'F',
+      fuelLevelIn: null,
+      pickupDropFee: 0,
+      extraHours: 0,
+      tpiAmount: 0,
+      cdwAmount: cdwTotal,
+      cdwAccepted: true,
+      discount: 0,
+      extraCharges: 0,
+      fuelCharges: 0,
+      salesTax: Math.round(subtotal * 0.15),
       rentalPaymentMethod,
       cardHolder: card.holder.trim(),
       cardLast4: rawDigits.slice(-4),
       sendViaWhatsApp,
       driver: { ...driver },
+      additionalDriver: { ...additionalDriver },
       inspection: {
         noExistingDamage,
         damagedZones: [...damagedZones],
         notes: inspectionNotes,
+        gasLevel: inspectionData.gasLevel,
+        mileageOut: inspectionData.mileageOut,
+        tyres: {
+          type: inspectionData.tyreType,
+          size: inspectionData.tyreSize,
+          frontLeft: inspectionData.tyresFrontLeft,
+          frontRight: inspectionData.tyresFrontRight,
+          rearLeft: inspectionData.tyresRearLeft,
+          rearRight: inspectionData.tyresRearRight,
+          spare: inspectionData.tyresSpare
+        },
+        checklist: {
+          hubCaps: inspectionData.hubCaps,
+          bodyDamage: noExistingDamage ? 'None' : 'Yes',
+          emblems: inspectionData.emblems,
+          trunkMat: inspectionData.trunkMat,
+          tools: inspectionData.tools,
+          backBoard: inspectionData.backBoard,
+          mats: inspectionData.mats,
+          headRests: inspectionData.headRests,
+          babySeatCount: inspectionData.babySeatCount,
+          babySeatCondition: inspectionData.babySeatCondition
+        },
         customerVideoRecorded,
         agentVideoRecorded,
-        checkSheetSignature
+        checkSheetSignature,
+        staffSignature: {
+          mode: 'type',
+          dataUrl: null,
+          text: 'Andray Williams (Agent)',
+          signedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        }
       },
       contract: {
         ackDamageResponsibility,
@@ -907,6 +1115,9 @@ export default function App() {
       },
       returnAssessment: {
         inspected: false,
+        checkedPersonalBelongings: false,
+        mileageIn: null,
+        fuelLevelIn: null,
         hasNewDamage: false,
         damageDescription: '',
         estimateCost: 0,
@@ -985,6 +1196,9 @@ export default function App() {
             ...item,
             returnAssessment: {
               inspected: true,
+              checkedPersonalBelongings: returnDraft.checkedPersonalBelongings,
+              mileageIn: returnDraft.mileageIn || 48690,
+              fuelLevelIn: returnDraft.fuelLevelIn || 'Full',
               hasNewDamage: returnDraft.hasNewDamage,
               damageDescription: returnDraft.hasNewDamage
                 ? returnDraft.damageDescription
@@ -1175,10 +1389,6 @@ export default function App() {
           <div className="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0">
             {CATEGORIES.map((cat) => {
               const active = selectedCategory === cat.id;
-              const count =
-                cat.id === 'all'
-                  ? FLEET.length
-                  : FLEET.filter((v) => v.category === cat.id).length;
               return (
                 <button
                   key={cat.id}
@@ -1190,12 +1400,6 @@ export default function App() {
                     }`}
                 >
                   <span>{cat.label}</span>
-                  <span
-                    className={`font-mono text-xs tabular-nums ${active ? 'text-white/85' : 'text-slate-400'
-                      }`}
-                  >
-                    {count}
-                  </span>
                 </button>
               );
             })}
@@ -1572,11 +1776,10 @@ export default function App() {
                                 Phase 2 · Rental Office Desk
                               </span>
                               <h3 className="text-base sm:text-lg font-semibold text-brand-ink mt-0.5">
-                                Customer Identification & Rental Application
+                                Customer Identification &amp; Rental Application
                               </h3>
                               <p className="text-sm text-slate-600 mt-1">
-                                Request physical ID and capture name, date of birth, license
-                                expiration date, and email.
+                                Capture complete physical contract details: Primary renter, home &amp; local Jamaica addresses, relative contact, and optional additional driver.
                               </p>
                             </div>
 
@@ -1590,24 +1793,30 @@ export default function App() {
                             </button>
                           </div>
 
-                          {/* Application Form Grid */}
+                          {/* Primary Renter Form Grid */}
                           <div className="glass-surface rounded-xl divide-y divide-brand-ink/10 overflow-hidden">
-                            <div className="px-4 py-3">
-                              <label className="block text-xs font-mono font-medium uppercase text-slate-500">
-                                Customer Full Legal Name *
-                              </label>
-                              <input
-                                type="text"
-                                placeholder="e.g., Nadine Wright"
-                                value={driver.fullName}
-                                onChange={(e) =>
-                                  setDriver({ ...driver, fullName: e.target.value })
-                                }
-                                className="w-full text-base text-brand-ink placeholder:text-slate-300 focus:outline-none mt-1"
-                              />
+                            <div className="p-3 bg-brand-teal/5">
+                              <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-700">
+                                1. Primary Renter Information
+                              </span>
                             </div>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-brand-border">
+                              <div className="px-4 py-3">
+                                <label className="block text-xs font-mono font-medium uppercase text-slate-500">
+                                  Full Legal Name (First &amp; Last) *
+                                </label>
+                                <input
+                                  type="text"
+                                  placeholder="e.g., Nadine Wright"
+                                  value={driver.fullName}
+                                  onChange={(e) =>
+                                    setDriver({ ...driver, fullName: e.target.value })
+                                  }
+                                  className="w-full text-base text-brand-ink placeholder:text-slate-300 focus:outline-none mt-1"
+                                />
+                              </div>
+
                               <div className="px-4 py-3">
                                 <label className="block text-xs font-mono font-medium uppercase text-slate-500">
                                   Date of Birth *
@@ -1616,20 +1825,6 @@ export default function App() {
                                   type="date"
                                   value={driver.dob}
                                   onChange={(e) => setDriver({ ...driver, dob: e.target.value })}
-                                  className="w-full text-base text-brand-ink tabular-nums focus:outline-none mt-1"
-                                />
-                              </div>
-
-                              <div className="px-4 py-3">
-                                <label className="block text-xs font-mono font-medium uppercase text-slate-500">
-                                  License Expiration Date *
-                                </label>
-                                <input
-                                  type="date"
-                                  value={driver.licenseExpiry}
-                                  onChange={(e) =>
-                                    setDriver({ ...driver, licenseExpiry: e.target.value })
-                                  }
                                   className="w-full text-base text-brand-ink tabular-nums focus:outline-none mt-1"
                                 />
                               </div>
@@ -1653,7 +1848,49 @@ export default function App() {
 
                               <div className="px-4 py-3">
                                 <label className="block text-xs font-mono font-medium uppercase text-slate-500">
-                                  CONTACT PHONE (INCLUDE COUNTRY CODE) *
+                                  License Expiration Date *
+                                </label>
+                                <input
+                                  type="date"
+                                  value={driver.licenseExpiry}
+                                  onChange={(e) =>
+                                    setDriver({ ...driver, licenseExpiry: e.target.value })
+                                  }
+                                  className="w-full text-base text-brand-ink tabular-nums focus:outline-none mt-1"
+                                />
+                              </div>
+                            </div>
+
+                            <div className="px-4 py-3">
+                              <label className="block text-xs font-mono font-medium uppercase text-slate-500">
+                                Permanent Home Address (City / State / Zip / Country) *
+                              </label>
+                              <input
+                                type="text"
+                                placeholder="e.g., 744 Ocean Boulevard, Miami, FL 33139, USA"
+                                value={driver.homeAddress}
+                                onChange={(e) => setDriver({ ...driver, homeAddress: e.target.value })}
+                                className="w-full text-base text-brand-ink placeholder:text-slate-300 focus:outline-none mt-1"
+                              />
+                            </div>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-brand-border">
+                              <div className="px-4 py-3">
+                                <label className="block text-xs font-mono font-medium uppercase text-slate-500">
+                                  Home Phone
+                                </label>
+                                <input
+                                  type="tel"
+                                  placeholder="+1 (305) 555-0842"
+                                  value={driver.homePhone}
+                                  onChange={(e) => setDriver({ ...driver, homePhone: e.target.value })}
+                                  className="w-full text-base text-brand-ink placeholder:text-slate-300 focus:outline-none mt-1"
+                                />
+                              </div>
+
+                              <div className="px-4 py-3">
+                                <label className="block text-xs font-mono font-medium uppercase text-slate-500">
+                                  Mobile Phone (WhatsApp) *
                                 </label>
                                 <input
                                   type="tel"
@@ -1669,7 +1906,7 @@ export default function App() {
 
                             <div className="px-4 py-3">
                               <label className="block text-xs font-mono font-medium uppercase text-slate-500">
-                                Email Address (For Contract Copy) *
+                                Email Address (For Contract Delivery) *
                               </label>
                               <input
                                 type="email"
@@ -1679,6 +1916,120 @@ export default function App() {
                                 className="w-full text-base text-brand-ink placeholder:text-slate-300 focus:outline-none mt-1"
                               />
                             </div>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-brand-border">
+                              <div className="px-4 py-3">
+                                <label className="block text-xs font-mono font-medium uppercase text-slate-500">
+                                  Local Jamaica Address (Hotel / Villa)
+                                </label>
+                                <input
+                                  type="text"
+                                  placeholder="e.g., S Hotel, Jimmy Cliff Blvd, Montego Bay"
+                                  value={driver.localAddress}
+                                  onChange={(e) => setDriver({ ...driver, localAddress: e.target.value })}
+                                  className="w-full text-base text-brand-ink placeholder:text-slate-300 focus:outline-none mt-1"
+                                />
+                              </div>
+
+                              <div className="px-4 py-3">
+                                <label className="block text-xs font-mono font-medium uppercase text-slate-500">
+                                  Local Jamaica Tel #
+                                </label>
+                                <input
+                                  type="tel"
+                                  placeholder="(876) 885-2355"
+                                  value={driver.localPhone}
+                                  onChange={(e) => setDriver({ ...driver, localPhone: e.target.value })}
+                                  className="w-full text-base text-brand-ink placeholder:text-slate-300 focus:outline-none mt-1"
+                                />
+                              </div>
+                            </div>
+
+                            <div className="px-4 py-3">
+                              <label className="block text-xs font-mono font-medium uppercase text-slate-500">
+                                Emergency / Relative Contact (Name, Address, Tel)
+                              </label>
+                              <input
+                                type="text"
+                                placeholder="e.g., Eleanor Sterling · Montego Bay · (876) 789-9051"
+                                value={driver.relativeName ? `${driver.relativeName} · ${driver.relativeAddress || ''} · ${driver.relativePhone || ''}` : ''}
+                                onChange={(e) => {
+                                  const parts = e.target.value.split('·').map(s => s.trim());
+                                  setDriver({
+                                    ...driver,
+                                    relativeName: parts[0] || e.target.value,
+                                    relativeAddress: parts[1] || '',
+                                    relativePhone: parts[2] || ''
+                                  });
+                                }}
+                                className="w-full text-base text-brand-ink placeholder:text-slate-300 focus:outline-none mt-1"
+                              />
+                            </div>
+                          </div>
+
+                          {/* Additional Driver Card */}
+                          <div className="glass-surface rounded-xl p-4 space-y-3">
+                            <label className="flex items-center justify-between cursor-pointer">
+                              <div>
+                                <span className="font-semibold text-brand-ink block text-sm">
+                                  Authorize Additional Driver on Contract
+                                </span>
+                                <span className="text-xs text-slate-500">
+                                  Physical ID &amp; License required before vehicle release
+                                </span>
+                              </div>
+                              <input
+                                type="checkbox"
+                                checked={additionalDriver.hasDriver}
+                                onChange={(e) =>
+                                  setAdditionalDriver({ ...additionalDriver, hasDriver: e.target.checked })
+                                }
+                                className="w-5 h-5 accent-brand-palm rounded cursor-pointer shrink-0"
+                              />
+                            </label>
+
+                            {additionalDriver.hasDriver && (
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-brand-ink/10 text-xs sm:text-sm">
+                                <div>
+                                  <label className="text-slate-500 block text-[11px] font-mono uppercase">Full Name</label>
+                                  <input
+                                    type="text"
+                                    placeholder="e.g., Dwayne Wright"
+                                    value={additionalDriver.fullName}
+                                    onChange={(e) => setAdditionalDriver({ ...additionalDriver, fullName: e.target.value })}
+                                    className="w-full p-2 rounded-lg border border-slate-200 bg-white text-brand-ink text-sm"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="text-slate-500 block text-[11px] font-mono uppercase">Date of Birth</label>
+                                  <input
+                                    type="date"
+                                    value={additionalDriver.dob}
+                                    onChange={(e) => setAdditionalDriver({ ...additionalDriver, dob: e.target.value })}
+                                    className="w-full p-2 rounded-lg border border-slate-200 bg-white text-brand-ink text-sm"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="text-slate-500 block text-[11px] font-mono uppercase">License / ID Number</label>
+                                  <input
+                                    type="text"
+                                    placeholder="FL-991204-B"
+                                    value={additionalDriver.licenseNumber}
+                                    onChange={(e) => setAdditionalDriver({ ...additionalDriver, licenseNumber: e.target.value })}
+                                    className="w-full p-2 rounded-lg border border-slate-200 bg-white text-brand-ink text-sm font-mono"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="text-slate-500 block text-[11px] font-mono uppercase">License Expiry</label>
+                                  <input
+                                    type="date"
+                                    value={additionalDriver.licenseExpiry}
+                                    onChange={(e) => setAdditionalDriver({ ...additionalDriver, licenseExpiry: e.target.value })}
+                                    className="w-full p-2 rounded-lg border border-slate-200 bg-white text-brand-ink text-sm"
+                                  />
+                                </div>
+                              </div>
+                            )}
                           </div>
 
                           {/* WhatsApp Digital Contract Delivery */}
@@ -1714,7 +2065,7 @@ export default function App() {
                             <div className="text-sm">
                               <span className="font-semibold text-zinc-950 flex items-center gap-2">
                                 <UserCheck className="w-4 h-4 text-zinc-950 shrink-0" />
-                                Physical Identification Inspected & Verified by Agent
+                                Physical Identification Inspected &amp; Verified by Agent
                               </span>
                               <p className="text-slate-600 mt-1 leading-snug">
                                 Confirm customer proceeded to the office and presented valid physical
@@ -1732,17 +2083,233 @@ export default function App() {
                         <div className="p-6 space-y-4">
                           <div>
                             <span className="text-xs font-mono uppercase tracking-wider text-brand-teal font-medium">
-                              Phase 3 · Vehicle Inspection & Handoff
+                              Phase 3 · Vehicle Inspection &amp; Handoff
                             </span>
                             <h3 className="text-base sm:text-lg font-semibold text-brand-ink mt-0.5">
-                              Designated Check Sheet & Dual Walkaround Videos
+                              Check Out / Check In Inspection Sheet
                             </h3>
                             <p className="text-sm text-slate-600 mt-1">
-                              Document existing damage or explicitly note no existing damage, record
-                              both videos, and collect customer check-sheet confirmation signature.
+                              Record vehicle identifiers, fuel level, mileage, tyres condition, and interior/exterior equipment checklist.
                             </p>
                           </div>
 
+                          {/* 1. Vehicle Identifiers & Odometer / Fuel */}
+                          <div className="glass-surface rounded-xl p-4 space-y-3">
+                            <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-700 block">
+                              1. Vehicle Dispatch Data
+                            </span>
+                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                              <div>
+                                <label className="text-slate-500 block font-mono">Plate No.</label>
+                                <input
+                                  type="text"
+                                  value={inspectionData.plateNo}
+                                  onChange={(e) => setInspectionData({ ...inspectionData, plateNo: e.target.value })}
+                                  className="w-full p-2 rounded-lg border border-slate-200 bg-white font-mono text-sm text-brand-ink"
+                                />
+                              </div>
+                              <div>
+                                <label className="text-slate-500 block font-mono">R.A. No.</label>
+                                <input
+                                  type="text"
+                                  value={inspectionData.raNumber}
+                                  onChange={(e) => setInspectionData({ ...inspectionData, raNumber: e.target.value })}
+                                  className="w-full p-2 rounded-lg border border-slate-200 bg-white font-mono text-sm text-brand-ink"
+                                />
+                              </div>
+                              <div>
+                                <label className="text-slate-500 block font-mono">Lic. Disc</label>
+                                <input
+                                  type="text"
+                                  value={inspectionData.licDisc}
+                                  onChange={(e) => setInspectionData({ ...inspectionData, licDisc: e.target.value })}
+                                  className="w-full p-2 rounded-lg border border-slate-200 bg-white font-mono text-sm text-brand-ink"
+                                />
+                              </div>
+                              <div>
+                                <label className="text-slate-500 block font-mono">Mileage Out (km)</label>
+                                <input
+                                  type="number"
+                                  value={inspectionData.mileageOut}
+                                  onChange={(e) => setInspectionData({ ...inspectionData, mileageOut: Number(e.target.value) })}
+                                  className="w-full p-2 rounded-lg border border-slate-200 bg-white font-mono text-sm text-brand-ink"
+                                />
+                              </div>
+                            </div>
+
+                            <div>
+                              <label className="text-slate-600 block text-xs font-mono mb-1.5 font-medium">
+                                Fuel Gauge Level Out:
+                              </label>
+                              <div className="grid grid-cols-5 gap-1.5 font-mono text-xs">
+                                {['0', '1/4', '1/2', '3/4', 'Full'].map((lvl) => (
+                                  <button
+                                    key={lvl}
+                                    type="button"
+                                    onClick={() => setInspectionData({ ...inspectionData, gasLevel: lvl })}
+                                    className={`py-2 rounded-lg font-medium transition-all cursor-pointer ${
+                                      inspectionData.gasLevel === lvl
+                                        ? 'bg-emerald-800 text-white shadow-xs'
+                                        : 'bg-white/80 border border-slate-200 text-slate-700 hover:bg-white'
+                                    }`}
+                                  >
+                                    {lvl === 'Full' ? 'Full (F)' : lvl}
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* 2. Tyres & Spare Tyre Inspection */}
+                          <div className="glass-surface rounded-xl p-4 space-y-3">
+                            <div className="flex items-center justify-between">
+                              <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-700 block">
+                                2. Tyres &amp; Spare Tyre Condition
+                              </span>
+                              <span className="text-[11px] font-mono text-slate-500">
+                                {inspectionData.tyreType} · {inspectionData.tyreSize}
+                              </span>
+                            </div>
+
+                            <div className="space-y-2 text-xs">
+                              {[
+                                { key: 'tyresFrontLeft', label: 'Front Left' },
+                                { key: 'tyresFrontRight', label: 'Front Right' },
+                                { key: 'tyresRearLeft', label: 'Rear Left' },
+                                { key: 'tyresRearRight', label: 'Rear Right' },
+                                { key: 'tyresSpare', label: 'Spare Tyre' }
+                              ].map((wheel) => (
+                                <div key={wheel.key} className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 pb-1 border-b border-slate-100 last:border-none">
+                                  <span className="font-medium text-slate-700 w-28 shrink-0">{wheel.label}:</span>
+                                  <div className="grid grid-cols-5 gap-1 flex-1 font-mono text-[11px]">
+                                    {['New', '1/4 Worn', '1/2 Worn', '3/4 Worn', 'Smooth'].map((cond) => (
+                                      <button
+                                        key={cond}
+                                        type="button"
+                                        onClick={() => setInspectionData({ ...inspectionData, [wheel.key]: cond })}
+                                        className={`py-1 px-1 rounded text-center transition-all cursor-pointer truncate ${
+                                          inspectionData[wheel.key] === cond
+                                            ? 'bg-emerald-800 text-white font-semibold'
+                                            : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
+                                        }`}
+                                      >
+                                        {cond}
+                                      </button>
+                                    ))}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* 3. Exterior & Interior Equipment Checklist */}
+                          <div className="glass-surface rounded-xl p-4 space-y-3">
+                            <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-700 block">
+                              3. Accessories &amp; Equipment Checklist
+                            </span>
+                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                              <div className="p-2.5 rounded-lg bg-white border border-slate-200">
+                                <label className="text-slate-500 block text-[11px]">Hub Caps (H/Caps)</label>
+                                <select
+                                  value={inspectionData.hubCaps}
+                                  onChange={(e) => setInspectionData({ ...inspectionData, hubCaps: e.target.value })}
+                                  className="w-full mt-1 bg-transparent font-semibold text-slate-800 focus:outline-none"
+                                >
+                                  <option value="O.K.">O.K.</option>
+                                  <option value="Missing">Missing</option>
+                                </select>
+                              </div>
+
+                              <div className="p-2.5 rounded-lg bg-white border border-slate-200">
+                                <label className="text-slate-500 block text-[11px]">Emblems</label>
+                                <select
+                                  value={inspectionData.emblems}
+                                  onChange={(e) => setInspectionData({ ...inspectionData, emblems: e.target.value })}
+                                  className="w-full mt-1 bg-transparent font-semibold text-slate-800 focus:outline-none"
+                                >
+                                  <option value="O.K.">O.K.</option>
+                                  <option value="Missing">Missing</option>
+                                </select>
+                              </div>
+
+                              <div className="p-2.5 rounded-lg bg-white border border-slate-200">
+                                <label className="text-slate-500 block text-[11px]">Trunk Mat</label>
+                                <select
+                                  value={inspectionData.trunkMat}
+                                  onChange={(e) => setInspectionData({ ...inspectionData, trunkMat: e.target.value })}
+                                  className="w-full mt-1 bg-transparent font-semibold text-slate-800 focus:outline-none"
+                                >
+                                  <option value="O.K.">O.K.</option>
+                                  <option value="Missing">Missing</option>
+                                </select>
+                              </div>
+
+                              <div className="p-2.5 rounded-lg bg-white border border-slate-200">
+                                <label className="text-slate-500 block text-[11px]">Jack &amp; Tools</label>
+                                <select
+                                  value={inspectionData.tools}
+                                  onChange={(e) => setInspectionData({ ...inspectionData, tools: e.target.value })}
+                                  className="w-full mt-1 bg-transparent font-semibold text-slate-800 focus:outline-none"
+                                >
+                                  <option value="O.K.">O.K.</option>
+                                  <option value="Missing">Missing</option>
+                                </select>
+                              </div>
+
+                              <div className="p-2.5 rounded-lg bg-white border border-slate-200">
+                                <label className="text-slate-500 block text-[11px]">Back Board</label>
+                                <select
+                                  value={inspectionData.backBoard}
+                                  onChange={(e) => setInspectionData({ ...inspectionData, backBoard: e.target.value })}
+                                  className="w-full mt-1 bg-transparent font-semibold text-slate-800 focus:outline-none"
+                                >
+                                  <option value="O.K.">O.K.</option>
+                                  <option value="Missing">Missing</option>
+                                </select>
+                              </div>
+
+                              <div className="p-2.5 rounded-lg bg-white border border-slate-200">
+                                <label className="text-slate-500 block text-[11px]">Floor Mats</label>
+                                <select
+                                  value={inspectionData.mats}
+                                  onChange={(e) => setInspectionData({ ...inspectionData, mats: e.target.value })}
+                                  className="w-full mt-1 bg-transparent font-semibold text-slate-800 focus:outline-none"
+                                >
+                                  <option value="4">4 Mats Present</option>
+                                  <option value="3">3 Mats Present</option>
+                                  <option value="2">2 Mats Present</option>
+                                  <option value="1">1 Mat Present</option>
+                                </select>
+                              </div>
+
+                              <div className="p-2.5 rounded-lg bg-white border border-slate-200">
+                                <label className="text-slate-500 block text-[11px]">Head Rests</label>
+                                <select
+                                  value={inspectionData.headRests}
+                                  onChange={(e) => setInspectionData({ ...inspectionData, headRests: e.target.value })}
+                                  className="w-full mt-1 bg-transparent font-semibold text-slate-800 focus:outline-none"
+                                >
+                                  <option value="O.K.">O.K.</option>
+                                  <option value="Missing">Missing</option>
+                                </select>
+                              </div>
+
+                              <div className="p-2.5 rounded-lg bg-white border border-slate-200">
+                                <label className="text-slate-500 block text-[11px]">Baby Seat (# &amp; Cond)</label>
+                                <select
+                                  value={inspectionData.babySeatCount}
+                                  onChange={(e) => setInspectionData({ ...inspectionData, babySeatCount: e.target.value })}
+                                  className="w-full mt-1 bg-transparent font-semibold text-slate-800 focus:outline-none"
+                                >
+                                  <option value="0">None (0)</option>
+                                  <option value="1">1 (Clean / Good)</option>
+                                  <option value="2">2 (Clean / Good)</option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* 4. Body Damage & Diagram Notes */}
                           {/* Explicit "No Existing Damage" Toggle */}
                           <label
                             className={`p-4 rounded-xl flex items-center justify-between gap-3.5 cursor-pointer transition-all ${noExistingDamage
@@ -1770,10 +2337,10 @@ export default function App() {
                             />
                           </label>
 
-                          {/* Zone Selector Pills */}
+                          {/* Zone Selector Pills & Diagram Notes */}
                           <div className="space-y-2.5">
                             <span className="block text-xs font-mono uppercase tracking-wider text-slate-500">
-                              Or Tap Zones to Log Existing Scratches / Dents on Check Sheet:
+                              Or Tap Zones to Log Existing Scratches / Dents on Check Sheet (Front/Right &amp; Left/Rear):
                             </span>
                             <div className="flex flex-wrap gap-2">
                               {VEHICLE_CHECK_ZONES.map((zone) => {
@@ -1799,7 +2366,7 @@ export default function App() {
                               value={inspectionNotes}
                               onChange={(e) => setInspectionNotes(e.target.value)}
                               className="w-full p-3 rounded-xl glass-surface text-sm text-brand-ink focus:border-brand-palm focus:outline-none"
-                              placeholder="Check sheet inspection remarks..."
+                              placeholder="Check sheet inspection remarks (e.g. Front/Right or Left/Rear diagram notes)..."
                             />
                           </div>
 
@@ -1879,8 +2446,50 @@ export default function App() {
                             </h3>
                           </div>
 
-                          {/* Contract Clauses & Mandatory Disclosures */}
-                          <div className="glass-surface rounded-xl divide-y divide-brand-ink/10 overflow-hidden text-sm">
+                          {/* Itemized Billing Breakdown Card */}
+                          <div className="glass-surface rounded-xl p-4 space-y-2">
+                            <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-700 block border-b border-brand-ink/10 pb-1.5">
+                              Billing Breakdown (USD)
+                            </span>
+                            <div className="grid grid-cols-2 gap-y-1 text-xs font-mono">
+                              <span className="text-slate-600 font-sans">
+                                Rental Duration ({rentalDays} {rentalDays === 1 ? 'day' : 'days'} @ ${activeVehicle.ratePerDay}/day):
+                              </span>
+                              <span className="text-right font-semibold">${activeVehicle.ratePerDay * rentalDays}.00</span>
+
+                              <span className="text-slate-600 font-sans">Collision Damage Waiver (CDW):</span>
+                              <span className="text-right">${rentalDays * 20}.00 (Included Option)</span>
+
+                              {toursTotal > 0 && (
+                                <>
+                                  <span className="text-slate-600 font-sans">Tours &amp; Add-ons:</span>
+                                  <span className="text-right">+${toursTotal}.00</span>
+                                </>
+                              )}
+
+                              <span className="text-slate-600 font-sans">GOVT. TAX (GCT - 15%):</span>
+                              <span className="text-right">${Math.round((activeVehicle.ratePerDay * rentalDays + toursTotal + rentalDays * 20) * 0.15)}.00</span>
+
+                              <div className="col-span-2 pt-1 border-t border-slate-200 flex justify-between font-bold text-slate-900 text-sm">
+                                <span className="font-sans">Total Rental Charges:</span>
+                                <span>${activeVehicle.ratePerDay * rentalDays + toursTotal + rentalDays * 20}.00 USD</span>
+                              </div>
+
+                              <div className="col-span-2 flex justify-between text-xs text-slate-600">
+                                <span className="font-sans">Card Security Deposit Hold:</span>
+                                <span>${activeVehicle.deposit}.00 (Pre-Auth)</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Official Contract Clauses & Mandatory Disclosures */}
+                          <div className="glass-surface rounded-xl divide-y divide-brand-ink/10 overflow-hidden text-xs sm:text-sm">
+                            <div className="p-3 bg-brand-teal/5">
+                              <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-700 block">
+                                Official Contract Terms &amp; Policies
+                              </span>
+                            </div>
+
                             <label className="p-3.5 flex items-start gap-3 cursor-pointer hover:bg-white/45">
                               <input
                                 type="checkbox"
@@ -1890,12 +2499,10 @@ export default function App() {
                               />
                               <div>
                                 <span className="font-semibold text-brand-ink block">
-                                  1. Full Responsibility for Damages & Accidents
+                                  1. Minimum Age (21+) &amp; Full Damage / Accident Liability
                                 </span>
                                 <span className="text-slate-600 mt-0.5 block leading-snug">
-                                  Agent reviewed contract & check sheet with {driver.fullName || 'customer'},
-                                  explaining they are responsible for covering any damages or
-                                  accidents to the rental vehicle.
+                                  Minimum rental age is 21 years. Customer acknowledges full legal and financial responsibility for any collision, damages, or losses to the vehicle during rental.
                                 </span>
                               </div>
                             </label>
@@ -1910,16 +2517,10 @@ export default function App() {
                               <div>
                                 <span className="font-semibold text-brand-ink flex items-center gap-2">
                                   <ShieldAlert className="w-4 h-4 text-brand-amber-ink shrink-0" />
-                                  2. Third-Party Insurance Policy Clarification
+                                  2. Third-Party Insurance Only &amp; CDW Terms
                                 </span>
                                 <span className="text-slate-700 mt-0.5 block leading-snug">
-                                  Clarified that Take It Easy Car Rental uses{' '}
-                                  <strong className="text-brand-ink">third-party insurance</strong>,
-                                  which covers the <u>other person’s vehicle</u> in an accident, and{' '}
-                                  <strong className="text-brand-ink">
-                                    does NOT cover the rental vehicle
-                                  </strong>
-                                  .
+                                  Third-party insurance covers third parties only and does not cover the rental vehicle. Renter is responsible for the first $3,500 / $4,500 USD collision damage excess. Negligence voids CDW.
                                 </span>
                               </div>
                             </label>
@@ -1933,11 +2534,10 @@ export default function App() {
                               />
                               <div>
                                 <span className="font-semibold text-brand-ink block">
-                                  3. Customer Copy & Office Original Retained
+                                  3. Returns, Tyres/Rims Liability, No Refund Policy &amp; Emergency 119
                                 </span>
                                 <span className="text-slate-600 mt-0.5 block leading-snug">
-                                  Customer receives a copy of the contract and check sheet; office
-                                  keeps the original signed documents.
+                                  Vehicle must be returned to same location on/before due date/time (or drop charge applies). Renter is fully liable for rims and tyres. <strong>NO REFUND — CREDIT NOTE ONLY</strong> (valid 1 year). In case of accident, call 119. Customer copy delivered and office original retained.
                                 </span>
                               </div>
                             </label>
@@ -2368,7 +2968,7 @@ export default function App() {
                               ...returnDraft,
                               hasNewDamage: true,
                               estimateCost:
-                                returnDraft.estimateCost > 0 ? returnDraft.estimateCost : 850
+                              returnDraft.estimateCost > 0 ? returnDraft.estimateCost : 850
                             })
                           }
                           className={`px-3 py-1.5 rounded-lg font-medium cursor-pointer transition-all ${returnDraft.hasNewDamage
@@ -2379,6 +2979,51 @@ export default function App() {
                           Damage Present
                         </button>
                       </div>
+                    </div>
+
+                    {/* Return Odometer, Fuel Level & Belongings Verification */}
+                    <div className="glass-surface rounded-xl p-4 space-y-3 text-xs sm:text-sm">
+                      <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-700 block">
+                        Return Vehicle Check-In Data
+                      </span>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                          <label className="text-slate-500 block font-mono text-xs">Return Mileage In (km)</label>
+                          <input
+                            type="number"
+                            value={returnDraft.mileageIn || 48690}
+                            onChange={(e) => setReturnDraft({ ...returnDraft, mileageIn: Number(e.target.value) })}
+                            className="w-full p-2 rounded-lg border border-slate-200 bg-white font-mono text-sm text-brand-ink"
+                          />
+                        </div>
+                        <div>
+                          <label className="text-slate-500 block font-mono text-xs">Return Fuel Level</label>
+                          <select
+                            value={returnDraft.fuelLevelIn || 'Full'}
+                            onChange={(e) => setReturnDraft({ ...returnDraft, fuelLevelIn: e.target.value })}
+                            className="w-full p-2 rounded-lg border border-slate-200 bg-white font-mono text-sm text-brand-ink"
+                          >
+                            <option value="Full">Full (F)</option>
+                            <option value="3/4">3/4 Tank</option>
+                            <option value="1/2">1/2 Tank</option>
+                            <option value="1/4">1/4 Tank</option>
+                            <option value="0">Empty (0)</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      {/* Mandatory Checked for Personal Belongings */}
+                      <label className="p-3 rounded-lg border border-emerald-300 bg-emerald-50/70 flex items-start gap-3 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={returnDraft.checkedPersonalBelongings}
+                          onChange={(e) => setReturnDraft({ ...returnDraft, checkedPersonalBelongings: e.target.checked })}
+                          className="mt-0.5 w-5 h-5 accent-emerald-800 rounded shrink-0 cursor-pointer"
+                        />
+                        <span className="text-slate-800 font-medium text-xs sm:text-sm leading-snug">
+                          <strong>Checked for Personal Belongings:</strong> Agent and renter conducted thorough sweep of vehicle cabin, glove compartment, door pockets, and trunk. No personal property left behind.
+                        </span>
+                      </label>
                     </div>
 
                     {returnDraft.hasNewDamage ? (

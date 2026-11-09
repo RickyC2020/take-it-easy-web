@@ -932,61 +932,70 @@ export default function PublicCheckoutModal({
                       <div className="bg-white p-4 rounded-xl border border-slate-200/90 shadow-2xs space-y-1">
                         <h4 className="font-bold text-slate-900 flex items-center gap-2">
                           <span className="inline-flex items-center justify-center w-5 h-5 rounded-md bg-emerald-800 text-white font-mono text-[11px] font-bold">1</span>
-                          <span>Unlimited Island Mileage &amp; Permitted Road Use</span>
+                          <span>Minimum Age &amp; Driver Eligibility</span>
                         </h4>
                         <p className="text-slate-600 text-xs sm:text-sm pl-7">
-                          Your rental includes <strong>unlimited mileage</strong> on paved public roads across Jamaica.
-                          Vehicles may only be operated by licensed drivers named on the agreement (valid physical driver&apos;s
-                          license presented at handoff). Off-road riverbed driving, beach/sand driving, racing, or commercial sub-hire is strictly prohibited.
+                          Minimum age is <strong>21 years</strong>. Take It Easy Car Rentals &amp; Tours Limited reserves the right to refuse anyone when done in the best interest of the Company or customer. Unlimited mileage on public roads across Jamaica is included.
                         </p>
                       </div>
 
                       <div className="bg-white p-4 rounded-xl border border-slate-200/90 shadow-2xs space-y-1">
                         <h4 className="font-bold text-slate-900 flex items-center gap-2">
                           <span className="inline-flex items-center justify-center w-5 h-5 rounded-md bg-emerald-800 text-white font-mono text-[11px] font-bold">2</span>
-                          <span>Third-Party Insurance &amp; Collision Liability</span>
+                          <span>Rate Exclusions &amp; Security Deposit</span>
                         </h4>
                         <p className="text-slate-600 text-xs sm:text-sm pl-7">
-                          Standard statutory third-party motor liability coverage is included in your daily rate under Jamaican road regulations. The renter
-                          remains responsible for new exterior, glass, tire, rim, or undercarriage damage occurring during the
-                          rental period up to the applicable vehicle collision excess, as verified against the digital pickup Check Sheet.
+                          Rates do not include gasoline, GOVT. TAX, and security deposit (if applicable). The company reserves the right to collect a deposit covering estimated charges and damages (pre-authorization hold of <strong>${depositAmount} USD</strong> placed at booking).
                         </p>
                       </div>
 
                       <div className="bg-white p-4 rounded-xl border border-slate-200/90 shadow-2xs space-y-1">
                         <h4 className="font-bold text-slate-900 flex items-center gap-2">
                           <span className="inline-flex items-center justify-center w-5 h-5 rounded-md bg-emerald-800 text-white font-mono text-[11px] font-bold">3</span>
-                          <span>Full-to-Full Fuel Policy (8/8 Level)</span>
+                          <span>Traffic &amp; Parking Violations</span>
                         </h4>
                         <p className="text-slate-600 text-xs sm:text-sm pl-7">
-                          Every Take It Easy vehicle is released with a verified <strong>8/8 full tank</strong>. If the vehicle
-                          is returned below 8/8, fuel replacement is charged at current local pump rates plus a{' '}
-                          <strong>$15 USD</strong> refueling service fee.
+                          Renters assume full legal and financial responsibility for all parking and traffic violations incurred during the rental term.
                         </p>
                       </div>
 
                       <div className="bg-white p-4 rounded-xl border border-slate-200/90 shadow-2xs space-y-1">
                         <h4 className="font-bold text-slate-900 flex items-center gap-2">
                           <span className="inline-flex items-center justify-center w-5 h-5 rounded-md bg-emerald-800 text-white font-mono text-[11px] font-bold">4</span>
-                          <span>${depositAmount} USD Card Security Deposit Pre-Authorization Hold</span>
+                          <span>Returns &amp; Drop Charges</span>
                         </h4>
                         <p className="text-slate-600 text-xs sm:text-sm pl-7">
-                          A mandatory <strong>${depositAmount} USD security deposit pre-authorization hold</strong> is placed
-                          on your payment card at checkout alongside your rental charges. Funds are held—not permanently
-                          captured—and the full ${depositAmount} USD security deposit is automatically released upon timely
-                          return of the vehicle in clean, undamaged condition with an 8/8 full tank.
+                          The vehicle must be returned on or before the scheduled due date/time to the same location where rented (<strong>{location.shortName}</strong>), or an applicable drop charge may apply.
                         </p>
                       </div>
 
                       <div className="bg-white p-4 rounded-xl border border-slate-200/90 shadow-2xs space-y-1">
                         <h4 className="font-bold text-slate-900 flex items-center gap-2">
                           <span className="inline-flex items-center justify-center w-5 h-5 rounded-md bg-emerald-800 text-white font-mono text-[11px] font-bold">5</span>
-                          <span>Return Schedule &amp; Curbside Airport Grace Period</span>
+                          <span>Parts, Repairs &amp; Tyres / Rims Liability</span>
                         </h4>
                         <p className="text-slate-600 text-xs sm:text-sm pl-7">
-                          Scheduled return is <strong>{returnDateLabel}</strong> at{' '}
-                          <strong>{location.shortName}</strong>. A 59-minute airport traffic grace period is provided; late
-                          returns beyond 1 hour without prior WhatsApp notice may incur an additional pro-rated or daily charge.
+                          Parts and repairs charges will not be refunded without an official receipt and prior consent from Take It Easy Car Rentals &amp; Tours Limited. The renter is fully liable for all damage to rims and tyres.
+                        </p>
+                      </div>
+
+                      <div className="bg-white p-4 rounded-xl border border-slate-200/90 shadow-2xs space-y-1">
+                        <h4 className="font-bold text-slate-900 flex items-center gap-2">
+                          <span className="inline-flex items-center justify-center w-5 h-5 rounded-md bg-emerald-800 text-white font-mono text-[11px] font-bold">6</span>
+                          <span>Insurance &amp; Collision Damage Waiver (CDW)</span>
+                        </h4>
+                        <p className="text-slate-600 text-xs sm:text-sm pl-7">
+                          Third-party liability insurance does not cover damages sustained by the renter or occupants personally. Renter accepts or declines CDW at the daily rate, with renter responsibility for the first $3,500 / $4,500 USD (or specified amount) of collision damage. Negligence or violation of the agreement makes the renter fully liable for all damages even with CDW.
+                        </p>
+                      </div>
+
+                      <div className="bg-white p-4 rounded-xl border border-rose-200/90 shadow-2xs space-y-1">
+                        <h4 className="font-bold text-rose-900 flex items-center gap-2">
+                          <span className="inline-flex items-center justify-center w-5 h-5 rounded-md bg-rose-700 text-white font-mono text-[11px] font-bold">7</span>
+                          <span>Refund Policy &amp; Emergency (Call 119)</span>
+                        </h4>
+                        <p className="text-slate-600 text-xs sm:text-sm pl-7">
+                          <strong>NO REFUND — CREDIT NOTE ONLY</strong> (Credit note is valid for one (1) year). In the case of an accident, call <strong>119</strong> immediately.
                         </p>
                       </div>
 

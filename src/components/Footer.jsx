@@ -4,9 +4,8 @@ import { Phone, Mail, User, MessageCircle } from 'lucide-react';
 const CURRENT_YEAR = new Date().getFullYear();
 
 const CONTACT_PHONES = [
-  { label: '876-789-9051', tel: '+18767899051' },
-  { label: '876-885-2355', tel: '+18768852355' },
-  { label: '876-442-6735', tel: '+18764426735' },
+  { label: '(876) 885-2355', tel: '+18768852355' },
+  { label: '(876) 789-9051', tel: '+18767899051' },
 ];
 
 export default function Footer({ onNavigate }) {
@@ -44,16 +43,22 @@ export default function Footer({ onNavigate }) {
                   TAKE IT EASY
                 </span>
                 <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-emerald-900/80 text-emerald-300 border border-emerald-700/60 inline-block mt-0.5">
-                  Montego Bay · Kingston
+                  Montego Bay (MBJ) · Kingston (KIN)
                 </span>
               </div>
             </a>
-            <p className="text-xs text-slate-400 mt-1 max-w-sm">
-              Take It Easy Car Rentals &amp; Tours. Curbside airport handoff at Sangster Intl (MBJ) and Norman Manley (KIN). Island-wide adventures made effortless.
+            <p className="text-xs font-semibold text-slate-300 mt-1 max-w-sm">
+              Take It Easy Car Rentals &amp; Tours Limited
             </p>
-            <div className="mt-3 flex items-center justify-center md:justify-start gap-1.5 text-xs text-slate-400">
+            <p className="text-xs text-slate-400 mt-0.5 max-w-sm">
+              80c Queen&apos;s Drive, Montego Bay, St. James, Jamaica. Curbside airport handoff at Sangster Intl (MBJ) and Norman Manley (KIN).
+            </p>
+            <div className="mt-2.5 flex items-center justify-center md:justify-start gap-1.5 text-xs text-slate-400">
               <User className="w-3.5 h-3.5 text-emerald-400" />
               <span>Director: <strong className="text-white">Andray Williams</strong></span>
+            </div>
+            <div className="mt-1.5 text-xs text-amber-300/90 font-mono">
+              Emergency: In the case of an accident, call <strong>119</strong>.
             </div>
           </div>
 
@@ -136,7 +141,7 @@ export default function Footer({ onNavigate }) {
 
         {/* Copyright */}
         <div className="text-center text-[11px] text-slate-500 font-mono pt-2">
-          © {CURRENT_YEAR} Take It Easy Car Rentals &amp; Tours. All rights reserved. Rates in USD.
+          © {CURRENT_YEAR} Take It Easy Car Rentals &amp; Tours Limited. All rights reserved. Rates in USD.
         </div>
       </div>
     </footer>

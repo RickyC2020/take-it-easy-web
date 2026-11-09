@@ -2,9 +2,8 @@ import React, { useEffect } from 'react';
 import { X, Phone, Mail, MapPin, User, MessageCircle, Clock } from 'lucide-react';
 
 const CONTACT_PHONES = [
-  { label: '876-789-9051', tel: '+18767899051' },
-  { label: '876-885-2355', tel: '+18768852355' },
-  { label: '876-442-6735', tel: '+18764426735' },
+  { label: '(876) 885-2355', tel: '+18768852355' },
+  { label: '(876) 789-9051', tel: '+18767899051' },
 ];
 
 export default function ContactModal({ isOpen, onClose }) {
@@ -58,17 +57,25 @@ export default function ContactModal({ isOpen, onClose }) {
           <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <h3 className="font-extrabold text-slate-900 text-base">
-                Take It Easy Car Rentals &amp; Tours
+                Take It Easy Car Rentals &amp; Tours Limited
               </h3>
-              <p className="text-xs text-slate-600 flex items-center gap-1.5 mt-0.5">
+              <p className="text-xs text-slate-600 mt-0.5">
+                80c Queen&apos;s Drive, Montego Bay, St. James, Jamaica
+              </p>
+              <p className="text-xs text-slate-600 flex items-center gap-1.5 mt-1">
                 <User className="w-3.5 h-3.5 text-emerald-700" />
                 <span>Director: <strong>Andray Williams</strong></span>
               </p>
             </div>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-semibold self-start sm:self-auto">
-              <Clock className="w-3.5 h-3.5" />
-              24/7 Island Support
-            </span>
+            <div className="flex flex-col gap-1 items-start sm:items-end">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-semibold">
+                <Clock className="w-3.5 h-3.5" />
+                24/7 Island Support
+              </span>
+              <span className="text-[11px] font-mono text-amber-700 font-bold">
+                Emergency: Call 119
+              </span>
+            </div>
           </div>
 
           {/* Call & WhatsApp Numbers */}

@@ -2,9 +2,8 @@ import React from 'react';
 import { Phone, Mail, MapPin, User, MessageCircle, Clock, ShieldCheck } from 'lucide-react';
 
 const CONTACT_PHONES = [
-  { label: '876-789-9051', tel: '+18767899051' },
-  { label: '876-885-2355', tel: '+18768852355' },
-  { label: '876-442-6735', tel: '+18764426735' },
+  { label: '(876) 885-2355', tel: '+18768852355' },
+  { label: '(876) 789-9051', tel: '+18767899051' },
 ];
 
 export default function ContactSection() {
@@ -26,10 +25,10 @@ export default function ContactSection() {
               id="contact-heading"
               className="text-2xl sm:text-3xl font-semibold tracking-tight text-brand-ink mt-1"
             >
-              Contact Take It Easy Car Rentals &amp; Tours
+              Contact Take It Easy Car Rentals &amp; Tours Limited
             </h2>
             <p className="text-sm sm:text-base text-slate-600 mt-1.5 max-w-2xl">
-              Connect with our airport counter dispatch or our leadership team for custom bookings, flight delays, roadside assistance, or private island tour arrangements.
+              Official Headquarters: 80c Queen&apos;s Drive, Montego Bay, St. James, Jamaica. Curbside airport dispatch at MBJ and KIN. Emergency: In the case of an accident, call 119.
             </p>
           </div>
 

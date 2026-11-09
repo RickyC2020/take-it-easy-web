@@ -5,12 +5,10 @@ import {
   ShieldCheck,
   CreditCard,
   Car,
-  Fuel,
   Clock,
   PhoneCall,
   Scale,
-  Calendar,
-  AlertTriangle
+  Calendar
 } from 'lucide-react';
 
 export default function TermsOfUse({ onNavigateHome, backLabel = 'Back to Home' }) {
@@ -101,123 +99,92 @@ export default function TermsOfUse({ onNavigateHome, backLabel = 'Back to Home' 
             </h2>
             <ul className="list-disc pl-5 space-y-2">
               <li>
-                <strong>Minimum Age:</strong> The primary renter and any authorized additional drivers must be at least <strong>twenty-one (21) years of age</strong> at the time of vehicle collection.
+                <strong>Minimum Age:</strong> The minimum age to rent is <strong>twenty-one (21) years</strong>. Take It Easy Car Rentals &amp; Tours Limited reserves the right to refuse anyone when done in the best interest of the Company or customer.
               </li>
               <li>
-                <strong>License Validity:</strong> Drivers must hold a valid, unexpired national or international physical driver&apos;s license issued for at least <strong>two (2) full consecutive years</strong>. Digital copies, temporary permits, or learner&apos;s licenses are not accepted.
+                <strong>License Validity:</strong> Drivers must hold a valid, unexpired national or international physical driver&apos;s license.
               </li>
               <li>
-                <strong>Physical Verification:</strong> The primary renter must present their original physical driver&apos;s license and matching passport at the airport handoff counter prior to key release.
+                <strong>Physical Verification:</strong> The primary renter must present their original physical driver&apos;s license and matching ID at the airport handoff counter prior to key release.
               </li>
               <li>
-                <strong>Authorized Drivers:</strong> Only drivers explicitly named and validated on the digital rental contract are legally insured and permitted to operate the vehicle. Allowing an unauthorized person to drive immediately voids all insurance protections.
+                <strong>Authorized Drivers:</strong> Only drivers explicitly named and validated on the digital rental contract are legally permitted to operate the vehicle.
               </li>
             </ul>
           </section>
 
-          {/* 2. Security Deposit Pre-Authorization */}
+          {/* 2. Rates, Exclusions & Security Deposit */}
           <section className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-4">
             <h2 className="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2.5">
               <CreditCard className="w-5 h-5 text-emerald-700 shrink-0" />
-              <span>2. Security Deposit Pre-Authorization Hold ($500 USD)</span>
+              <span>2. Rates, Exclusions &amp; Security Deposit</span>
             </h2>
-            <p>
-              To ensure transparency and protect our fleet assets:
-            </p>
-            <div className="p-4 rounded-xl bg-amber-50/80 border border-amber-200 text-amber-950 text-sm space-y-1">
-              <p className="font-bold flex items-center gap-2">
-                <AlertTriangle className="w-4 h-4 text-amber-700 shrink-0" />
-                <span>$500 USD Pre-Authorization Hold at Checkout</span>
-              </p>
-              <p className="text-xs text-amber-900 leading-relaxed">
-                A temporary $500 USD security deposit hold is authorized on your payment card at checkout alongside your daily rental charges. Funds are held—not captured—and are automatically released upon vehicle return in good condition.
-              </p>
-            </div>
-            <ul className="list-disc pl-5 space-y-2 text-sm sm:text-base">
+            <ul className="list-disc pl-5 space-y-2">
               <li>
-                <strong>Payment Method:</strong> Must be a valid Visa, Mastercard, or American Express issued in the primary renter&apos;s name. Prepaid cards or cash security deposits are strictly prohibited.
+                <strong>Rate Exclusions:</strong> Rates do not include gasoline, GOVT. TAX (GCT), and security deposit (if applicable).
               </li>
               <li>
-                <strong>Release Timeline:</strong> Upon vehicle return, fuel verification, and completion of the return check-sheet, Take It Easy releases the authorization immediately. Depending on your issuing bank, released funds reappear in your account within 3 to 7 business days.
+                <strong>Security Deposit:</strong> Take It Easy Car Rentals &amp; Tours Limited reserves the right to collect a deposit covering estimated charges and damages.
+              </li>
+              <li>
+                <strong>Hold Release:</strong> The deposit pre-authorization is promptly released upon vehicle return in agreed condition with full fuel.
               </li>
             </ul>
           </section>
 
-          {/* 3. 48-Hour Free Cancellation Policy */}
+          {/* 3. Refund Policy (Strictly Credit Note Only) */}
           <section className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-4">
             <h2 className="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2.5">
               <Clock className="w-5 h-5 text-emerald-700 shrink-0" />
-              <span>3. 48-Hour Free Cancellation &amp; Refund Policy</span>
+              <span>3. Refund Policy</span>
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200">
-                <h3 className="font-bold text-emerald-950 text-sm">48+ Hours Notice (100% Refund)</h3>
-                <p className="text-xs text-emerald-900 mt-1">
-                  Cancel anytime up to 48 hours prior to your scheduled pickup time for a full 100% refund with zero cancellation fees.
-                </p>
-              </div>
-              <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
-                <h3 className="font-bold text-slate-950 text-sm">Within 48 Hours / No-Show</h3>
-                <p className="text-xs text-slate-700 mt-1">
-                  Cancellations made within 48 hours of pickup or failure to collect (no-show) incur a 1-day rental fee; all remaining balances and deposit authorizations are released immediately.
-                </p>
-              </div>
+            <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-950 space-y-1">
+              <p className="font-extrabold text-sm sm:text-base text-rose-900">
+                NO REFUND — CREDIT NOTE ONLY
+              </p>
+              <p className="text-xs sm:text-sm text-rose-800">
+                Credit notes issued are valid for one (1) year from the date of issue and can be applied toward any future rental with Take It Easy Car Rentals &amp; Tours Limited.
+              </p>
             </div>
-            <p className="text-xs text-slate-500">
-              *Flight Delays: If your flight is delayed or rescheduled by the airline, notify our WhatsApp dispatch immediately. We hold your vehicle reservation without penalty.
-            </p>
           </section>
 
-          {/* 4. Permitted Road Use & Prohibited Activities */}
+          {/* 4. Traffic, Parking, Returns & Maintenance Liability */}
           <section id="fleet-guidelines" className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-4">
             <h2 className="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2.5">
               <Car className="w-5 h-5 text-emerald-700 shrink-0" />
-              <span>4. Permitted Road Use &amp; Driving in Jamaica</span>
+              <span>4. Traffic Violations, Returns &amp; Maintenance Liability</span>
             </h2>
-            <div className="p-4 rounded-xl bg-emerald-900 text-white space-y-1">
-              <p className="font-bold text-amber-300 text-sm">CRITICAL: DRIVE ON THE LEFT</p>
-              <p className="text-xs text-emerald-100">
-                In Jamaica, traffic flows on the <strong>LEFT side of the road</strong>. All fleet vehicles are right-hand drive. The primary renter agrees to obey all speed limits and road signs enacted under the Road Traffic Act of Jamaica.
-              </p>
-            </div>
-
-            <p className="font-bold text-slate-900 pt-1">Permitted Roads:</p>
-            <p>
-              Vehicles may be operated on all paved public roads, national highways (including the North Coast Highway / A1, A2, A3, and Highway 2000 tollways) across the island of Jamaica.
-            </p>
-
-            <p className="font-bold text-slate-900 pt-1">Strictly Prohibited Uses:</p>
-            <ul className="list-disc pl-5 space-y-2">
-              <li className="text-red-900">
-                <strong>Off-Road &amp; Unpaved Tracks:</strong> Driving on unpaved logging trails, beaches, sand dunes, riverbeds, or flooded terrain is strictly prohibited and immediately voids all insurance.
+            <ul className="list-disc pl-5 space-y-2.5">
+              <li>
+                <strong>Traffic &amp; Parking Violations:</strong> Renters assume full legal and financial responsibility for all parking and traffic violations during the rental term.
               </li>
-              <li className="text-red-900">
-                <strong>No Smoking / No Vaping:</strong> All fleet vehicles are 100% smoke-free and vape-free. Any trace of tobacco, cannabis, or vape residue triggers a mandatory <strong>$250 USD interior ozone detailing penalty fee</strong>.
+              <li>
+                <strong>Returns &amp; Drop Charges:</strong> Vehicle must be returned on or before the due date and time to the same location where rented (Montego Bay Airport MBJ or Kingston Airport KIN), or an additional drop charge may apply.
               </li>
-              <li className="text-red-900">
-                <strong>Commercial Sub-Hire:</strong> Operating the vehicle for paid rideshare (Uber/taxi), courier transport, or sub-leasing to third parties is strictly prohibited.
+              <li>
+                <strong>Parts, Repairs &amp; Tyres/Rims:</strong> Parts and repairs charges will not be refunded without an official receipt and prior consent from Take It Easy Car Rentals &amp; Tours Limited. The renter is fully liable for damage to rims and tyres.
               </li>
-              <li className="text-red-900">
-                <strong>Racing &amp; Reckless Driving:</strong> Speed testing, racing, driver training, or towing another vehicle/trailer is prohibited.
+              <li>
+                <strong>Drive on the Left:</strong> In Jamaica, all vehicular traffic travels on the left side of the road. Seatbelts are mandatory for all occupants.
               </li>
             </ul>
           </section>
 
-          {/* 5. Inspection Check-Sheet & Fuel Return */}
+          {/* 5. Insurance & CDW (Collision Damage Waiver) */}
           <section className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-4">
             <h2 className="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2.5">
-              <Fuel className="w-5 h-5 text-emerald-700 shrink-0" />
-              <span>5. Digital Inspection Check-Sheet &amp; Fuel Policy</span>
+              <ShieldCheck className="w-5 h-5 text-emerald-700 shrink-0" />
+              <span>5. Insurance &amp; Collision Damage Waiver (CDW)</span>
             </h2>
             <ul className="list-disc pl-5 space-y-2">
               <li>
-                <strong>Digital Baseline Walk-Around:</strong> At pickup, you will conduct a 5-minute physical walk-around with our agent, documenting any pre-existing cosmetic baseline via our digital check-sheet.
+                <strong>Third-Party Liability:</strong> Third-party liability insurance does not cover damages sustained by the renter or vehicle occupants personally.
               </li>
               <li>
-                <strong>Full 8/8 Fuel Guarantee:</strong> Vehicles are delivered with a full 8/8 tank of fuel. The vehicle must be returned with 8/8 fuel (unless you selected a pre-paid fuel package). Missing fuel is billed at prevailing local pump rates plus a $25 USD refueling service charge.
+                <strong>Collision Damage Waiver (CDW):</strong> Renter accepts or declines CDW at the daily rate, with renter responsibility for the first $3,500 / $4,500 USD (or specified amount) of collision damage.
               </li>
               <li>
-                <strong>Return Condition:</strong> Vehicles should be returned in standard clean condition. Extreme interior mud, salt water, stained upholstery, or pet hair requires specialist cleaning billed at cost ($150 USD minimum).
+                <strong>Negligence:</strong> Negligence or violation of the rental agreement makes the renter fully liable for all damages even with CDW.
               </li>
             </ul>
           </section>
@@ -226,23 +193,26 @@ export default function TermsOfUse({ onNavigateHome, backLabel = 'Back to Home' 
           <section className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-4">
             <h2 className="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2.5">
               <PhoneCall className="w-5 h-5 text-emerald-700 shrink-0" />
-              <span>6. Accident &amp; Emergency Breakdown Protocols</span>
+              <span>6. Accident &amp; Emergency Protocols</span>
             </h2>
+            <div className="p-4 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-950 font-bold text-sm">
+              EMERGENCY NOTICE: In the case of an accident, call 119 immediately.
+            </div>
             <p>
               In the event of an accident, mechanical issue, puncture, or vehicle damage:
             </p>
             <ol className="list-decimal pl-5 space-y-2">
               <li>
-                <strong>Ensure Safety:</strong> Pull over to a safe area, activate hazard lights, and confirm all occupants are secure.
+                <strong>Ensure Safety &amp; Call 119:</strong> In the case of an accident or emergency, call <strong>119</strong> immediately. Pull over to a safe area and confirm all occupants are secure.
               </li>
               <li>
-                <strong>Call 24/7 Island-Wide Support:</strong> Contact Take It Easy dispatch immediately via our 24/7 hotline or WhatsApp at <a href="tel:+18767899051" className="font-bold underline text-emerald-700">876-789-9051</a>, <a href="tel:+18768852355" className="font-bold underline text-emerald-700">876-885-2355</a>, or <a href="tel:+18764426735" className="font-bold underline text-emerald-700">876-442-6735</a> (Director: Andray Williams).
+                <strong>Call Take It Easy Dispatch:</strong> Contact Take It Easy dispatch immediately via our 24/7 lines at <a href="tel:+18768852355" className="font-bold underline text-emerald-700">(876) 885-2355</a> or <a href="tel:+18767899051" className="font-bold underline text-emerald-700">(876) 789-9051</a>.
               </li>
               <li>
-                <strong>Police Notification:</strong> Under Jamaican law, any motor vehicle collision involving another party, property damage, or bodily injury must be reported to the <strong>Jamaica Constabulary Force (JCF)</strong> within twenty-four (24) hours. Obtain the investigating officer&apos;s name and police incident report number.
+                <strong>Police Notification:</strong> Under Jamaican law, any motor vehicle collision involving another party, property damage, or bodily injury must be reported to the Jamaica Constabulary Force (JCF). Obtain the investigating officer&apos;s name and police incident report number.
               </li>
               <li>
-                <strong>Do Not Admit Liability:</strong> Collect third-party driver name, registration plate number, and insurer info. Do not sign third-party settlements without our authorized fleet team.
+                <strong>Do Not Admit Liability:</strong> Collect third-party driver name, vehicle registration plate number, and insurance details.
               </li>
             </ol>
           </section>
@@ -251,15 +221,17 @@ export default function TermsOfUse({ onNavigateHome, backLabel = 'Back to Home' 
           <section className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-4">
             <h2 className="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2.5">
               <Scale className="w-5 h-5 text-emerald-700 shrink-0" />
-              <span>7. Governing Law &amp; Jurisdiction</span>
+              <span>7. Governing Law &amp; Company Details</span>
             </h2>
             <p>
-              This Agreement and any dispute or claim arising out of or in connection with it shall be governed by and
-              construed in accordance with the <strong>laws of Jamaica</strong>.
+              This Agreement shall be governed by and construed in accordance with the <strong>laws of Jamaica</strong>.
             </p>
-            <p>
-              The parties irrevocably submit to the exclusive jurisdiction of the <strong>Parish Court of Saint James (Montego Bay)</strong>,
-              the <strong>Parish Court of Kingston</strong>, and the <strong>Supreme Court of Judicature of Jamaica</strong>.
+            <p className="text-xs sm:text-sm text-slate-600">
+              <strong>Official Entity:</strong> Take It Easy Car Rentals &amp; Tours Limited<br />
+              <strong>Registered Office:</strong> 80c Queen&apos;s Drive, Montego Bay, St. James, Jamaica<br />
+              <strong>Director:</strong> Andray Williams<br />
+              <strong>Telephone:</strong> (876) 885-2355 / (876) 789-9051<br />
+              <strong>Email:</strong> takeiteasycarrentals@gmail.com
             </p>
           </section>
 
@@ -268,10 +240,13 @@ export default function TermsOfUse({ onNavigateHome, backLabel = 'Back to Home' 
             <div>
               <p className="font-bold text-white text-base">Questions regarding our rental terms?</p>
               <p className="text-xs text-slate-300 mt-1">
-                Take It Easy Car Rentals &amp; Tours • Director: Andray Williams
+                Take It Easy Car Rentals &amp; Tours Limited • 80c Queen&apos;s Drive, Montego Bay, Jamaica
               </p>
               <p className="text-xs text-slate-300 mt-0.5">
-                Email: <a href="mailto:takeiteasycarrentals@gmail.com" className="text-amber-400 underline">takeiteasycarrentals@gmail.com</a> • WhatsApp / Tel: <a href="tel:+18767899051" className="text-amber-400 underline">876-789-9051</a> · <a href="tel:+18768852355" className="text-amber-400 underline">876-885-2355</a> · <a href="tel:+18764426735" className="text-amber-400 underline">876-442-6735</a>
+                Email: <a href="mailto:takeiteasycarrentals@gmail.com" className="text-amber-400 underline">takeiteasycarrentals@gmail.com</a> • Tel: <a href="tel:+18768852355" className="text-amber-400 underline">(876) 885-2355</a> · <a href="tel:+18767899051" className="text-amber-400 underline">(876) 789-9051</a>
+              </p>
+              <p className="text-xs text-amber-300 font-mono mt-1">
+                Emergency: In the case of an accident, call 119.
               </p>
             </div>
             <button

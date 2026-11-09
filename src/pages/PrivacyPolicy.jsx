@@ -93,12 +93,11 @@ export default function PrivacyPolicy({ onNavigateHome, backLabel = 'Back to Hom
               Under the Jamaica Data Protection Act (JDPA 2020), your Data Controller is:
             </p>
             <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 text-sm font-mono text-slate-800 space-y-1">
-              <p className="font-bold text-slate-900">Take It Easy Car Rentals &amp; Tours</p>
+              <p className="font-bold text-slate-900">Take It Easy Car Rentals &amp; Tours Limited</p>
               <p className="text-xs text-slate-600 font-sans">Director: Andray Williams</p>
-              <p>Airport Commercial Corridor, Sangster International Airport (MBJ)</p>
-              <p>Montego Bay, St. James, Jamaica W.I.</p>
+              <p>80c Queen&apos;s Drive, Montego Bay, St. James, Jamaica</p>
               <p>Contact Email: <a href="mailto:takeiteasycarrentals@gmail.com" className="text-emerald-700 underline font-semibold">takeiteasycarrentals@gmail.com</a></p>
-              <p>Phone / WhatsApp: <a href="tel:+18767899051" className="text-emerald-700 underline font-semibold">876-789-9051</a> · <a href="tel:+18768852355" className="text-emerald-700 underline font-semibold">876-885-2355</a> · <a href="tel:+18764426735" className="text-emerald-700 underline font-semibold">876-442-6735</a></p>
+              <p>Phone / WhatsApp: <a href="tel:+18768852355" className="text-emerald-700 underline font-semibold">(876) 885-2355</a> · <a href="tel:+18767899051" className="text-emerald-700 underline font-semibold">(876) 789-9051</a></p>
             </div>
           </section>
 
@@ -263,14 +262,14 @@ export default function PrivacyPolicy({ onNavigateHome, backLabel = 'Back to Hom
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm pt-2">
               <div className="p-3.5 rounded-xl bg-emerald-900/60 border border-emerald-700/60">
                 <p className="font-bold text-amber-300">Take It Easy DPO Office</p>
-                <p className="text-xs text-emerald-200 mt-0.5">Director: Andray Williams</p>
+                <p className="text-xs text-emerald-200 mt-0.5">Take It Easy Car Rentals &amp; Tours Limited</p>
                 <p className="text-emerald-100 mt-1">
                   Email: <a href="mailto:takeiteasycarrentals@gmail.com" className="underline hover:text-white">takeiteasycarrentals@gmail.com</a>
                 </p>
                 <p className="text-emerald-100">
-                  Tel / WhatsApp: <a href="tel:+18767899051" className="underline hover:text-white">876-789-9051</a> · <a href="tel:+18768852355" className="underline hover:text-white">876-885-2355</a> · <a href="tel:+18764426735" className="underline hover:text-white">876-442-6735</a>
+                  Tel / WhatsApp: <a href="tel:+18768852355" className="underline hover:text-white">(876) 885-2355</a> · <a href="tel:+18767899051" className="underline hover:text-white">(876) 789-9051</a>
                 </p>
-                <p className="text-emerald-200/80 text-[11px] mt-1">Sangster International Airport, Montego Bay</p>
+                <p className="text-emerald-200/80 text-[11px] mt-1">80c Queen&apos;s Drive, Montego Bay, St. James, Jamaica</p>
               </div>
               <div className="p-3.5 rounded-xl bg-emerald-900/60 border border-emerald-700/60">
                 <p className="font-bold text-emerald-300">Office of the Information Commissioner (Jamaica)</p>
