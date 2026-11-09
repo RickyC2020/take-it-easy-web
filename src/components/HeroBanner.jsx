@@ -45,12 +45,12 @@ export default function HeroBanner({
         <div className="relative rounded-xl overflow-hidden bg-transparent">
           {/* =========================================================
               HERO BANNER ARTWORK
-              - Native 1024x436 widescreen aspect ratio (Full Image Visible, Zero Crop)
+              - Native 1024x434 widescreen aspect ratio (Full Image Visible, Zero Crop)
               - "The Keys to your next adventure..." + Pearl-white Mazda CX-5 (TIE plate)
              ========================================================= */}
-          <div className="relative aspect-[1024/436] w-full select-none overflow-hidden">
+          <div className="relative aspect-[1024/434] w-full select-none overflow-hidden">
             <img
-              src="/hero-banner.jpg?v=13"
+              src="/hero-banner.jpg?v=14"
               alt="Take It Easy Car Rentals - The Keys to your next adventure. Pearl white Mazda CX-5 with TIE plate driving along the Jamaican coast"
               className="w-full h-full object-cover"
             />
