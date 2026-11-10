@@ -165,6 +165,23 @@ const FLEET = [
     badge: 'Airport Best-Seller'
   },
   {
+    id: 'demio-2016-red',
+    category: 'compact',
+    categoryLabel: 'Compact Car',
+    name: '2016 Mazda Demio',
+    year: '2016',
+    color: 'Red',
+    subtitle: 'Red Hatchback · 2016 Fleet',
+    image: '/vehicles/demio-red.jpg',
+    seats: 5,
+    transmission: 'Auto',
+    luggage: 2,
+    mpg: 38,
+    ratePerDay: 60,
+    deposit: 500,
+    badge: 'Popular Choice'
+  },
+  {
     id: 'demio-2015-navy',
     category: 'compact',
     categoryLabel: 'Compact Car',
@@ -197,6 +214,23 @@ const FLEET = [
     ratePerDay: 105,
     deposit: 500,
     badge: 'Island Explorer'
+  },
+  {
+    id: 'cx5-2017-red',
+    category: 'suv',
+    categoryLabel: 'SUV',
+    name: '2017 Mazda CX-5',
+    year: '2017',
+    color: 'Red',
+    subtitle: 'Red Crossover SUV · 2017 Fleet',
+    image: '/vehicles/cx5-red.jpg',
+    seats: 5,
+    transmission: 'Auto',
+    luggage: 5,
+    mpg: 31,
+    ratePerDay: 110,
+    deposit: 500,
+    badge: 'Customer Favorite'
   },
   {
     id: 'cx5-2019-silver',
@@ -328,7 +362,7 @@ const INITIAL_SAMPLE_RENTAL = {
   raNumber: 'RA-2026-08412',
   createdAt: '09:40 AM',
   acquisitionChannel: 'Agent Approached at Airport ("Any rental car for you today?")',
-  vehicle: FLEET[3], // 2016 Mazda Demio (Black)
+  vehicle: FLEET.find((v) => v.id === 'demio-2016-black') || FLEET[0], // 2016 Mazda Demio (Black)
   plateNo: '2489-HX',
   licDisc: 'LD-99214',
   location: LOCATIONS[0],
