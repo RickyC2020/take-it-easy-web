@@ -1371,12 +1371,7 @@ export default function App() {
         returnDate={returnDate}
         returnTime={returnTime}
         setReturnTime={setReturnTime}
-        rentalDays={rentalDays}
-        selectedCategory={selectedCategory}
-        setSelectedCategory={setSelectedCategory}
-        locations={LOCATIONS}
         timeSlots={TIME_SLOTS}
-        categories={CATEGORIES}
         minPickupDate={DEFAULT_PICKUP_DATE}
         minReturnDate={addDays(pickupDate, 1)}
         onPickupDateChange={handlePickupDateChange}

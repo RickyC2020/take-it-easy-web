@@ -21,16 +21,15 @@ function formatPillDate(dateStr) {
 export default function HeroBanner({
   locationId,
   setLocationId,
+  dropLocationId,
+  setDropLocationId,
   pickupDate,
   pickupTime,
   setPickupTime,
   returnDate,
   returnTime,
   setReturnTime,
-  selectedCategory = 'all',
-  setSelectedCategory,
   timeSlots = [],
-  categories = [],
   minPickupDate,
   minReturnDate,
   onPickupDateChange,
@@ -49,7 +48,7 @@ export default function HeroBanner({
              ========================================================= */}
           <div className="relative aspect-[1024/384] w-full select-none overflow-hidden rounded-xl">
             <img
-              src="/hero-banner.jpg?v=15"
+              src="/hero-banner.jpg?v=16"
               alt="Take It Easy Car Rentals & Tours - Soul Red Mazda CX-5 on the Jamaican coastal road overlooking the Caribbean Sea"
               className="w-full h-full object-cover"
             />
@@ -60,25 +59,25 @@ export default function HeroBanner({
             </h1>
 
             {/* =========================================================
-                DESKTOP OVERLAY: FLOATING "FROSTED GLASS HORIZON PILL"
-                - Positioned in the top center-right portion of the hero banner
-                - Horizontal capsule (rounded-full)
-                - 5-column layout with vertical hairline dividers
-                - Nested amber Search CTA button at right end
+                DESKTOP OVERLAY: SLIM FLOATING "FROSTED GLASS HORIZON PILL"
+                - Positioned in the top right sky area, well clear of the car
+                - Compact width so it never overlaps the vehicle on the left
+                - Drop-off Hub menu replaces vehicle class
+                - 5 compact columns with hairline dividers
                ========================================================= */}
             <div
               id="hero-search-card"
-              className="hidden lg:flex items-center absolute top-6 xl:top-8 right-6 xl:right-8 z-20 rounded-full bg-slate-900/45 backdrop-blur-md border border-white/35 shadow-2xl px-6 py-3 text-white gap-3.5 xl:gap-5 transition-all hover:bg-slate-900/55"
+              className="hidden lg:flex items-center absolute top-4 xl:top-6 right-4 xl:right-6 z-20 rounded-full bg-slate-900/50 backdrop-blur-md border border-white/35 shadow-2xl px-4 xl:px-5 py-2 xl:py-2.5 text-white gap-2 xl:gap-3 transition-all hover:bg-slate-900/60"
             >
               {/* Column 1: Pickup Hub */}
-              <div className="relative flex flex-col justify-center min-w-[130px] xl:min-w-[155px]">
+              <div className="relative flex flex-col justify-center min-w-[105px] xl:min-w-[125px] max-w-[135px]">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] uppercase tracking-wider text-white/75 font-semibold">
+                  <span className="text-[9px] xl:text-[10px] uppercase tracking-wider text-white/75 font-semibold">
                     PICKUP HUB
                   </span>
                   {locationId === 'KIN' && (
-                    <span className="text-[9px] text-amber-300 font-mono font-bold bg-amber-500/25 px-1 py-0.2 rounded border border-amber-400/40">
-                      +$120 fee
+                    <span className="text-[8px] xl:text-[9px] text-amber-300 font-mono font-bold bg-amber-500/25 px-1 rounded border border-amber-400/40">
+                      +$120
                     </span>
                   )}
                 </div>
@@ -87,7 +86,7 @@ export default function HeroBanner({
                     id="hero-desktop-location"
                     value={locationId}
                     onChange={(e) => setLocationId?.(e.target.value)}
-                    className="w-full appearance-none bg-transparent pr-5 text-sm font-medium text-white focus:outline-none cursor-pointer truncate"
+                    className="w-full appearance-none bg-transparent pr-4 text-xs xl:text-sm font-medium text-white focus:outline-none cursor-pointer truncate"
                   >
                     <option value="MBJ" className="bg-slate-900 text-white">
                       Montego Bay (MBJ)
@@ -96,51 +95,54 @@ export default function HeroBanner({
                       Kingston (KIN) {locationId !== 'KIN' ? '(+$120 fee)' : ''}
                     </option>
                   </select>
-                  <ChevronDown className="w-3.5 h-3.5 text-white/80 pointer-events-none absolute right-0 shrink-0" />
+                  <ChevronDown className="w-3 h-3 text-white/80 pointer-events-none absolute right-0 shrink-0" />
                 </div>
               </div>
 
               {/* Hairline Divider 1 */}
-              <div className="h-10 w-[1px] bg-white/25 shrink-0" aria-hidden="true" />
+              <div className="h-8 w-[1px] bg-white/20 shrink-0" aria-hidden="true" />
 
-              {/* Column 2: Vehicle Class */}
-              <div className="relative flex flex-col justify-center min-w-[110px] xl:min-w-[130px]">
-                <span className="text-[10px] uppercase tracking-wider text-white/75 font-semibold">
-                  VEHICLE CLASS
-                </span>
+              {/* Column 2: Drop-off Hub */}
+              <div className="relative flex flex-col justify-center min-w-[105px] xl:min-w-[125px] max-w-[135px]">
+                <div className="flex items-center justify-between">
+                  <span className="text-[9px] xl:text-[10px] uppercase tracking-wider text-white/75 font-semibold">
+                    DROP-OFF HUB
+                  </span>
+                  {dropLocationId === 'KIN' && (
+                    <span className="text-[8px] xl:text-[9px] text-amber-300 font-mono font-bold bg-amber-500/25 px-1 rounded border border-amber-400/40">
+                      +$120
+                    </span>
+                  )}
+                </div>
                 <div className="relative flex items-center mt-0.5">
                   <select
-                    id="hero-desktop-category"
-                    value={selectedCategory}
-                    onChange={(e) => setSelectedCategory?.(e.target.value)}
-                    className="w-full appearance-none bg-transparent pr-5 text-sm font-medium text-white focus:outline-none cursor-pointer truncate"
+                    id="hero-desktop-drop-location"
+                    value={dropLocationId}
+                    onChange={(e) => setDropLocationId?.(e.target.value)}
+                    className="w-full appearance-none bg-transparent pr-4 text-xs xl:text-sm font-medium text-white focus:outline-none cursor-pointer truncate"
                   >
-                    <option value="all" className="bg-slate-900 text-white">
-                      All Vehicles
+                    <option value="MBJ" className="bg-slate-900 text-white">
+                      Montego Bay (MBJ)
                     </option>
-                    {categories
-                      .filter((c) => c.id !== 'all')
-                      .map((cat) => (
-                        <option key={cat.id} value={cat.id} className="bg-slate-900 text-white">
-                          {cat.label}
-                        </option>
-                      ))}
+                    <option value="KIN" className="bg-slate-900 text-white">
+                      Kingston (KIN) {dropLocationId !== 'KIN' ? '(+$120 fee)' : ''}
+                    </option>
                   </select>
-                  <ChevronDown className="w-3.5 h-3.5 text-white/80 pointer-events-none absolute right-0 shrink-0" />
+                  <ChevronDown className="w-3 h-3 text-white/80 pointer-events-none absolute right-0 shrink-0" />
                 </div>
               </div>
 
               {/* Hairline Divider 2 */}
-              <div className="h-10 w-[1px] bg-white/25 shrink-0" aria-hidden="true" />
+              <div className="h-8 w-[1px] bg-white/20 shrink-0" aria-hidden="true" />
 
               {/* Column 3: Pickup Date & Time */}
-              <div className="relative flex flex-col justify-center min-w-[110px] xl:min-w-[125px]">
-                <span className="text-[10px] uppercase tracking-wider text-white/75 font-semibold">
+              <div className="relative flex flex-col justify-center min-w-[85px] xl:min-w-[95px]">
+                <span className="text-[9px] xl:text-[10px] uppercase tracking-wider text-white/75 font-semibold">
                   PICKUP
                 </span>
                 <div className="mt-0.5 flex flex-col">
                   <label htmlFor="hero-desktop-pickup-date" className="relative cursor-pointer">
-                    <span className="text-sm font-semibold text-white leading-tight hover:text-amber-200 transition-colors">
+                    <span className="text-xs xl:text-sm font-semibold text-white leading-tight hover:text-amber-200 transition-colors whitespace-nowrap">
                       {formatPillDate(pickupDate)}
                     </span>
                     <input
@@ -157,7 +159,7 @@ export default function HeroBanner({
                       id="hero-desktop-pickup-time"
                       value={pickupTime}
                       onChange={(e) => setPickupTime?.(e.target.value)}
-                      className="appearance-none bg-transparent text-xs text-white/90 leading-tight pr-3 focus:outline-none cursor-pointer hover:text-white"
+                      className="appearance-none bg-transparent text-[11px] xl:text-xs text-white/90 leading-tight pr-3 focus:outline-none cursor-pointer hover:text-white"
                     >
                       {timeSlots.map((time) => (
                         <option key={time} value={time} className="bg-slate-900 text-white">
@@ -171,16 +173,16 @@ export default function HeroBanner({
               </div>
 
               {/* Hairline Divider 3 */}
-              <div className="h-10 w-[1px] bg-white/25 shrink-0" aria-hidden="true" />
+              <div className="h-8 w-[1px] bg-white/20 shrink-0" aria-hidden="true" />
 
               {/* Column 4: Return Date & Time */}
-              <div className="relative flex flex-col justify-center min-w-[110px] xl:min-w-[125px]">
-                <span className="text-[10px] uppercase tracking-wider text-white/75 font-semibold">
+              <div className="relative flex flex-col justify-center min-w-[85px] xl:min-w-[95px]">
+                <span className="text-[9px] xl:text-[10px] uppercase tracking-wider text-white/75 font-semibold">
                   RETURN
                 </span>
                 <div className="mt-0.5 flex flex-col">
                   <label htmlFor="hero-desktop-return-date" className="relative cursor-pointer">
-                    <span className="text-sm font-semibold text-white leading-tight hover:text-amber-200 transition-colors">
+                    <span className="text-xs xl:text-sm font-semibold text-white leading-tight hover:text-amber-200 transition-colors whitespace-nowrap">
                       {formatPillDate(returnDate)}
                     </span>
                     <input
@@ -197,7 +199,7 @@ export default function HeroBanner({
                       id="hero-desktop-return-time"
                       value={returnTime}
                       onChange={(e) => setReturnTime?.(e.target.value)}
-                      className="appearance-none bg-transparent text-xs text-white/90 leading-tight pr-3 focus:outline-none cursor-pointer hover:text-white"
+                      className="appearance-none bg-transparent text-[11px] xl:text-xs text-white/90 leading-tight pr-3 focus:outline-none cursor-pointer hover:text-white"
                     >
                       {timeSlots.map((time) => (
                         <option key={time} value={time} className="bg-slate-900 text-white">
@@ -215,9 +217,9 @@ export default function HeroBanner({
                 type="button"
                 onClick={onBookCar}
                 aria-label="Search available vehicles"
-                className="rounded-full bg-amber-400 hover:bg-amber-300 text-slate-950 font-semibold px-6 py-3 flex items-center gap-2 transition shadow-md shrink-0 cursor-pointer active:scale-95 ml-1"
+                className="rounded-full bg-amber-400 hover:bg-amber-300 text-slate-950 font-semibold px-4 xl:px-5 py-2 xl:py-2.5 text-xs xl:text-sm flex items-center gap-1.5 transition shadow-md shrink-0 cursor-pointer active:scale-95 ml-0.5"
               >
-                <Search className="w-4 h-4 text-slate-950 stroke-[2.5]" />
+                <Search className="w-3.5 h-3.5 text-slate-950 stroke-[2.5]" />
                 <span>Search</span>
               </button>
             </div>
@@ -262,28 +264,31 @@ export default function HeroBanner({
                   </div>
                 </div>
 
-                {/* 2. Vehicle Class */}
+                {/* 2. Drop-off Hub */}
                 <div className="p-2.5 rounded-xl bg-white/[0.04] border border-white/20">
-                  <span className="text-[10px] uppercase tracking-wider text-white/75 font-semibold block mb-0.5">
-                    VEHICLE CLASS
-                  </span>
+                  <div className="flex items-center justify-between mb-0.5">
+                    <span className="text-[10px] uppercase tracking-wider text-white/75 font-semibold">
+                      DROP-OFF HUB
+                    </span>
+                    {dropLocationId === 'KIN' && (
+                      <span className="text-[9px] text-amber-300 font-mono font-bold bg-amber-500/25 px-1 py-0.2 rounded border border-amber-400/40">
+                        +$120 fee
+                      </span>
+                    )}
+                  </div>
                   <div className="relative flex items-center">
                     <select
-                      id="hero-mobile-category"
-                      value={selectedCategory}
-                      onChange={(e) => setSelectedCategory?.(e.target.value)}
+                      id="hero-mobile-drop-location"
+                      value={dropLocationId}
+                      onChange={(e) => setDropLocationId?.(e.target.value)}
                       className="w-full appearance-none bg-transparent pr-6 text-sm font-medium text-white focus:outline-none cursor-pointer"
                     >
-                      <option value="all" className="bg-slate-900 text-white">
-                        All Vehicles
+                      <option value="MBJ" className="bg-slate-900 text-white">
+                        Montego Bay (MBJ)
                       </option>
-                      {categories
-                        .filter((c) => c.id !== 'all')
-                        .map((cat) => (
-                          <option key={cat.id} value={cat.id} className="bg-slate-900 text-white">
-                            {cat.label}
-                          </option>
-                        ))}
+                      <option value="KIN" className="bg-slate-900 text-white">
+                        Kingston (KIN) {dropLocationId !== 'KIN' ? '(+$120 fee)' : ''}
+                      </option>
                     </select>
                     <ChevronDown className="w-3.5 h-3.5 text-white/80 pointer-events-none absolute right-0 shrink-0" />
                   </div>
