@@ -715,7 +715,7 @@ export default function App() {
       // Smooth focus on first input once in view
       setTimeout(() => {
         const inputToFocus = document.getElementById(
-          window.innerWidth < 1024 ? 'hero-mobile-pickup-date' : 'pickup-date-input'
+          window.innerWidth < 1024 ? 'hero-mobile-pickup-date' : 'hero-desktop-pickup-date'
         );
         inputToFocus?.focus?.({ preventScroll: true });
       }, 450);
@@ -1372,6 +1372,8 @@ export default function App() {
         returnTime={returnTime}
         setReturnTime={setReturnTime}
         rentalDays={rentalDays}
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
         locations={LOCATIONS}
         timeSlots={TIME_SLOTS}
         categories={CATEGORIES}

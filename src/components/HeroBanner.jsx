@@ -1,7 +1,7 @@
 import React from 'react';
-import { MapPin, Calendar, Clock, ChevronDown } from 'lucide-react';
+import { Search, ChevronDown } from 'lucide-react';
 
-function formatTripDate(dateStr) {
+function formatPillDate(dateStr) {
   if (!dateStr) return '';
   const parts = String(dateStr).split('-');
   if (parts.length === 3) {
@@ -11,7 +11,8 @@ function formatTripDate(dateStr) {
     const date = new Date(y, m, d);
     if (!isNaN(date.getTime())) {
       const month = date.toLocaleString('en-US', { month: 'short' });
-      return `${month} ${d}, ${y}`;
+      const day = String(d).padStart(2, '0');
+      return `${month} ${day}, ${y}`;
     }
   }
   return dateStr;
@@ -20,40 +21,36 @@ function formatTripDate(dateStr) {
 export default function HeroBanner({
   locationId,
   setLocationId,
-  dropLocationId,
-  setDropLocationId,
   pickupDate,
   pickupTime,
   setPickupTime,
   returnDate,
   returnTime,
   setReturnTime,
-  rentalDays = 1,
-  locations = [],
+  selectedCategory = 'all',
+  setSelectedCategory,
   timeSlots = [],
+  categories = [],
   minPickupDate,
   minReturnDate,
   onPickupDateChange,
   onReturnDateChange,
   onBookCar,
 }) {
-  const pickupFee = locationId === 'KIN' ? 120 : 0;
-  const dropFee = dropLocationId === 'KIN' ? 120 : 0;
-  const totalLocationFees = pickupFee + dropFee;
   return (
     <section aria-label="Hero Banner and Rental Search" className="py-2 sm:py-3 print:hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        {/* Banner container - border removed */}
+        {/* Banner container */}
         <div className="relative rounded-xl overflow-hidden bg-transparent">
           {/* =========================================================
               HERO BANNER ARTWORK
-              - Native 1024x434 widescreen aspect ratio (Full Image Visible, Zero Crop)
-              - "The Keys to your next adventure..." + Pearl-white Mazda CX-5 (TIE plate)
+              - Native 1024x384 widescreen aspect ratio (Full Image Visible, Zero Crop)
+              - Soul Red Mazda CX-5 on the Jamaican coastal road overlooking the Caribbean Sea
              ========================================================= */}
-          <div className="relative aspect-[1024/434] w-full select-none overflow-hidden">
+          <div className="relative aspect-[1024/384] w-full select-none overflow-hidden rounded-xl">
             <img
-              src="/hero-banner.jpg?v=14"
-              alt="Take It Easy Car Rentals - The Keys to your next adventure. Pearl white Mazda CX-5 with TIE plate driving along the Jamaican coast"
+              src="/hero-banner.jpg?v=15"
+              alt="Take It Easy Car Rentals & Tours - Soul Red Mazda CX-5 on the Jamaican coastal road overlooking the Caribbean Sea"
               className="w-full h-full object-cover"
             />
 
@@ -63,366 +60,322 @@ export default function HeroBanner({
             </h1>
 
             {/* =========================================================
-                DESKTOP OVERLAY: GLASSMORPHIC SEARCH CARD (RIGHT SIDE)
+                DESKTOP OVERLAY: FLOATING "FROSTED GLASS HORIZON PILL"
+                - Positioned in the top center-right portion of the hero banner
+                - Horizontal capsule (rounded-full)
+                - 5-column layout with vertical hairline dividers
+                - Nested amber Search CTA button at right end
                ========================================================= */}
-            <div className="hidden lg:flex absolute inset-y-0 right-0 z-10 items-center justify-end p-3.5 xl:p-6 w-full max-w-[540px] xl:max-w-[600px] 2xl:max-w-[640px]">
-              <div className="w-full">
-                {/* Ultra-Transparent Glassmorphic Card (Natural Height, Vertically Centered) */}
-                <div
-                  id="hero-search-card"
-                  className="rounded-2xl bg-black/[0.05] hover:bg-black/[0.08] backdrop-blur-xs border border-white/40 hover:border-white/55 p-3.5 xl:p-4 shadow-[0_8px_32px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.35)] text-white transition-all"
-                >
-                  {/* 1. Noticeable Heading: A Little Less Transparent (Section Only) */}
-                  <div className="flex items-center justify-center px-4 py-2.5 rounded-xl bg-black/45 backdrop-blur-md border border-white/35 shadow-inner mb-2.5 xl:mb-3">
-                    <h2 className="text-xs xl:text-sm font-black tracking-wider uppercase text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] leading-tight text-center">
-                      GET INSTANT QUOTES <span className="text-emerald-300 font-bold">|</span> NO HIDDEN FEES
-                    </h2>
-                  </div>
-
-                  {/* 2. Middle Grid: 2x2 Search Inputs */}
-                  <div className="grid grid-cols-2 gap-2 xl:gap-2.5">
-                    {/* 1. Pickup Location */}
-                    <div className="p-2.5 xl:p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/35 hover:border-white/55 transition-all flex flex-col justify-center">
-                      <label
-                        htmlFor="hero-desktop-location"
-                        className="flex items-center justify-between font-mono text-xs xl:text-[13px] uppercase tracking-wider text-emerald-300 mb-1 font-bold drop-shadow-xs"
-                      >
-                        <span className="flex items-center gap-1.5">
-                          <MapPin className="w-4 h-4 text-emerald-400 shrink-0" />
-                          <span>Pickup Hub</span>
-                        </span>
-                        {pickupFee > 0 && (
-                          <span className="text-[10px] text-amber-300 font-sans font-bold bg-amber-500/25 px-1.5 py-0.5 rounded border border-amber-400/40">
-                            +$120 fee
-                          </span>
-                        )}
-                      </label>
-                      <div className="relative flex items-center">
-                        <select
-                          id="hero-desktop-location"
-                          value={locationId}
-                          onChange={(e) => setLocationId?.(e.target.value)}
-                          className="w-full appearance-none bg-transparent pr-5 text-sm xl:text-base font-bold text-white focus:outline-none cursor-pointer truncate"
-                        >
-                          {locations.map((loc) => (
-                            <option key={loc.id} value={loc.id} className="bg-[#1b2b2b] text-white">
-                              {loc.shortName || loc.name} {loc.id === 'KIN' ? '(+$120 fee)' : ''}
-                            </option>
-                          ))}
-                        </select>
-                        <ChevronDown className="w-4 h-4 text-slate-300 pointer-events-none absolute right-0 shrink-0" />
-                      </div>
-                    </div>
-
-                    {/* 2. Drop-off Location */}
-                    <div className="p-2.5 xl:p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/35 hover:border-white/55 transition-all flex flex-col justify-center">
-                      <label
-                        htmlFor="hero-desktop-drop-location"
-                        className="flex items-center justify-between font-mono text-xs xl:text-[13px] uppercase tracking-wider text-amber-300 mb-1 font-bold drop-shadow-xs"
-                      >
-                        <span className="flex items-center gap-1.5">
-                          <MapPin className="w-4 h-4 text-amber-400 shrink-0" />
-                          <span>Drop-off Hub</span>
-                        </span>
-                        {dropFee > 0 && (
-                          <span className="text-[10px] text-amber-300 font-sans font-bold bg-amber-500/25 px-1.5 py-0.5 rounded border border-amber-400/40">
-                            +$120 fee
-                          </span>
-                        )}
-                      </label>
-                      <div className="relative flex items-center">
-                        <select
-                          id="hero-desktop-drop-location"
-                          value={dropLocationId}
-                          onChange={(e) => setDropLocationId?.(e.target.value)}
-                          className="w-full appearance-none bg-transparent pr-5 text-sm xl:text-base font-bold text-white focus:outline-none cursor-pointer truncate"
-                        >
-                          {locations.map((loc) => (
-                            <option key={loc.id} value={loc.id} className="bg-[#1b2b2b] text-white">
-                              {loc.shortName || loc.name} {loc.id === 'KIN' ? '(+$120 fee)' : ''}
-                            </option>
-                          ))}
-                        </select>
-                        <ChevronDown className="w-4 h-4 text-slate-300 pointer-events-none absolute right-0 shrink-0" />
-                      </div>
-                    </div>
-
-                    {/* 3. Pickup Date & Time */}
-                    <div className="p-2.5 xl:p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/35 hover:border-white/55 transition-all flex flex-col justify-center">
-                      <label
-                        htmlFor="hero-desktop-pickup-date"
-                        className="flex items-center gap-1.5 font-mono text-xs xl:text-[13px] uppercase tracking-wider text-emerald-300 mb-1 font-bold drop-shadow-xs"
-                      >
-                        <Calendar className="w-4 h-4 text-emerald-400 shrink-0" />
-                        <span>Pickup Date &amp; Time</span>
-                      </label>
-                      <div className="flex items-center gap-2">
-                        <input
-                          id="hero-desktop-pickup-date"
-                          type="date"
-                          value={pickupDate}
-                          min={minPickupDate}
-                          onChange={(e) => onPickupDateChange?.(e.target.value)}
-                          style={{ colorScheme: 'dark' }}
-                          className="w-full bg-transparent text-sm xl:text-base font-bold text-white tabular-nums focus:outline-none cursor-pointer min-w-0"
-                        />
-                        <span className="h-4 w-px bg-white/25 shrink-0" />
-                        <select
-                          aria-label="Pickup Time"
-                          value={pickupTime}
-                          onChange={(e) => setPickupTime?.(e.target.value)}
-                          className="bg-transparent text-xs xl:text-sm font-mono font-bold text-white focus:outline-none cursor-pointer shrink-0"
-                        >
-                          {timeSlots.map((slot) => (
-                            <option key={slot} value={slot} className="bg-[#1b2b2b] text-white">
-                              {slot}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
-
-                    {/* 4. Return Date & Time */}
-                    <div className="p-2.5 xl:p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/35 hover:border-white/55 transition-all flex flex-col justify-center">
-                      <label
-                        htmlFor="hero-desktop-return-date"
-                        className="flex items-center gap-1.5 font-mono text-xs xl:text-[13px] uppercase tracking-wider text-amber-300 mb-1 font-bold drop-shadow-xs"
-                      >
-                        <Clock className="w-4 h-4 text-amber-400 shrink-0" />
-                        <span>Return Date &amp; Time</span>
-                      </label>
-                      <div className="flex items-center gap-2">
-                        <input
-                          id="hero-desktop-return-date"
-                          type="date"
-                          value={returnDate}
-                          min={minReturnDate}
-                          onChange={(e) => onReturnDateChange?.(e.target.value)}
-                          style={{ colorScheme: 'dark' }}
-                          className="w-full bg-transparent text-sm xl:text-base font-bold text-white tabular-nums focus:outline-none cursor-pointer min-w-0"
-                        />
-                        <span className="h-4 w-px bg-white/25 shrink-0" />
-                        <select
-                          aria-label="Return Time"
-                          value={returnTime}
-                          onChange={(e) => setReturnTime?.(e.target.value)}
-                          className="bg-transparent text-xs xl:text-sm font-mono font-bold text-white focus:outline-none cursor-pointer shrink-0"
-                        >
-                          {timeSlots.map((slot) => (
-                            <option key={slot} value={slot} className="bg-[#1b2b2b] text-white">
-                              {slot}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* 3. Bottom Row: Trip Summary Card (Left) + Search Button (Right) on the Same Line */}
-                <div className="flex items-center gap-2 xl:gap-2.5 mt-2.5">
-                  {/* Trip Summary Card */}
-                  <div className="flex-1 min-h-[44px] px-3.5 py-2 rounded-xl bg-black/35 hover:bg-black/45 backdrop-blur-xs border border-white/35 shadow-[0_4px_20px_rgba(0,0,0,0.15)] flex items-center justify-center text-center">
-                    <span className="text-xs xl:text-[13px] font-bold text-white tracking-wide truncate">
-                      <span className="text-amber-300 font-extrabold">{rentalDays} {rentalDays === 1 ? 'day' : 'days'}</span> from {formatTripDate(pickupDate)} to {formatTripDate(returnDate)}
-                      {totalLocationFees > 0 && (
-                        <span className="ml-1.5 text-emerald-300 font-semibold font-mono text-xs">
-                          (+${totalLocationFees} KIN {totalLocationFees === 240 ? 'Fees' : 'Fee'})
-                        </span>
-                      )}
+            <div
+              id="hero-search-card"
+              className="hidden lg:flex items-center absolute top-6 xl:top-8 right-6 xl:right-8 z-20 rounded-full bg-slate-900/45 backdrop-blur-md border border-white/35 shadow-2xl px-6 py-3 text-white gap-3.5 xl:gap-5 transition-all hover:bg-slate-900/55"
+            >
+              {/* Column 1: Pickup Hub */}
+              <div className="relative flex flex-col justify-center min-w-[130px] xl:min-w-[155px]">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] uppercase tracking-wider text-white/75 font-semibold">
+                    PICKUP HUB
+                  </span>
+                  {locationId === 'KIN' && (
+                    <span className="text-[9px] text-amber-300 font-mono font-bold bg-amber-500/25 px-1 py-0.2 rounded border border-amber-400/40">
+                      +$120 fee
                     </span>
-                  </div>
-
-                  {/* Search Button */}
-                  <button
-                    type="button"
-                    onClick={onBookCar}
-                    className="shrink-0 min-h-[44px] px-6 xl:px-8 py-2.5 rounded-xl bg-white/[0.08] hover:bg-white/[0.16] backdrop-blur-xs border border-white/40 hover:border-white/60 active:scale-[0.98] text-white font-extrabold text-xs xl:text-sm tracking-wider uppercase shadow-[0_4px_20px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.35)] flex items-center justify-center transition-all cursor-pointer"
+                  )}
+                </div>
+                <div className="relative flex items-center mt-0.5">
+                  <select
+                    id="hero-desktop-location"
+                    value={locationId}
+                    onChange={(e) => setLocationId?.(e.target.value)}
+                    className="w-full appearance-none bg-transparent pr-5 text-sm font-medium text-white focus:outline-none cursor-pointer truncate"
                   >
-                    <span>SEARCH</span>
-                  </button>
+                    <option value="MBJ" className="bg-slate-900 text-white">
+                      Montego Bay (MBJ)
+                    </option>
+                    <option value="KIN" className="bg-slate-900 text-white">
+                      Kingston (KIN) {locationId !== 'KIN' ? '(+$120 fee)' : ''}
+                    </option>
+                  </select>
+                  <ChevronDown className="w-3.5 h-3.5 text-white/80 pointer-events-none absolute right-0 shrink-0" />
                 </div>
               </div>
+
+              {/* Hairline Divider 1 */}
+              <div className="h-10 w-[1px] bg-white/25 shrink-0" aria-hidden="true" />
+
+              {/* Column 2: Vehicle Class */}
+              <div className="relative flex flex-col justify-center min-w-[110px] xl:min-w-[130px]">
+                <span className="text-[10px] uppercase tracking-wider text-white/75 font-semibold">
+                  VEHICLE CLASS
+                </span>
+                <div className="relative flex items-center mt-0.5">
+                  <select
+                    id="hero-desktop-category"
+                    value={selectedCategory}
+                    onChange={(e) => setSelectedCategory?.(e.target.value)}
+                    className="w-full appearance-none bg-transparent pr-5 text-sm font-medium text-white focus:outline-none cursor-pointer truncate"
+                  >
+                    <option value="all" className="bg-slate-900 text-white">
+                      All Vehicles
+                    </option>
+                    {categories
+                      .filter((c) => c.id !== 'all')
+                      .map((cat) => (
+                        <option key={cat.id} value={cat.id} className="bg-slate-900 text-white">
+                          {cat.label}
+                        </option>
+                      ))}
+                  </select>
+                  <ChevronDown className="w-3.5 h-3.5 text-white/80 pointer-events-none absolute right-0 shrink-0" />
+                </div>
+              </div>
+
+              {/* Hairline Divider 2 */}
+              <div className="h-10 w-[1px] bg-white/25 shrink-0" aria-hidden="true" />
+
+              {/* Column 3: Pickup Date & Time */}
+              <div className="relative flex flex-col justify-center min-w-[110px] xl:min-w-[125px]">
+                <span className="text-[10px] uppercase tracking-wider text-white/75 font-semibold">
+                  PICKUP
+                </span>
+                <div className="mt-0.5 flex flex-col">
+                  <label htmlFor="hero-desktop-pickup-date" className="relative cursor-pointer">
+                    <span className="text-sm font-semibold text-white leading-tight hover:text-amber-200 transition-colors">
+                      {formatPillDate(pickupDate)}
+                    </span>
+                    <input
+                      type="date"
+                      id="hero-desktop-pickup-date"
+                      value={pickupDate}
+                      min={minPickupDate}
+                      onChange={onPickupDateChange}
+                      className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                    />
+                  </label>
+                  <div className="relative inline-flex items-center">
+                    <select
+                      id="hero-desktop-pickup-time"
+                      value={pickupTime}
+                      onChange={(e) => setPickupTime?.(e.target.value)}
+                      className="appearance-none bg-transparent text-xs text-white/90 leading-tight pr-3 focus:outline-none cursor-pointer hover:text-white"
+                    >
+                      {timeSlots.map((time) => (
+                        <option key={time} value={time} className="bg-slate-900 text-white">
+                          {time}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown className="w-2.5 h-2.5 text-white/70 pointer-events-none absolute right-0" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Hairline Divider 3 */}
+              <div className="h-10 w-[1px] bg-white/25 shrink-0" aria-hidden="true" />
+
+              {/* Column 4: Return Date & Time */}
+              <div className="relative flex flex-col justify-center min-w-[110px] xl:min-w-[125px]">
+                <span className="text-[10px] uppercase tracking-wider text-white/75 font-semibold">
+                  RETURN
+                </span>
+                <div className="mt-0.5 flex flex-col">
+                  <label htmlFor="hero-desktop-return-date" className="relative cursor-pointer">
+                    <span className="text-sm font-semibold text-white leading-tight hover:text-amber-200 transition-colors">
+                      {formatPillDate(returnDate)}
+                    </span>
+                    <input
+                      type="date"
+                      id="hero-desktop-return-date"
+                      value={returnDate}
+                      min={minReturnDate}
+                      onChange={onReturnDateChange}
+                      className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                    />
+                  </label>
+                  <div className="relative inline-flex items-center">
+                    <select
+                      id="hero-desktop-return-time"
+                      value={returnTime}
+                      onChange={(e) => setReturnTime?.(e.target.value)}
+                      className="appearance-none bg-transparent text-xs text-white/90 leading-tight pr-3 focus:outline-none cursor-pointer hover:text-white"
+                    >
+                      {timeSlots.map((time) => (
+                        <option key={time} value={time} className="bg-slate-900 text-white">
+                          {time}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown className="w-2.5 h-2.5 text-white/70 pointer-events-none absolute right-0" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Column 5: Search CTA Button */}
+              <button
+                type="button"
+                onClick={onBookCar}
+                aria-label="Search available vehicles"
+                className="rounded-full bg-amber-400 hover:bg-amber-300 text-slate-950 font-semibold px-6 py-3 flex items-center gap-2 transition shadow-md shrink-0 cursor-pointer active:scale-95 ml-1"
+              >
+                <Search className="w-4 h-4 text-slate-950 stroke-[2.5]" />
+                <span>Search</span>
+              </button>
             </div>
           </div>
 
           {/* =========================================================
-              MOBILE / TABLET (< lg): GLASSMORPHIC SEARCH CARD
+              MOBILE / TABLET (< lg): RESPONSIVE FULL-WIDTH ROUNDED-2XL PILL
              ========================================================= */}
-          <div
-            id="mobile-search-card"
-            className="lg:hidden p-4 sm:p-5 bg-gradient-to-b from-[#192b2d] to-[#122224] scroll-mt-6"
-          >
+          <div id="mobile-search-card" className="lg:hidden mt-3 sm:mt-4 scroll-mt-6">
             <div
               id="hero-search-card-mobile"
-              className="rounded-2xl bg-white/[0.03] backdrop-blur-xs border border-white/35 p-4 shadow-xl text-white"
+              className="rounded-2xl bg-slate-900/65 backdrop-blur-md border border-white/35 shadow-2xl p-4 sm:p-5 text-white"
             >
-              {/* Noticeable Heading: A Little Less Transparent (Section Only) */}
-              <div className="flex items-center justify-center px-4 py-2.5 rounded-xl bg-black/45 backdrop-blur-md border border-white/35 shadow-inner mb-3">
-                <h2 className="text-xs sm:text-sm font-black tracking-wider uppercase text-white drop-shadow-md text-center">
-                  GET INSTANT QUOTES <span className="text-emerald-300 font-bold">|</span> NO HIDDEN FEES
-                </h2>
-              </div>
-
-              {/* 2-Column Responsive Inputs */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-                {/* 1. Pickup Location */}
-                <div className="p-3 rounded-xl bg-white/[0.02] border border-white/30 hover:border-white/45 transition-colors">
-                  <label
-                    htmlFor="hero-mobile-location"
-                    className="flex items-center justify-between font-mono text-xs sm:text-[13px] uppercase tracking-wider text-emerald-300 mb-1 font-bold"
-                  >
-                    <span className="flex items-center gap-1.5">
-                      <MapPin className="w-4 h-4 text-emerald-400 shrink-0" />
-                      <span>Pickup Location</span>
+                {/* 1. Pickup Hub */}
+                <div className="p-2.5 rounded-xl bg-white/[0.04] border border-white/20">
+                  <div className="flex items-center justify-between mb-0.5">
+                    <span className="text-[10px] uppercase tracking-wider text-white/75 font-semibold">
+                      PICKUP HUB
                     </span>
-                    {pickupFee > 0 && (
-                      <span className="text-[10px] text-amber-300 font-sans font-bold bg-amber-500/25 px-1.5 py-0.5 rounded border border-amber-400/40">
+                    {locationId === 'KIN' && (
+                      <span className="text-[9px] text-amber-300 font-mono font-bold bg-amber-500/25 px-1 py-0.2 rounded border border-amber-400/40">
                         +$120 fee
                       </span>
                     )}
-                  </label>
-                  <div className="relative flex items-center min-h-[42px]">
+                  </div>
+                  <div className="relative flex items-center">
                     <select
                       id="hero-mobile-location"
                       value={locationId}
                       onChange={(e) => setLocationId?.(e.target.value)}
-                      className="w-full min-h-[42px] appearance-none bg-transparent pr-6 text-base font-bold text-white focus:outline-none cursor-pointer"
+                      className="w-full appearance-none bg-transparent pr-6 text-sm font-medium text-white focus:outline-none cursor-pointer"
                     >
-                      {locations.map((loc) => (
-                        <option key={loc.id} value={loc.id} className="bg-[#1b2b2b] text-white">
-                          {loc.shortName || loc.name} {loc.id === 'KIN' ? '(+$120 fee)' : ''}
-                        </option>
-                      ))}
+                      <option value="MBJ" className="bg-slate-900 text-white">
+                        Montego Bay (MBJ)
+                      </option>
+                      <option value="KIN" className="bg-slate-900 text-white">
+                        Kingston (KIN) {locationId !== 'KIN' ? '(+$120 fee)' : ''}
+                      </option>
                     </select>
-                    <ChevronDown className="w-4 h-4 text-slate-300 pointer-events-none absolute right-0 shrink-0" />
+                    <ChevronDown className="w-3.5 h-3.5 text-white/80 pointer-events-none absolute right-0 shrink-0" />
                   </div>
                 </div>
 
-                {/* 2. Drop-off Location */}
-                <div className="p-3 rounded-xl bg-white/[0.02] border border-white/30 hover:border-white/45 transition-colors">
-                  <label
-                    htmlFor="hero-mobile-drop-location"
-                    className="flex items-center justify-between font-mono text-xs sm:text-[13px] uppercase tracking-wider text-amber-300 mb-1 font-bold"
-                  >
-                    <span className="flex items-center gap-1.5">
-                      <MapPin className="w-4 h-4 text-amber-400 shrink-0" />
-                      <span>Drop-off Location</span>
-                    </span>
-                    {dropFee > 0 && (
-                      <span className="text-[10px] text-amber-300 font-sans font-bold bg-amber-500/25 px-1.5 py-0.5 rounded border border-amber-400/40">
-                        +$120 fee
-                      </span>
-                    )}
-                  </label>
-                  <div className="relative flex items-center min-h-[42px]">
+                {/* 2. Vehicle Class */}
+                <div className="p-2.5 rounded-xl bg-white/[0.04] border border-white/20">
+                  <span className="text-[10px] uppercase tracking-wider text-white/75 font-semibold block mb-0.5">
+                    VEHICLE CLASS
+                  </span>
+                  <div className="relative flex items-center">
                     <select
-                      id="hero-mobile-drop-location"
-                      value={dropLocationId}
-                      onChange={(e) => setDropLocationId?.(e.target.value)}
-                      className="w-full min-h-[42px] appearance-none bg-transparent pr-6 text-base font-bold text-white focus:outline-none cursor-pointer"
+                      id="hero-mobile-category"
+                      value={selectedCategory}
+                      onChange={(e) => setSelectedCategory?.(e.target.value)}
+                      className="w-full appearance-none bg-transparent pr-6 text-sm font-medium text-white focus:outline-none cursor-pointer"
                     >
-                      {locations.map((loc) => (
-                        <option key={loc.id} value={loc.id} className="bg-[#1b2b2b] text-white">
-                          {loc.shortName || loc.name} {loc.id === 'KIN' ? '(+$120 fee)' : ''}
-                        </option>
-                      ))}
+                      <option value="all" className="bg-slate-900 text-white">
+                        All Vehicles
+                      </option>
+                      {categories
+                        .filter((c) => c.id !== 'all')
+                        .map((cat) => (
+                          <option key={cat.id} value={cat.id} className="bg-slate-900 text-white">
+                            {cat.label}
+                          </option>
+                        ))}
                     </select>
-                    <ChevronDown className="w-4 h-4 text-slate-300 pointer-events-none absolute right-0 shrink-0" />
+                    <ChevronDown className="w-3.5 h-3.5 text-white/80 pointer-events-none absolute right-0 shrink-0" />
                   </div>
                 </div>
 
                 {/* 3. Pickup Date & Time */}
-                <div className="p-3 rounded-xl bg-white/[0.02] border border-white/30 hover:border-white/45 transition-colors">
-                  <label
-                    htmlFor="hero-mobile-pickup-date"
-                    className="flex items-center gap-1.5 font-mono text-xs sm:text-[13px] uppercase tracking-wider text-emerald-300 mb-1 font-bold"
-                  >
-                    <Calendar className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Pickup Date &amp; Time</span>
-                  </label>
-                  <div className="flex items-center gap-2 min-h-[42px]">
-                    <input
-                      id="hero-mobile-pickup-date"
-                      type="date"
-                      value={pickupDate}
-                      min={minPickupDate}
-                      onChange={(e) => onPickupDateChange?.(e.target.value)}
-                      style={{ colorScheme: 'dark' }}
-                      className="min-h-[42px] w-full bg-transparent text-base font-bold text-white tabular-nums focus:outline-none cursor-pointer min-w-0"
-                    />
-                    <span className="h-4 w-px bg-white/20 shrink-0" />
-                    <select
-                      aria-label="Mobile Pickup Time"
-                      value={pickupTime}
-                      onChange={(e) => setPickupTime?.(e.target.value)}
-                      className="min-h-[42px] bg-transparent text-sm font-mono font-bold text-white focus:outline-none cursor-pointer shrink-0"
-                    >
-                      {timeSlots.map((slot) => (
-                        <option key={slot} value={slot} className="bg-[#1b2b2b] text-white">
-                          {slot}
-                        </option>
-                      ))}
-                    </select>
+                <div className="p-2.5 rounded-xl bg-white/[0.04] border border-white/20">
+                  <span className="text-[10px] uppercase tracking-wider text-white/75 font-semibold block mb-0.5">
+                    PICKUP
+                  </span>
+                  <div className="flex items-center justify-between gap-2">
+                    <label htmlFor="hero-mobile-pickup-date" className="relative cursor-pointer flex-1">
+                      <span className="text-sm font-semibold text-white leading-tight">
+                        {formatPillDate(pickupDate)}
+                      </span>
+                      <input
+                        type="date"
+                        id="hero-mobile-pickup-date"
+                        value={pickupDate}
+                        min={minPickupDate}
+                        onChange={onPickupDateChange}
+                        className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                      />
+                    </label>
+                    <div className="relative inline-flex items-center">
+                      <select
+                        id="hero-mobile-pickup-time"
+                        value={pickupTime}
+                        onChange={(e) => setPickupTime?.(e.target.value)}
+                        className="appearance-none bg-transparent text-xs text-white/90 leading-tight pr-3 focus:outline-none cursor-pointer"
+                      >
+                        {timeSlots.map((time) => (
+                          <option key={time} value={time} className="bg-slate-900 text-white">
+                            {time}
+                          </option>
+                        ))}
+                      </select>
+                      <ChevronDown className="w-2.5 h-2.5 text-white/70 pointer-events-none absolute right-0" />
+                    </div>
                   </div>
                 </div>
 
                 {/* 4. Return Date & Time */}
-                <div className="p-3 rounded-xl bg-white/[0.02] border border-white/30 hover:border-white/45 transition-colors">
-                  <label
-                    htmlFor="hero-mobile-return-date"
-                    className="flex items-center gap-1.5 font-mono text-xs sm:text-[13px] uppercase tracking-wider text-amber-300 mb-1 font-bold"
-                  >
-                    <Clock className="w-4 h-4 text-amber-400 shrink-0" />
-                    <span>Return Date &amp; Time</span>
-                  </label>
-                  <div className="flex items-center gap-2 min-h-[42px]">
-                    <input
-                      id="hero-mobile-return-date"
-                      type="date"
-                      value={returnDate}
-                      min={minReturnDate}
-                      onChange={(e) => onReturnDateChange?.(e.target.value)}
-                      style={{ colorScheme: 'dark' }}
-                      className="min-h-[42px] w-full bg-transparent text-base font-bold text-white tabular-nums focus:outline-none cursor-pointer min-w-0"
-                    />
-                    <span className="h-4 w-px bg-white/20 shrink-0" />
-                    <select
-                      aria-label="Mobile Return Time"
-                      value={returnTime}
-                      onChange={(e) => setReturnTime?.(e.target.value)}
-                      className="min-h-[42px] bg-transparent text-sm font-mono font-bold text-white focus:outline-none cursor-pointer shrink-0"
-                    >
-                      {timeSlots.map((slot) => (
-                        <option key={slot} value={slot} className="bg-[#1b2b2b] text-white">
-                          {slot}
-                        </option>
-                      ))}
-                    </select>
+                <div className="p-2.5 rounded-xl bg-white/[0.04] border border-white/20">
+                  <span className="text-[10px] uppercase tracking-wider text-white/75 font-semibold block mb-0.5">
+                    RETURN
+                  </span>
+                  <div className="flex items-center justify-between gap-2">
+                    <label htmlFor="hero-mobile-return-date" className="relative cursor-pointer flex-1">
+                      <span className="text-sm font-semibold text-white leading-tight">
+                        {formatPillDate(returnDate)}
+                      </span>
+                      <input
+                        type="date"
+                        id="hero-mobile-return-date"
+                        value={returnDate}
+                        min={minReturnDate}
+                        onChange={onReturnDateChange}
+                        className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                      />
+                    </label>
+                    <div className="relative inline-flex items-center">
+                      <select
+                        id="hero-mobile-return-time"
+                        value={returnTime}
+                        onChange={(e) => setReturnTime?.(e.target.value)}
+                        className="appearance-none bg-transparent text-xs text-white/90 leading-tight pr-3 focus:outline-none cursor-pointer"
+                      >
+                        {timeSlots.map((time) => (
+                          <option key={time} value={time} className="bg-slate-900 text-white">
+                            {time}
+                          </option>
+                        ))}
+                      </select>
+                      <ChevronDown className="w-2.5 h-2.5 text-white/70 pointer-events-none absolute right-0" />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* Mobile Action Row: Trip Summary Card (Left) + Search Button (Right) */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 mt-3">
-              <div className="flex-1 min-h-[44px] px-3.5 py-2 rounded-xl bg-black/35 border border-white/35 backdrop-blur-xs flex items-center justify-center text-center">
-                <span className="text-xs sm:text-sm font-bold text-white tracking-wide">
-                  <span className="text-amber-300 font-extrabold">{rentalDays} {rentalDays === 1 ? 'day' : 'days'}</span> from {formatTripDate(pickupDate)} to {formatTripDate(returnDate)}
-                  {totalLocationFees > 0 && (
-                    <span className="ml-1.5 text-emerald-300 font-semibold font-mono text-xs">
-                      (+${totalLocationFees} KIN {totalLocationFees === 240 ? 'Fees' : 'Fee'})
-                    </span>
-                  )}
-                </span>
+              {/* Mobile Search Button */}
+              <div className="mt-3.5">
+                <button
+                  type="button"
+                  onClick={onBookCar}
+                  aria-label="Search available vehicles"
+                  className="w-full rounded-full bg-amber-400 hover:bg-amber-300 text-slate-950 font-semibold px-6 py-3 flex items-center justify-center gap-2 transition shadow-md cursor-pointer active:scale-95"
+                >
+                  <Search className="w-4 h-4 text-slate-950 stroke-[2.5]" />
+                  <span>Search</span>
+                </button>
               </div>
-              <button
-                type="button"
-                onClick={onBookCar}
-                className="sm:shrink-0 min-h-[44px] px-6 py-2.5 rounded-xl bg-white/[0.08] hover:bg-white/[0.16] backdrop-blur-xs border border-white/40 hover:border-white/60 active:scale-[0.98] text-white font-extrabold text-sm tracking-wider uppercase shadow-lg flex items-center justify-center cursor-pointer transition-all"
-              >
-                <span>SEARCH</span>
-              </button>
             </div>
           </div>
         </div>
