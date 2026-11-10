@@ -40,6 +40,13 @@ import ContactModal from './components/ContactModal';
 import RentalInfoModal from './components/RentalInfoModal';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfUse from './pages/TermsOfUse';
+import CounterLogin from './components/CounterLogin';
+import CounterDashboard from './components/CounterDashboard';
+import CounterContract from './components/CounterContract';
+import CounterInspect from './components/CounterInspect';
+import CounterReturnModal from './components/CounterReturnModal';
+import CounterBottomNav from './components/CounterBottomNav';
+import CustomerBookView from './components/CustomerBookView';
 
 // --- LOCATIONS & FLEET DATA ---
 const LOCATIONS = [
@@ -492,27 +499,135 @@ const INITIAL_SAMPLE_RENTAL = {
   }
 };
 
+function parseRoute(path) {
+  const normalized = (path || '/').toLowerCase();
+  if (normalized === '' || normalized === '/') return { name: 'home' };
+  if (normalized.startsWith('/privacy')) return { name: 'privacy' };
+  if (normalized.startsWith('/terms')) return { name: 'terms' };
+  if (normalized === '/counter/login') return { name: 'counter-login' };
+  if (normalized === '/counter/dashboard' || normalized === '/counter') return { name: 'counter-dashboard' };
+
+  const contractMatch = normalized.match(/^\/counter\/contract\/([^/]+)/);
+  if (contractMatch) return { name: 'counter-contract', resId: contractMatch[1].toUpperCase() };
+
+  const inspectMatch = normalized.match(/^\/counter\/inspect\/([^/]+)/);
+  if (inspectMatch) return { name: 'counter-inspect', resId: inspectMatch[1].toUpperCase() };
+
+  const returnMatch = normalized.match(/^\/counter\/return\/([^/]+)/);
+  if (returnMatch) return { name: 'counter-return', resId: returnMatch[1].toUpperCase() };
+
+  const bookMatch = normalized.match(/^\/book\/([^/]+)/);
+  if (bookMatch) return { name: 'book', vehicleId: bookMatch[1] };
+
+  return { name: 'home' };
+}
+
+const SEEDED_RESERVATIONS = [
+  INITIAL_SAMPLE_RENTAL, // TIE-508412: RENTED (Out on road)
+  {
+    id: 'RES-211',
+    raNumber: 'RA-2026-08211',
+    status: 'RESERVED',
+    createdAt: '10:15 AM',
+    acquisitionChannel: 'Customer Web Reservation',
+    vehicle: FLEET.find((v) => v.id === 'cx5-2017-red') || FLEET[0], // 2017 Mazda CX-5 (Red)
+    plateNo: '8841-HX',
+    licDisc: 'LD-99215',
+    location: LOCATIONS[0], // MBJ
+    dropLocation: LOCATIONS[1], // KIN (+$120 fee)
+    pickupDate: DEFAULT_PICKUP_DATE,
+    pickupTime: '11:30 AM',
+    returnDate: addDays(DEFAULT_PICKUP_DATE, 4),
+    returnTime: '11:30 AM',
+    rentalDays: 4,
+    vehicleSubtotal: 440,
+    pickupDropFee: 120, // KIN Drop fee
+    cdwAccepted: true,
+    cdwAmount: 80,
+    toursSubtotal: 0,
+    subtotal: 640,
+    deposit: 500,
+    totalAuthorized: 1140,
+    driver: {
+      fullName: 'Devon Vance',
+      dob: '1989-04-12',
+      homeAddress: '88 Ocean View Terrace, Kingston 6, Jamaica',
+      phone: '+1 (876) 885-2355',
+      email: 'devon.vance@example.com',
+      licenseNumber: 'JM-918241',
+      licenseExpiry: '2028-10-15',
+      flightNumber: 'DL-1842'
+    }
+  },
+  {
+    id: 'RES-212',
+    raNumber: 'RA-2026-08212',
+    status: 'RESERVED',
+    createdAt: '08:30 AM',
+    acquisitionChannel: 'Customer Web Reservation',
+    vehicle: FLEET.find((v) => v.id === 'voxy-2018-white') || FLEET[0], // 2018 Toyota Voxy (White)
+    plateNo: '5420-HX',
+    licDisc: 'LD-99216',
+    location: LOCATIONS[1], // KIN (+$120 fee)
+    dropLocation: LOCATIONS[0], // MBJ
+    pickupDate: DEFAULT_PICKUP_DATE,
+    pickupTime: '02:15 PM',
+    returnDate: addDays(DEFAULT_PICKUP_DATE, 3),
+    returnTime: '02:15 PM',
+    rentalDays: 3,
+    vehicleSubtotal: 420,
+    pickupDropFee: 120, // KIN Pickup fee
+    cdwAccepted: true,
+    cdwAmount: 60,
+    toursSubtotal: 0,
+    subtotal: 600,
+    deposit: 500,
+    totalAuthorized: 1100,
+    driver: {
+      fullName: 'Sarah Jenkins',
+      dob: '1992-08-20',
+      homeAddress: '310 Richmond St, Toronto, ON, Canada',
+      phone: '+1 (416) 555-0192',
+      email: 'sarah.jenkins@example.com',
+      licenseNumber: 'ON-948201',
+      licenseExpiry: '2029-03-12',
+      flightNumber: 'AA-1204'
+    }
+  }
+];
+
+const INITIAL_FLEET_STATUS = {
+  'voxy-2017-black': { status: 'AVAILABLE', plateNo: '1824-HX', mileage: 39400, fuelLevel: 'Full' },
+  'voxy-2016-navy': { status: 'AVAILABLE', plateNo: '9301-HX', mileage: 42100, fuelLevel: 'Full' },
+  'voxy-2018-white': { status: 'RESERVED', plateNo: '5420-HX', mileage: 31200, fuelLevel: 'Full', currentReservationId: 'RES-212' },
+  'demio-2016-black': { status: 'RENTED', plateNo: '2489-HX', mileage: 48210, fuelLevel: 'Full', currentReservationId: 'TIE-508412' },
+  'demio-2016-red': { status: 'AVAILABLE', plateNo: '7104-HX', mileage: 36800, fuelLevel: 'Full' },
+  'demio-2015-navy': { status: 'IN_INSPECTION', plateNo: '4822-HX', mileage: 51200, fuelLevel: '3/4' },
+  'cx5-2016-pearlwhite': { status: 'AVAILABLE', plateNo: '3910-HX', mileage: 44000, fuelLevel: 'Full' },
+  'cx5-2017-red': { status: 'RESERVED', plateNo: '8841-HX', mileage: 29500, fuelLevel: 'Full', currentReservationId: 'RES-211' },
+  'cx5-2019-silver': { status: 'AVAILABLE', plateNo: '6219-HX', mileage: 24100, fuelLevel: 'Full' },
+  'sylphy-2015-silver': { status: 'AVAILABLE', plateNo: '9041-HX', mileage: 49800, fuelLevel: 'Full' },
+};
+
 export default function App() {
-  // Routing state for /privacy and /terms
+  // Unified Routing State: /, /book/:id, /counter/login, /counter/dashboard, /counter/contract/:id, /counter/inspect/:id
   const [currentRoute, setCurrentRoute] = useState(() => {
     if (typeof window !== 'undefined') {
-      const path = window.location.pathname.toLowerCase();
-      if (path === '/privacy' || path.startsWith('/privacy')) return 'privacy';
-      if (path === '/terms' || path.startsWith('/terms')) return 'terms';
+      return parseRoute(window.location.pathname);
     }
-    return 'home';
+    return { name: 'home' };
+  });
+
+  const [isAgentAuthenticated, setIsAgentAuthenticated] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return sessionStorage.getItem('tie_counter_auth') === 'true';
+    }
+    return false;
   });
 
   useEffect(() => {
     const handlePopState = () => {
-      const path = window.location.pathname.toLowerCase();
-      if (path === '/privacy' || path.startsWith('/privacy')) {
-        setCurrentRoute('privacy');
-      } else if (path === '/terms' || path.startsWith('/terms')) {
-        setCurrentRoute('terms');
-      } else {
-        setCurrentRoute('home');
-      }
+      setCurrentRoute(parseRoute(window.location.pathname));
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
@@ -522,16 +637,14 @@ export default function App() {
 
   const navigateTo = (path) => {
     window.history.pushState({}, '', path);
-    const normalized = path.toLowerCase();
-    if (normalized.startsWith('/privacy')) {
-      setCurrentRoute('privacy');
-    } else if (normalized.startsWith('/terms')) {
-      setCurrentRoute('terms');
-    } else {
-      setCurrentRoute('home');
-    }
+    setCurrentRoute(parseRoute(path));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  // Fleet operational status map & counter state
+  const [fleetStatus, setFleetStatus] = useState(INITIAL_FLEET_STATUS);
+  const [counterActiveTab, setCounterActiveTab] = useState('fleet');
+  const [activeReturnModalBooking, setActiveReturnModalBooking] = useState(null);
 
   // Phase 1: Acquisition & Sticky Search Strip State
   const [acquisitionChannel] = useState(ACQUISITION_CHANNELS[0].id);
@@ -547,12 +660,11 @@ export default function App() {
   const searchAnchorRef = useRef(null);
 
   // Drawer & Modal State
-  // drawerMode: 'checkout' (Phases 2-4) | 'bookings' (List) | 'return' (Phases 5-6) | null
   const [drawerMode, setDrawerMode] = useState(null);
-  const [checkoutStep, setCheckoutStep] = useState(2); // 2 = Office App, 3 = Check Sheet & Videos, 4 = Contract, Sign & Pay
+  const [checkoutStep, setCheckoutStep] = useState(2);
   const [activeVehicle, setActiveVehicle] = useState(null);
   const [confirmedReservation, setConfirmedReservation] = useState(null);
-  const [reservations, setReservations] = useState([INITIAL_SAMPLE_RENTAL]);
+  const [reservations, setReservations] = useState(SEEDED_RESERVATIONS);
   const [selectedReturnId, setSelectedReturnId] = useState(INITIAL_SAMPLE_RENTAL.id);
   const [dossierBooking, setDossierBooking] = useState(null);
   const [guestCheckoutVehicle, setGuestCheckoutVehicle] = useState(null);
@@ -1272,7 +1384,107 @@ export default function App() {
   const depositRefund = Math.max(0, returnDepositAmount - returnEffectiveCost);
   const excessPosDraw = Math.max(0, returnEffectiveCost - returnDepositAmount);
 
-  if (currentRoute === 'privacy') {
+  const handleUpdateReservationBilling = (resId, billingUpdates) => {
+    setReservations((prev) =>
+      prev.map((r) => (r.id === resId ? { ...r, ...billingUpdates } : r))
+    );
+    triggerSuccess(`Billing updated for ${resId}.`);
+  };
+
+  const handleCompleteCheckOutFromInspect = (resId, inspectionData) => {
+    let releasedRa = resId;
+    setReservations((prev) =>
+      prev.map((r) => {
+        if (r.id === resId) {
+          releasedRa = r.raNumber || resId;
+          return {
+            ...r,
+            status: 'RENTED',
+            mileageOut: inspectionData.mileageOut,
+            fuelLevelOut: inspectionData.gasLevelOut,
+            inspection: {
+              ...(r.inspection || {}),
+              ...inspectionData,
+              noExistingDamage: (inspectionData.damagedZones || []).length === 0,
+            }
+          };
+        }
+        return r;
+      })
+    );
+
+    const targetRes = reservations.find((r) => r.id === resId);
+    const vehicleId = targetRes?.vehicle?.id;
+    if (vehicleId) {
+      setFleetStatus((prev) => ({
+        ...prev,
+        [vehicleId]: {
+          ...(prev[vehicleId] || {}),
+          status: 'RENTED',
+          mileage: inspectionData.mileageOut,
+          fuelLevel: inspectionData.gasLevelOut,
+          currentReservationId: resId,
+        }
+      }));
+    }
+
+    triggerSuccess(`Vehicle successfully released on road! Inspection baseline active (${releasedRa}).`);
+    navigateTo('/counter/dashboard');
+  };
+
+  const handleCompleteReturnFromModal = (resId, closeoutData) => {
+    setReservations((prev) =>
+      prev.map((r) => {
+        if (r.id === resId) {
+          return {
+            ...r,
+            status: 'COMPLETED',
+            mileageIn: closeoutData.mileageIn,
+            fuelLevelIn: closeoutData.gasLevelIn,
+            closeout: closeoutData,
+          };
+        }
+        return r;
+      })
+    );
+
+    const targetRes = reservations.find((r) => r.id === resId);
+    const vehicleId = targetRes?.vehicle?.id;
+    if (vehicleId) {
+      setFleetStatus((prev) => ({
+        ...prev,
+        [vehicleId]: {
+          ...(prev[vehicleId] || {}),
+          status: 'AVAILABLE',
+          mileage: closeoutData.mileageIn,
+          fuelLevel: closeoutData.gasLevelIn,
+          currentReservationId: null,
+        }
+      }));
+    }
+
+    setActiveReturnModalBooking(null);
+    triggerSuccess(`Vehicle check-in closed. Refund release: $${closeoutData.netRefund} USD. Status: AVAILABLE.`);
+    navigateTo('/counter/dashboard');
+  };
+
+  const handleCustomerReservationSubmit = (newRes) => {
+    setReservations((prev) => [newRes, ...prev]);
+    if (newRes.vehicle?.id) {
+      setFleetStatus((prev) => ({
+        ...prev,
+        [newRes.vehicle.id]: {
+          ...(prev[newRes.vehicle.id] || {}),
+          status: 'RESERVED',
+          currentReservationId: newRes.id,
+        }
+      }));
+    }
+    triggerSuccess(`Reservation ${newRes.id} confirmed! Synced with airport counter dispatch.`);
+  };
+
+  // ROUTING RENDERERS
+  if (currentRoute.name === 'privacy') {
     return (
       <PrivacyPolicy
         onNavigateHome={() => navigateTo('/')}
@@ -1280,11 +1492,199 @@ export default function App() {
       />
     );
   }
-  if (currentRoute === 'terms') {
+
+  if (currentRoute.name === 'terms') {
     return (
       <TermsOfUse
         onNavigateHome={() => navigateTo('/')}
         backLabel={guestCheckoutVehicle ? '← Return to Checkout' : 'Back to Home'}
+      />
+    );
+  }
+
+  if (currentRoute.name === 'counter-login') {
+    return (
+      <CounterLogin
+        onLoginSuccess={() => {
+          setIsAgentAuthenticated(true);
+          if (typeof window !== 'undefined') {
+            sessionStorage.setItem('tie_counter_auth', 'true');
+          }
+          navigateTo('/counter/dashboard');
+        }}
+        onReturnHome={() => navigateTo('/')}
+      />
+    );
+  }
+
+  // Guard for /counter routes
+  if (currentRoute.name.startsWith('counter-') && !isAgentAuthenticated) {
+    return (
+      <CounterLogin
+        onLoginSuccess={() => {
+          setIsAgentAuthenticated(true);
+          if (typeof window !== 'undefined') {
+            sessionStorage.setItem('tie_counter_auth', 'true');
+          }
+          navigateTo('/counter/dashboard');
+        }}
+        onReturnHome={() => navigateTo('/')}
+      />
+    );
+  }
+
+  if (currentRoute.name === 'counter-dashboard') {
+    return (
+      <>
+        <CounterDashboard
+          fleet={FLEET}
+          fleetStatus={fleetStatus}
+          reservations={reservations}
+          activeTab={counterActiveTab}
+          setActiveTab={setCounterActiveTab}
+          onSelectVehicleForContract={(v) => openCheckoutDrawer(v)}
+          onOpenContractForRes={(resId) => navigateTo(`/counter/contract/${resId}`)}
+          onOpenInspectionForRes={(resId) => navigateTo(`/counter/inspect/${resId}`)}
+          onOpenReturnForRes={(resId) => {
+            const targetRes = reservations.find((r) => r.id === resId);
+            if (targetRes) setActiveReturnModalBooking(targetRes);
+          }}
+          onQuickClearInspection={(vehicleId) => {
+            setFleetStatus((prev) => ({
+              ...prev,
+              [vehicleId]: { ...(prev[vehicleId] || {}), status: 'AVAILABLE' }
+            }));
+            triggerSuccess('Vehicle turnaround complete · Status updated to AVAILABLE.');
+          }}
+          onLogout={() => {
+            setIsAgentAuthenticated(false);
+            if (typeof window !== 'undefined') {
+              sessionStorage.removeItem('tie_counter_auth');
+            }
+            navigateTo('/counter/login');
+          }}
+          onNavigatePublic={() => navigateTo('/')}
+          onNewWalkIn={() => {
+            const firstAvail = FLEET.find((v) => (fleetStatus[v.id]?.status || 'AVAILABLE') === 'AVAILABLE') || FLEET[0];
+            openCheckoutDrawer(firstAvail);
+          }}
+        />
+        <CounterBottomNav
+          activeTab={counterActiveTab}
+          onSelectTab={setCounterActiveTab}
+          onNewContract={() => {
+            const firstAvail = FLEET.find((v) => (fleetStatus[v.id]?.status || 'AVAILABLE') === 'AVAILABLE') || FLEET[0];
+            openCheckoutDrawer(firstAvail);
+          }}
+          onOpenReturns={() => {
+            const firstRented = reservations.find((r) => r.status === 'RENTED');
+            if (firstRented) setActiveReturnModalBooking(firstRented);
+            else triggerSuccess('No vehicles currently out on road.');
+          }}
+          onNavigatePublic={() => navigateTo('/')}
+          dispatchCount={reservations.filter((r) => r.status === 'RESERVED').length}
+        />
+        {activeReturnModalBooking && (
+          <CounterReturnModal
+            booking={activeReturnModalBooking}
+            onClose={() => setActiveReturnModalBooking(null)}
+            onCompleteReturn={handleCompleteReturnFromModal}
+          />
+        )}
+        {dossierBooking && (
+          <ContractDossierModal
+            booking={dossierBooking}
+            onClose={() => setDossierBooking(null)}
+          />
+        )}
+      </>
+    );
+  }
+
+  if (currentRoute.name === 'counter-contract') {
+    const targetRes =
+      reservations.find((r) => r.id?.toUpperCase() === currentRoute.resId?.toUpperCase()) ||
+      reservations[0];
+    return (
+      <>
+        <CounterContract
+          reservation={targetRes}
+          onUpdateReservation={handleUpdateReservationBilling}
+          onProceedToInspection={(resId) => navigateTo(`/counter/inspect/${resId}`)}
+          onPrintContract={(res) => setDossierBooking(res)}
+          onBackToDashboard={() => navigateTo('/counter/dashboard')}
+        />
+        <CounterBottomNav
+          activeTab={counterActiveTab}
+          onSelectTab={(tab) => {
+            setCounterActiveTab(tab);
+            navigateTo('/counter/dashboard');
+          }}
+          onNewContract={() => {
+            const firstAvail = FLEET.find((v) => (fleetStatus[v.id]?.status || 'AVAILABLE') === 'AVAILABLE') || FLEET[0];
+            openCheckoutDrawer(firstAvail);
+          }}
+          onOpenReturns={() => {
+            const firstRented = reservations.find((r) => r.status === 'RENTED');
+            if (firstRented) setActiveReturnModalBooking(firstRented);
+            else triggerSuccess('No vehicles currently out on road.');
+          }}
+          onNavigatePublic={() => navigateTo('/')}
+          dispatchCount={reservations.filter((r) => r.status === 'RESERVED').length}
+        />
+        {dossierBooking && (
+          <ContractDossierModal
+            booking={dossierBooking}
+            onClose={() => setDossierBooking(null)}
+          />
+        )}
+      </>
+    );
+  }
+
+  if (currentRoute.name === 'counter-inspect') {
+    const targetRes =
+      reservations.find((r) => r.id?.toUpperCase() === currentRoute.resId?.toUpperCase()) ||
+      reservations[0];
+    return (
+      <>
+        <CounterInspect
+          reservation={targetRes}
+          onCompleteCheckOut={handleCompleteCheckOutFromInspect}
+          onBackToContract={() => navigateTo(`/counter/contract/${currentRoute.resId}`)}
+        />
+        <CounterBottomNav
+          activeTab={counterActiveTab}
+          onSelectTab={(tab) => {
+            setCounterActiveTab(tab);
+            navigateTo('/counter/dashboard');
+          }}
+          onNewContract={() => {
+            const firstAvail = FLEET.find((v) => (fleetStatus[v.id]?.status || 'AVAILABLE') === 'AVAILABLE') || FLEET[0];
+            openCheckoutDrawer(firstAvail);
+          }}
+          onOpenReturns={() => {
+            const firstRented = reservations.find((r) => r.status === 'RENTED');
+            if (firstRented) setActiveReturnModalBooking(firstRented);
+            else triggerSuccess('No vehicles currently out on road.');
+          }}
+          onNavigatePublic={() => navigateTo('/')}
+          dispatchCount={reservations.filter((r) => r.status === 'RESERVED').length}
+        />
+      </>
+    );
+  }
+
+  if (currentRoute.name === 'book') {
+    const targetVehicle = FLEET.find((v) => v.id === currentRoute.vehicleId) || FLEET[0];
+    return (
+      <CustomerBookView
+        vehicle={targetVehicle}
+        defaultPickupDate={pickupDate}
+        defaultReturnDate={returnDate}
+        timeSlots={TIME_SLOTS}
+        onConfirmReservation={handleCustomerReservationSubmit}
+        onReturnHome={() => navigateTo('/')}
       />
     );
   }
@@ -1316,13 +1716,13 @@ export default function App() {
          ========================================================= */}
       <Navbar
         onNavigateFleet={() => {
-          if (currentRoute !== 'home') navigateTo('/');
+          if (currentRoute?.name !== 'home') navigateTo('/');
           setTimeout(() => {
             document.getElementById('fleet-section')?.scrollIntoView({ behavior: 'smooth' });
           }, 50);
         }}
         onNavigateTours={() => {
-          if (currentRoute !== 'home') navigateTo('/');
+          if (currentRoute?.name !== 'home') navigateTo('/');
           setTimeout(() => {
             const el =
               document.getElementById('tour-packages-heading') ||
@@ -1333,7 +1733,7 @@ export default function App() {
         onOpenRentalInfo={() => setIsRentalInfoModalOpen(true)}
         onOpenMyBooking={() => setDrawerMode('bookings')}
         onOpenContact={() => {
-          if (currentRoute !== 'home') navigateTo('/');
+          if (currentRoute?.name !== 'home') navigateTo('/');
           setTimeout(() => {
             const el = document.getElementById('contact-section');
             if (el) {
@@ -1354,6 +1754,7 @@ export default function App() {
           if (activeReturnBooking) openReturnDrawerFor(activeReturnBooking);
         }}
         onOpenContracts={() => setDrawerMode('bookings')}
+        onNavigateCounter={() => navigateTo('/counter/dashboard')}
         reservationsCount={reservations.length}
       />
 
@@ -1583,7 +1984,7 @@ export default function App() {
 
                   <button
                     type="button"
-                    onClick={() => setGuestCheckoutVehicle(vehicle)}
+                    onClick={() => navigateTo(`/book/${vehicle.id}`)}
                     className="min-h-[48px] px-5 sm:px-6 py-3 rounded-xl glass-cta active:scale-[0.99] text-white text-base font-semibold inline-flex items-center gap-2 transition-all cursor-pointer shrink-0"
                   >
                     <span>Book</span>

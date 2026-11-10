@@ -11,6 +11,7 @@ import {
   Info,
   CalendarCheck2,
   Mail,
+  LayoutGrid
 } from 'lucide-react';
 
 export default function Navbar({
@@ -21,6 +22,7 @@ export default function Navbar({
   onOpenContact,
   onOpenReturnPOS,
   onOpenContracts,
+  onNavigateCounter,
   reservationsCount = 0,
 }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -243,10 +245,27 @@ export default function Navbar({
               {/* Dropdown Content */}
               {staffDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-56 rounded-2xl bg-[#203030] border border-white/15 shadow-2xl py-2 z-50 animate-fadeIn">
-                  <div className="px-3.5 py-1.5 border-b border-white/10 text-[11px] font-mono uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-                    <Lock className="w-3 h-3 text-amber-400" />
-                    <span>Staff Counter Portal</span>
+                  <div className="px-3.5 py-1.5 border-b border-white/10 text-[11px] font-mono uppercase tracking-wider text-slate-400 flex items-center justify-between">
+                    <span className="flex items-center gap-1.5">
+                      <Lock className="w-3 h-3 text-amber-400" />
+                      <span>Staff Portal</span>
+                    </span>
+                    <span className="text-[10px] text-emerald-400 font-bold">MBJ/KIN</span>
                   </div>
+
+                  <button
+                    type="button"
+                    onClick={() => handleNavAction(onNavigateCounter)}
+                    className="w-full text-left px-4 py-2.5 hover:bg-emerald-500/20 text-emerald-300 hover:text-emerald-200 text-sm flex items-center justify-between transition-colors cursor-pointer font-bold border-b border-white/10"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <LayoutGrid className="w-4 h-4 text-emerald-400" />
+                      <span>Agent Console</span>
+                    </div>
+                    <span className="text-[9px] font-mono uppercase bg-emerald-500/30 px-1.5 py-0.5 rounded text-emerald-200 font-bold">
+                      LIVE
+                    </span>
+                  </button>
 
                   <button
                     type="button"
@@ -362,6 +381,17 @@ export default function Navbar({
             <div className="px-4 py-1 text-xs font-mono uppercase tracking-wider text-slate-400 flex items-center gap-1.5 mb-1">
               <Lock className="w-3.5 h-3.5 text-amber-400" />
               <span>Staff Portal</span>
+            </div>
+
+            <div className="grid grid-cols-1 gap-2 mt-2">
+              <button
+                type="button"
+                onClick={() => handleNavAction(onNavigateCounter)}
+                className="w-full px-4 py-2.5 rounded-xl border border-emerald-500/40 bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 font-bold text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer transition-colors shadow-xs"
+              >
+                <LayoutGrid className="w-4 h-4 text-emerald-400" />
+                <span>Open Counter Agent Console</span>
+              </button>
             </div>
 
             <div className="grid grid-cols-2 gap-2 mt-2">
