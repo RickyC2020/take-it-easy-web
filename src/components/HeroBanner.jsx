@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin, Calendar, Clock, Car, ChevronDown } from 'lucide-react';
+import { MapPin, Calendar, Clock, ChevronDown } from 'lucide-react';
 
 function formatTripDate(dateStr) {
   if (!dateStr) return '';
@@ -20,6 +20,8 @@ function formatTripDate(dateStr) {
 export default function HeroBanner({
   locationId,
   setLocationId,
+  dropLocationId,
+  setDropLocationId,
   pickupDate,
   pickupTime,
   setPickupTime,
@@ -27,17 +29,17 @@ export default function HeroBanner({
   returnTime,
   setReturnTime,
   rentalDays = 1,
-  selectedCategory,
-  setSelectedCategory,
   locations = [],
   timeSlots = [],
-  categories = [],
   minPickupDate,
   minReturnDate,
   onPickupDateChange,
   onReturnDateChange,
   onBookCar,
 }) {
+  const pickupFee = locationId === 'KIN' ? 120 : 0;
+  const dropFee = dropLocationId === 'KIN' ? 120 : 0;
+  const totalLocationFees = pickupFee + dropFee;
   return (
     <section aria-label="Hero Banner and Rental Search" className="py-2 sm:py-3 print:hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -83,10 +85,17 @@ export default function HeroBanner({
                     <div className="p-2.5 xl:p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/35 hover:border-white/55 transition-all flex flex-col justify-center">
                       <label
                         htmlFor="hero-desktop-location"
-                        className="flex items-center gap-1.5 font-mono text-xs xl:text-[13px] uppercase tracking-wider text-emerald-300 mb-1 font-bold drop-shadow-xs"
+                        className="flex items-center justify-between font-mono text-xs xl:text-[13px] uppercase tracking-wider text-emerald-300 mb-1 font-bold drop-shadow-xs"
                       >
-                        <MapPin className="w-4 h-4 text-emerald-400 shrink-0" />
-                        <span>Pickup Hub</span>
+                        <span className="flex items-center gap-1.5">
+                          <MapPin className="w-4 h-4 text-emerald-400 shrink-0" />
+                          <span>Pickup Hub</span>
+                        </span>
+                        {pickupFee > 0 && (
+                          <span className="text-[10px] text-amber-300 font-sans font-bold bg-amber-500/25 px-1.5 py-0.5 rounded border border-amber-400/40">
+                            +$120 fee
+                          </span>
+                        )}
                       </label>
                       <div className="relative flex items-center">
                         <select
@@ -97,7 +106,7 @@ export default function HeroBanner({
                         >
                           {locations.map((loc) => (
                             <option key={loc.id} value={loc.id} className="bg-[#1b2b2b] text-white">
-                              {loc.shortName || loc.name}
+                              {loc.shortName || loc.name} {loc.id === 'KIN' ? '(+$120 fee)' : ''}
                             </option>
                           ))}
                         </select>
@@ -105,25 +114,32 @@ export default function HeroBanner({
                       </div>
                     </div>
 
-                    {/* 2. Car Category */}
+                    {/* 2. Drop-off Location */}
                     <div className="p-2.5 xl:p-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/35 hover:border-white/55 transition-all flex flex-col justify-center">
                       <label
-                        htmlFor="hero-desktop-category"
-                        className="flex items-center gap-1.5 font-mono text-xs xl:text-[13px] uppercase tracking-wider text-amber-300 mb-1 font-bold drop-shadow-xs"
+                        htmlFor="hero-desktop-drop-location"
+                        className="flex items-center justify-between font-mono text-xs xl:text-[13px] uppercase tracking-wider text-amber-300 mb-1 font-bold drop-shadow-xs"
                       >
-                        <Car className="w-4 h-4 text-amber-400 shrink-0" />
-                        <span>Vehicle Class</span>
+                        <span className="flex items-center gap-1.5">
+                          <MapPin className="w-4 h-4 text-amber-400 shrink-0" />
+                          <span>Drop-off Hub</span>
+                        </span>
+                        {dropFee > 0 && (
+                          <span className="text-[10px] text-amber-300 font-sans font-bold bg-amber-500/25 px-1.5 py-0.5 rounded border border-amber-400/40">
+                            +$120 fee
+                          </span>
+                        )}
                       </label>
                       <div className="relative flex items-center">
                         <select
-                          id="hero-desktop-category"
-                          value={selectedCategory}
-                          onChange={(e) => setSelectedCategory?.(e.target.value)}
+                          id="hero-desktop-drop-location"
+                          value={dropLocationId}
+                          onChange={(e) => setDropLocationId?.(e.target.value)}
                           className="w-full appearance-none bg-transparent pr-5 text-sm xl:text-base font-bold text-white focus:outline-none cursor-pointer truncate"
                         >
-                          {categories.map((cat) => (
-                            <option key={cat.id} value={cat.id} className="bg-[#1b2b2b] text-white">
-                              {cat.label}
+                          {locations.map((loc) => (
+                            <option key={loc.id} value={loc.id} className="bg-[#1b2b2b] text-white">
+                              {loc.shortName || loc.name} {loc.id === 'KIN' ? '(+$120 fee)' : ''}
                             </option>
                           ))}
                         </select>
@@ -209,6 +225,11 @@ export default function HeroBanner({
                   <div className="flex-1 min-h-[44px] px-3.5 py-2 rounded-xl bg-black/35 hover:bg-black/45 backdrop-blur-xs border border-white/35 shadow-[0_4px_20px_rgba(0,0,0,0.15)] flex items-center justify-center text-center">
                     <span className="text-xs xl:text-[13px] font-bold text-white tracking-wide truncate">
                       <span className="text-amber-300 font-extrabold">{rentalDays} {rentalDays === 1 ? 'day' : 'days'}</span> from {formatTripDate(pickupDate)} to {formatTripDate(returnDate)}
+                      {totalLocationFees > 0 && (
+                        <span className="ml-1.5 text-emerald-300 font-semibold font-mono text-xs">
+                          (+${totalLocationFees} KIN {totalLocationFees === 240 ? 'Fees' : 'Fee'})
+                        </span>
+                      )}
                     </span>
                   </div>
 
@@ -249,10 +270,17 @@ export default function HeroBanner({
                 <div className="p-3 rounded-xl bg-white/[0.02] border border-white/30 hover:border-white/45 transition-colors">
                   <label
                     htmlFor="hero-mobile-location"
-                    className="flex items-center gap-1.5 font-mono text-xs sm:text-[13px] uppercase tracking-wider text-emerald-300 mb-1 font-bold"
+                    className="flex items-center justify-between font-mono text-xs sm:text-[13px] uppercase tracking-wider text-emerald-300 mb-1 font-bold"
                   >
-                    <MapPin className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Pickup Location</span>
+                    <span className="flex items-center gap-1.5">
+                      <MapPin className="w-4 h-4 text-emerald-400 shrink-0" />
+                      <span>Pickup Location</span>
+                    </span>
+                    {pickupFee > 0 && (
+                      <span className="text-[10px] text-amber-300 font-sans font-bold bg-amber-500/25 px-1.5 py-0.5 rounded border border-amber-400/40">
+                        +$120 fee
+                      </span>
+                    )}
                   </label>
                   <div className="relative flex items-center min-h-[42px]">
                     <select
@@ -263,7 +291,7 @@ export default function HeroBanner({
                     >
                       {locations.map((loc) => (
                         <option key={loc.id} value={loc.id} className="bg-[#1b2b2b] text-white">
-                          {loc.name}
+                          {loc.shortName || loc.name} {loc.id === 'KIN' ? '(+$120 fee)' : ''}
                         </option>
                       ))}
                     </select>
@@ -271,25 +299,32 @@ export default function HeroBanner({
                   </div>
                 </div>
 
-                {/* 2. Car Category */}
+                {/* 2. Drop-off Location */}
                 <div className="p-3 rounded-xl bg-white/[0.02] border border-white/30 hover:border-white/45 transition-colors">
                   <label
-                    htmlFor="hero-mobile-category"
-                    className="flex items-center gap-1.5 font-mono text-xs sm:text-[13px] uppercase tracking-wider text-amber-300 mb-1 font-bold"
+                    htmlFor="hero-mobile-drop-location"
+                    className="flex items-center justify-between font-mono text-xs sm:text-[13px] uppercase tracking-wider text-amber-300 mb-1 font-bold"
                   >
-                    <Car className="w-4 h-4 text-amber-400 shrink-0" />
-                    <span>Car Category</span>
+                    <span className="flex items-center gap-1.5">
+                      <MapPin className="w-4 h-4 text-amber-400 shrink-0" />
+                      <span>Drop-off Location</span>
+                    </span>
+                    {dropFee > 0 && (
+                      <span className="text-[10px] text-amber-300 font-sans font-bold bg-amber-500/25 px-1.5 py-0.5 rounded border border-amber-400/40">
+                        +$120 fee
+                      </span>
+                    )}
                   </label>
                   <div className="relative flex items-center min-h-[42px]">
                     <select
-                      id="hero-mobile-category"
-                      value={selectedCategory}
-                      onChange={(e) => setSelectedCategory?.(e.target.value)}
+                      id="hero-mobile-drop-location"
+                      value={dropLocationId}
+                      onChange={(e) => setDropLocationId?.(e.target.value)}
                       className="w-full min-h-[42px] appearance-none bg-transparent pr-6 text-base font-bold text-white focus:outline-none cursor-pointer"
                     >
-                      {categories.map((cat) => (
-                        <option key={cat.id} value={cat.id} className="bg-[#1b2b2b] text-white">
-                          {cat.label}
+                      {locations.map((loc) => (
+                        <option key={loc.id} value={loc.id} className="bg-[#1b2b2b] text-white">
+                          {loc.shortName || loc.name} {loc.id === 'KIN' ? '(+$120 fee)' : ''}
                         </option>
                       ))}
                     </select>
@@ -374,6 +409,11 @@ export default function HeroBanner({
               <div className="flex-1 min-h-[44px] px-3.5 py-2 rounded-xl bg-black/35 border border-white/35 backdrop-blur-xs flex items-center justify-center text-center">
                 <span className="text-xs sm:text-sm font-bold text-white tracking-wide">
                   <span className="text-amber-300 font-extrabold">{rentalDays} {rentalDays === 1 ? 'day' : 'days'}</span> from {formatTripDate(pickupDate)} to {formatTripDate(returnDate)}
+                  {totalLocationFees > 0 && (
+                    <span className="ml-1.5 text-emerald-300 font-semibold font-mono text-xs">
+                      (+${totalLocationFees} KIN {totalLocationFees === 240 ? 'Fees' : 'Fee'})
+                    </span>
+                  )}
                 </span>
               </div>
               <button

@@ -42,6 +42,9 @@ const WIZARD_STEPS = [
 export default function PublicCheckoutModal({
   vehicle,
   location,
+  dropLocation,
+  pickupFee,
+  dropFee,
   pickupDateLabel,
   returnDateLabel,
   rentalDays,
@@ -52,6 +55,11 @@ export default function PublicCheckoutModal({
 }) {
   const modalScrollRef = useRef(null);
   const contractScrollRef = useRef(null);
+
+  const effectiveDropLocation = dropLocation || location;
+  const safePickupFee = pickupFee !== undefined ? Number(pickupFee) : (location?.id === 'KIN' ? 120 : 0);
+  const safeDropFee = dropFee !== undefined ? Number(dropFee) : (effectiveDropLocation?.id === 'KIN' ? 120 : 0);
+  const totalLocationFee = safePickupFee + safeDropFee;
 
   const [currentStep, setCurrentStep] = useState(1);
   const [stepError, setStepError] = useState('');
@@ -394,9 +402,23 @@ export default function PublicCheckoutModal({
                   <span className="font-semibold text-gray-900">{pickupDateLabel}</span>
                 </div>
                 <div className="flex justify-between gap-2">
-                  <span className="text-gray-500">Location</span>
-                  <span className="font-semibold text-gray-900 text-right">{location.shortName}</span>
+                  <span className="text-gray-500">Pickup Hub</span>
+                  <span className="font-semibold text-gray-900 text-right">
+                    {location.shortName} {safePickupFee > 0 ? '(+$120 fee)' : ''}
+                  </span>
                 </div>
+                <div className="flex justify-between gap-2">
+                  <span className="text-gray-500">Drop-off Hub</span>
+                  <span className="font-semibold text-gray-900 text-right">
+                    {effectiveDropLocation.shortName} {safeDropFee > 0 ? '(+$120 fee)' : ''}
+                  </span>
+                </div>
+                {totalLocationFee > 0 && (
+                  <div className="flex justify-between gap-2">
+                    <span className="text-amber-800 font-medium">Kingston Hub Fee(s)</span>
+                    <span className="font-semibold text-amber-900 font-mono">+${totalLocationFee} USD</span>
+                  </div>
+                )}
                 <div className="flex justify-between gap-2 pt-2 border-t border-gray-200">
                   <span className="text-emerald-900 font-semibold">Pre-Authorized Hold</span>
                   <span className="font-mono font-bold text-emerald-900">
@@ -965,7 +987,7 @@ export default function PublicCheckoutModal({
                           <span>Returns &amp; Drop Charges</span>
                         </h4>
                         <p className="text-slate-600 text-xs sm:text-sm pl-7">
-                          The vehicle must be returned on or before the scheduled due date/time to the same location where rented (<strong>{location.shortName}</strong>), or an applicable drop charge may apply.
+                          The vehicle must be returned on or before the scheduled due date/time to the designated return location (<strong>{effectiveDropLocation.shortName}</strong>), or an applicable drop charge may apply.
                         </p>
                       </div>
 
@@ -1157,6 +1179,9 @@ export default function PublicCheckoutModal({
                   vehicleCategory={vehicle.categoryLabel}
                   vehicleImage={vehicle.image}
                   pickupLocation={location.name}
+                  dropLocation={effectiveDropLocation.name}
+                  pickupFee={safePickupFee}
+                  dropFee={safeDropFee}
                   pickupDateLabel={pickupDateLabel}
                   returnDateLabel={returnDateLabel}
                   rentalDays={rentalDays}
@@ -1180,6 +1205,8 @@ export default function PublicCheckoutModal({
                         checkSheetAgreed,
                         rentalSubtotal,
                         toursSubtotal,
+                        pickupFee: safePickupFee,
+                        dropFee: safeDropFee,
                         depositAmount
                       });
                     }

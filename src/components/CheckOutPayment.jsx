@@ -5,6 +5,9 @@ export default function CheckoutPayment({
     vehicleCategory = 'Standard SUV',
     vehicleImage = null,
     pickupLocation = 'Sangster Intl Airport, Montego Bay',
+    dropLocation = null,
+    pickupFee = 0,
+    dropFee = 0,
     pickupDateLabel = 'Nov 6, 2026 · 10:00 AM',
     returnDateLabel = 'Nov 10, 2026 · 10:00 AM',
     rentalDays = 4,
@@ -43,12 +46,14 @@ export default function CheckoutPayment({
 
     const safeRentalSubtotal = Number(rentalTotal) || 0;
     const safeDepositAmount = Number(depositAmount ?? 500);
+    const safePickupFee = Number(pickupFee) || 0;
+    const safeDropFee = Number(dropFee) || 0;
     const toursSubtotal = selectedTours.reduce(
         (sum, tour) =>
             sum + (tour.duration?.toLowerCase().includes('daily') ? tour.price * rentalDays : tour.price),
         0
     );
-    const totalToAuthorize = safeRentalSubtotal + toursSubtotal + safeDepositAmount;
+    const totalToAuthorize = safeRentalSubtotal + toursSubtotal + safePickupFee + safeDropFee + safeDepositAmount;
 
     // Formatters for Mock Card Inputs
     const formatCardNumber = (value) => {
@@ -148,6 +153,8 @@ export default function CheckoutPayment({
                         paymentToken: `tok_test_${rawCardDigits.slice(-4)}`,
                         totalAmount: totalToAuthorize,
                         rentalSubtotal: safeRentalSubtotal,
+                        pickupFee: safePickupFee,
+                        dropFee: safeDropFee,
                         toursSubtotal,
                         depositAmount: safeDepositAmount,
                         vehicleName,
@@ -166,7 +173,9 @@ export default function CheckoutPayment({
                                     ...guestDetails,
                                     cardLast4: rawCardDigits.slice(-4)
                                 },
-                                totalAuthorized: totalToAuthorize
+                                totalAuthorized: totalToAuthorize,
+                                pickupFee: safePickupFee,
+                                dropFee: safeDropFee
                             });
                             return;
                         }
@@ -189,7 +198,9 @@ export default function CheckoutPayment({
                         ...guestDetails,
                         cardLast4: rawCardDigits.slice(-4)
                     },
-                    totalAuthorized: totalToAuthorize
+                    totalAuthorized: totalToAuthorize,
+                    pickupFee: safePickupFee,
+                    dropFee: safeDropFee
                 });
                 return;
             }
@@ -235,7 +246,14 @@ export default function CheckoutPayment({
                                 {vehicleName}
                             </h3>
                             {pickupLocation && (
-                                <p className="text-xs text-gray-500 truncate mt-0.5">{pickupLocation}</p>
+                                <p className="text-xs text-gray-500 truncate mt-0.5">
+                                    <span className="font-semibold text-gray-700">Pickup:</span> {pickupLocation}
+                                </p>
+                            )}
+                            {dropLocation && dropLocation !== pickupLocation && (
+                                <p className="text-xs text-gray-500 truncate mt-0.5">
+                                    <span className="font-semibold text-gray-700">Drop-off:</span> {dropLocation}
+                                </p>
                             )}
                         </div>
                     </div>
@@ -313,6 +331,30 @@ export default function CheckoutPayment({
                                         </div>
                                     );
                                 })}
+                            </div>
+                        )}
+
+                        {safePickupFee > 0 && (
+                            <div className="flex items-center justify-between gap-3 text-xs sm:text-sm pt-2 border-t border-dashed border-gray-200">
+                                <div>
+                                    <span className="font-medium text-amber-800">Kingston Pickup Hub Fee</span>
+                                    <span className="block text-[11px] text-gray-400">Norman Manley (KIN) Airport</span>
+                                </div>
+                                <span className="font-semibold text-amber-900 font-mono tabular-nums">
+                                    +${safePickupFee.toLocaleString()} USD
+                                </span>
+                            </div>
+                        )}
+
+                        {safeDropFee > 0 && (
+                            <div className="flex items-center justify-between gap-3 text-xs sm:text-sm pt-2 border-t border-dashed border-gray-200">
+                                <div>
+                                    <span className="font-medium text-amber-800">Kingston Drop-off Hub Fee</span>
+                                    <span className="block text-[11px] text-gray-400">Norman Manley (KIN) Airport</span>
+                                </div>
+                                <span className="font-semibold text-amber-900 font-mono tabular-nums">
+                                    +${safeDropFee.toLocaleString()} USD
+                                </span>
                             </div>
                         )}
 

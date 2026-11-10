@@ -104,7 +104,7 @@ const FLEET = [
     year: '2017',
     color: 'Black',
     subtitle: 'Black 7–8 Seater Van · 2017 Fleet',
-    image: '/vehicles/voxy.jpg',
+    image: '/vehicles/voxy-black.jpg',
     seats: 8,
     transmission: 'Auto',
     luggage: 6,
@@ -121,7 +121,7 @@ const FLEET = [
     year: '2016',
     color: 'Navy Blue',
     subtitle: 'Navy Blue 7–8 Seater Van · 2016 Fleet',
-    image: '/vehicles/voxy.jpg',
+    image: '/vehicles/voxy-navy.jpg',
     seats: 8,
     transmission: 'Auto',
     luggage: 6,
@@ -138,7 +138,7 @@ const FLEET = [
     year: '2018',
     color: 'White',
     subtitle: 'White 7–8 Seater Van · 2018 Fleet',
-    image: '/vehicles/voxy.jpg',
+    image: '/vehicles/voxy-white.jpg',
     seats: 8,
     transmission: 'Auto',
     luggage: 6,
@@ -155,7 +155,7 @@ const FLEET = [
     year: '2016',
     color: 'Black',
     subtitle: 'Black Hatchback · 2016 Fleet',
-    image: '/vehicles/demio.jpg',
+    image: '/vehicles/demio-black.jpg',
     seats: 5,
     transmission: 'Auto',
     luggage: 2,
@@ -172,7 +172,7 @@ const FLEET = [
     year: '2015',
     color: 'Navy Blue',
     subtitle: 'Navy Blue Hatchback · 2015 Fleet',
-    image: '/vehicles/demio.jpg',
+    image: '/vehicles/demio-navy.jpg',
     seats: 5,
     transmission: 'Auto',
     luggage: 2,
@@ -189,7 +189,7 @@ const FLEET = [
     year: '2016',
     color: 'Pearl White',
     subtitle: 'Pearl White Crossover · 2016 Fleet',
-    image: '/vehicles/cx5.jpg',
+    image: '/vehicles/cx5-white.jpg',
     seats: 5,
     transmission: 'Auto',
     luggage: 5,
@@ -206,7 +206,7 @@ const FLEET = [
     year: '2019',
     color: 'Silver',
     subtitle: 'Silver Crossover SUV · 2019 Fleet',
-    image: '/vehicles/cx5.jpg',
+    image: '/vehicles/cx5-silver.jpg',
     seats: 5,
     transmission: 'Auto',
     luggage: 5,
@@ -502,6 +502,7 @@ export default function App() {
   // Phase 1: Acquisition & Sticky Search Strip State
   const [acquisitionChannel] = useState(ACQUISITION_CHANNELS[0].id);
   const [locationId, setLocationId] = useState('MBJ');
+  const [dropLocationId, setDropLocationId] = useState('MBJ');
   const [pickupDate, setPickupDate] = useState(DEFAULT_PICKUP_DATE);
   const [pickupTime, setPickupTime] = useState('10:00 AM');
   const [returnDate, setReturnDate] = useState(DEFAULT_RETURN_DATE);
@@ -791,6 +792,15 @@ export default function App() {
     [locationId]
   );
 
+  const selectedDropLocation = useMemo(
+    () => LOCATIONS.find((l) => l.id === dropLocationId) || LOCATIONS[0],
+    [dropLocationId]
+  );
+
+  const pickupFee = locationId === 'KIN' ? 120 : 0;
+  const dropFee = dropLocationId === 'KIN' ? 120 : 0;
+  const totalPickupDropFee = pickupFee + dropFee;
+
   const filteredFleet = useMemo(() => {
     const list =
       selectedCategory === 'all'
@@ -1029,7 +1039,7 @@ export default function App() {
     setFormError('');
     const vehicleSubtotal = activeVehicle.ratePerDay * rentalDays;
     const cdwTotal = rentalDays * 20;
-    const subtotal = vehicleSubtotal + toursTotal + cdwTotal;
+    const subtotal = vehicleSubtotal + toursTotal + cdwTotal + totalPickupDropFee;
     const randomRa = `RA-${Math.floor(100000 + Math.random() * 900000)}`;
     const newBooking = {
       id: `TIE-${Math.floor(100000 + Math.random() * 900000)}`,
@@ -1040,7 +1050,7 @@ export default function App() {
       plateNo: inspectionData.plateNo || '2489-HX',
       licDisc: inspectionData.licDisc || 'LD-99214',
       location: selectedLocation,
-      dropLocation: selectedLocation,
+      dropLocation: selectedDropLocation,
       pickupDate,
       pickupTime,
       returnDate,
@@ -1055,7 +1065,7 @@ export default function App() {
       mileageIn: null,
       fuelLevelOut: inspectionData.gasLevel === 'Full' ? 'F' : inspectionData.gasLevel || 'F',
       fuelLevelIn: null,
-      pickupDropFee: 0,
+      pickupDropFee: totalPickupDropFee,
       extraHours: 0,
       tpiAmount: 0,
       cdwAmount: cdwTotal,
@@ -1319,6 +1329,8 @@ export default function App() {
       <HeroBanner
         locationId={locationId}
         setLocationId={setLocationId}
+        dropLocationId={dropLocationId}
+        setDropLocationId={setDropLocationId}
         pickupDate={pickupDate}
         pickupTime={pickupTime}
         setPickupTime={setPickupTime}
@@ -1326,8 +1338,6 @@ export default function App() {
         returnTime={returnTime}
         setReturnTime={setReturnTime}
         rentalDays={rentalDays}
-        selectedCategory={selectedCategory}
-        setSelectedCategory={setSelectedCategory}
         locations={LOCATIONS}
         timeSlots={TIME_SLOTS}
         categories={CATEGORIES}
@@ -1359,9 +1369,20 @@ export default function App() {
             <span className="w-8 h-8 rounded-full bg-brand-palm/10 border border-brand-palm/25 flex items-center justify-center shrink-0 text-brand-palm">
               <Search className="w-4 h-4" />
             </span>
-            <span className="text-xs sm:text-sm font-semibold text-brand-ink truncate">
-              {selectedLocation.compactName} • {formatShortDate(pickupDate)} –{' '}
-              {formatShortDate(returnDate)} ({rentalDays} {rentalDays === 1 ? 'day' : 'days'})
+            <span className="text-xs sm:text-sm font-semibold text-brand-ink truncate flex items-center flex-wrap gap-1.5">
+              <span>
+                {locationId === dropLocationId
+                  ? selectedLocation.compactName
+                  : `${selectedLocation.compactName} → ${selectedDropLocation.compactName}`
+                }{' '}
+                • {formatShortDate(pickupDate)} – {formatShortDate(returnDate)} ({rentalDays}{' '}
+                {rentalDays === 1 ? 'day' : 'days'})
+              </span>
+              {totalPickupDropFee > 0 && (
+                <span className="text-[11px] text-amber-800 font-mono font-bold bg-amber-100/90 px-1.5 py-0.5 rounded border border-amber-300/80">
+                  +${totalPickupDropFee} KIN Hub
+                </span>
+              )}
             </span>
           </div>
 
@@ -1453,7 +1474,7 @@ export default function App() {
                       </span>
                       <span className="text-slate-300">·</span>
                       <span className="text-xs font-mono font-medium text-brand-palm bg-brand-palm-soft/75 border border-brand-palm/25 backdrop-blur-xs px-2 py-0.5 rounded-md">
-                        Ready · {selectedLocation.code}
+                        Ready · {selectedLocation.code}{dropLocationId !== locationId ? ` → ${selectedDropLocation.code}` : ''}
                       </span>
                     </div>
                     <h2 className="text-xl font-semibold tracking-tight text-brand-ink">
@@ -1522,7 +1543,10 @@ export default function App() {
                       <span className="text-sm sm:text-base text-slate-600">USD / day</span>
                     </div>
                     <p className="text-sm text-slate-600 font-mono tabular-nums mt-1">
-                      ${tripTotal} ({rentalDays}d) + ${vehicle.deposit} card deposit
+                      {totalPickupDropFee > 0
+                        ? `$${tripTotal + totalPickupDropFee} (${rentalDays}d + $${totalPickupDropFee} KIN hub) + $${vehicle.deposit} card deposit`
+                        : `$${tripTotal} (${rentalDays}d) + $${vehicle.deposit} card deposit`
+                      }
                     </p>
                   </div>
 
@@ -3357,6 +3381,9 @@ export default function App() {
         <PublicCheckoutModal
           vehicle={guestCheckoutVehicle}
           location={selectedLocation}
+          dropLocation={selectedDropLocation}
+          pickupFee={pickupFee}
+          dropFee={dropFee}
           pickupDateLabel={`${formatShortDate(pickupDate)} · ${pickupTime}`}
           returnDateLabel={`${formatShortDate(returnDate)} · ${returnTime}`}
           rentalDays={rentalDays}
@@ -3369,8 +3396,11 @@ export default function App() {
             totalAuthorized,
             contractSignature: guestSig,
             rentalSubtotal,
-            toursSubtotal
+            toursSubtotal,
+            pickupFee: confirmedPickupFee,
+            dropFee: confirmedDropFee
           }) => {
+            const finalPickupDropFee = (confirmedPickupFee ?? pickupFee) + (confirmedDropFee ?? dropFee);
             const newOnlineBooking = {
               id: bookingRef,
               createdAt: new Date().toLocaleTimeString([], {
@@ -3380,14 +3410,16 @@ export default function App() {
               acquisitionChannel: 'Online Guest Checkout (Pre-Authorized)',
               vehicle: guestCheckoutVehicle,
               location: selectedLocation,
+              dropLocation: selectedDropLocation,
               pickupDate,
               pickupTime,
               returnDate,
               returnTime,
               rentalDays,
-              subtotal: rentalSubtotal + toursSubtotal,
+              subtotal: rentalSubtotal + toursSubtotal + finalPickupDropFee,
               vehicleSubtotal: rentalSubtotal,
               toursSubtotal,
+              pickupDropFee: finalPickupDropFee,
               selectedTours: [...selectedTours],
               deposit: guestCheckoutVehicle.deposit ?? 500,
               rentalPaymentMethod: 'card',
