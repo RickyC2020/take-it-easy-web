@@ -43,13 +43,13 @@ export default function HeroBanner({
         <div className="relative rounded-xl overflow-hidden bg-transparent">
           {/* =========================================================
               HERO BANNER ARTWORK
-              - Native 1024x384 widescreen aspect ratio (Full Image Visible, Zero Crop)
-              - Soul Red Mazda CX-5 on the Jamaican coastal road overlooking the Caribbean Sea
+              - Native 1024x331 widescreen aspect ratio (Full Image Visible, Zero Crop)
+              - Soul Red Mazda CX-5 driving on Jamaican highway overlooking the Caribbean Sea
              ========================================================= */}
-          <div className="relative aspect-[1024/384] w-full select-none overflow-hidden rounded-xl">
+          <div className="relative aspect-[1024/331] w-full select-none overflow-hidden rounded-xl">
             <img
-              src="/hero-banner.jpg?v=16"
-              alt="Take It Easy Car Rentals & Tours - Soul Red Mazda CX-5 on the Jamaican coastal road overlooking the Caribbean Sea"
+              src="/hero-banner.jpg?v=17"
+              alt="Take It Easy Car Rentals & Tours - Soul Red Mazda CX-5 driving on Jamaican highway overlooking the Caribbean Sea"
               className="w-full h-full object-cover"
             />
 
@@ -60,14 +60,13 @@ export default function HeroBanner({
 
             {/* =========================================================
                 DESKTOP OVERLAY: SLIM FLOATING "FROSTED GLASS HORIZON PILL"
-                - Positioned in the top right sky area, well clear of the car
-                - Compact width so it never overlaps the vehicle on the left
+                - Positioned middle to top-center of the banner (centered horizontally, upper-middle sky)
                 - Drop-off Hub menu replaces vehicle class
                 - 5 compact columns with hairline dividers
                ========================================================= */}
             <div
               id="hero-search-card"
-              className="hidden lg:flex items-center absolute top-4 xl:top-6 right-4 xl:right-6 z-20 rounded-full bg-slate-900/50 backdrop-blur-md border border-white/35 shadow-2xl px-4 xl:px-5 py-2 xl:py-2.5 text-white gap-2 xl:gap-3 transition-all hover:bg-slate-900/60"
+              className="hidden lg:flex items-center absolute top-4 lg:top-5 xl:top-7 left-1/2 -translate-x-1/2 z-20 rounded-full bg-slate-900/60 backdrop-blur-md border border-white/40 shadow-[0_12px_40px_rgba(0,0,0,0.4)] px-4 xl:px-5 py-2 xl:py-2.5 text-white gap-2 xl:gap-3 transition-all hover:bg-slate-900/70"
             >
               {/* Column 1: Pickup Hub */}
               <div className="relative flex flex-col justify-center min-w-[105px] xl:min-w-[125px] max-w-[135px]">
