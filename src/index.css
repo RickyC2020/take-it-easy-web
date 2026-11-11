@@ -215,6 +215,40 @@
   animation: whatsappBorderPulse 2.4s ease-in-out infinite;
 }
 
+/* Subtle Running Thin White Animation around the Search Pill */
+@keyframes borderBeamSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-border-beam {
+  animation: borderBeamSpin 5s linear infinite;
+  will-change: transform;
+}
+
+.pill-beam-gradient {
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    transparent 0deg,
+    transparent 280deg,
+    rgba(255, 255, 255, 0.15) 310deg,
+    rgba(255, 255, 255, 0.75) 340deg,
+    rgba(255, 255, 255, 1) 355deg,
+    transparent 360deg
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-border-beam {
+    animation: none;
+    opacity: 0;
+  }
+}
+
 @media print {
   @page {
     size: letter portrait;
