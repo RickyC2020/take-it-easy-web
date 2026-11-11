@@ -217,8 +217,9 @@
 
 /* =========================================================
    SUBTLE RUNNING THIN WHITE BORDER ANIMATION
-   - Strictly masked to 1.5px border perimeter (zero interior leak)
-   - Glides continuously around the capsule / pill border
+   - Strictly masked to 2px border perimeter (zero interior leak)
+   - Works flawlessly across Desktop and Mobile Safari / Chrome
+   - Glides continuously around capsule (desktop) and card (mobile)
    ========================================================= */
 @keyframes borderBeamSpin {
   from {
@@ -229,57 +230,59 @@
   }
 }
 
-.running-border-pill {
-  position: absolute;
-  inset: -1px;
-  border-radius: 9999px;
-  padding: 1.5px;
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-  overflow: hidden;
-  z-index: 10;
-}
-
+.running-border-pill,
 .running-border-card {
   position: absolute;
   inset: -1px;
-  border-radius: 1rem;
-  padding: 1.5px;
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
+  padding: 2px;
   pointer-events: none;
   overflow: hidden;
   z-index: 10;
+  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.5));
+
+  /* WebKit (Mobile Safari, Chrome on iOS/Android) */
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0) border-box;
+  -webkit-mask-clip: content-box, border-box;
+  -webkit-mask-composite: xor;
+
+  /* Modern standard CSS */
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0) border-box;
+  mask-clip: content-box, border-box;
+  mask-composite: exclude;
+}
+
+.running-border-pill {
+  border-radius: 9999px;
+}
+
+.running-border-card {
+  border-radius: 1rem;
 }
 
 .running-border-pill-inner {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: -200%;
+  left: -200%;
   width: 500%;
-  aspect-ratio: 1 / 1;
-  translate: -50% -50%;
-  animation: borderBeamSpin 4.5s linear infinite;
+  height: 500%;
+  margin: auto;
+  transform-origin: 50% 50%;
+  animation: borderBeamSpin 4s linear infinite;
   will-change: transform;
   background: conic-gradient(
     from 0deg at 50% 50%,
     transparent 0deg,
-    transparent 280deg,
-    rgba(255, 255, 255, 0.25) 310deg,
-    rgba(255, 255, 255, 0.85) 340deg,
-    #ffffff 355deg,
+    transparent 270deg,
+    rgba(255, 255, 255, 0.25) 300deg,
+    rgba(255, 255, 255, 0.85) 330deg,
+    #ffffff 350deg,
+    #ffffff 357deg,
     transparent 360deg
   );
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .running-border-pill-inner {
-    animation: none;
-    opacity: 0;
-  }
 }
 
 @media print {
