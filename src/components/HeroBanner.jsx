@@ -44,14 +44,23 @@ export default function HeroBanner({
         <div className="relative rounded-xl overflow-hidden bg-transparent">
           {/* =========================================================
               HERO BANNER ARTWORK
-              - Native 1024x331 widescreen aspect ratio (Full Image Visible, Zero Crop)
-              - Soul Red Mazda CX-5 driving on Jamaican highway overlooking the Caribbean Sea
+              - Native 1669x541 widescreen aspect ratio (Full Image Visible, Zero Crop)
+              - Uncompressed local PNG from /hero-banner.png at full Retina clarity
              ========================================================= */}
-          <div className="relative aspect-[1024/331] w-full select-none overflow-hidden rounded-xl">
+          <div className="relative aspect-[1669/541] w-full select-none overflow-hidden rounded-xl">
             <img
-              src="/hero-banner.jpg?v=17"
-              alt="Take It Easy Car Rentals & Tours - Soul Red Mazda CX-5 driving on Jamaican highway overlooking the Caribbean Sea"
-              className="w-full h-full object-cover"
+              src="/hero-banner.png"
+              alt="Take It Easy Car Rentals Coastal Highway"
+              fetchPriority="high"
+              loading="eager"
+              decoding="sync"
+              className="w-full h-full object-cover object-center select-none [image-rendering:-webkit-optimize-contrast]"
+            />
+
+            {/* Subtle bottom-edge gradient restricted to the bottom 25% behind the search bar */}
+            <div
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-slate-950/55 via-transparent to-transparent"
+              aria-hidden="true"
             />
 
             {/* Top-Left Luxury Slogan: Fade-in first (delay: 100ms) */}
