@@ -215,35 +215,68 @@
   animation: whatsappBorderPulse 2.4s ease-in-out infinite;
 }
 
-/* Subtle Running Thin White Animation around the Search Pill */
+/* =========================================================
+   SUBTLE RUNNING THIN WHITE BORDER ANIMATION
+   - Strictly masked to 1.5px border perimeter (zero interior leak)
+   - Glides continuously around the capsule / pill border
+   ========================================================= */
 @keyframes borderBeamSpin {
-  0% {
+  from {
     transform: rotate(0deg);
   }
-  100% {
+  to {
     transform: rotate(360deg);
   }
 }
 
-.animate-border-beam {
-  animation: borderBeamSpin 5s linear infinite;
-  will-change: transform;
+.running-border-pill {
+  position: absolute;
+  inset: -1px;
+  border-radius: 9999px;
+  padding: 1.5px;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 10;
 }
 
-.pill-beam-gradient {
+.running-border-card {
+  position: absolute;
+  inset: -1px;
+  border-radius: 1rem;
+  padding: 1.5px;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.running-border-pill-inner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 500%;
+  aspect-ratio: 1 / 1;
+  translate: -50% -50%;
+  animation: borderBeamSpin 4.5s linear infinite;
+  will-change: transform;
   background: conic-gradient(
     from 0deg at 50% 50%,
     transparent 0deg,
     transparent 280deg,
-    rgba(255, 255, 255, 0.15) 310deg,
-    rgba(255, 255, 255, 0.75) 340deg,
-    rgba(255, 255, 255, 1) 355deg,
+    rgba(255, 255, 255, 0.25) 310deg,
+    rgba(255, 255, 255, 0.85) 340deg,
+    #ffffff 355deg,
     transparent 360deg
   );
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-border-beam {
+  .running-border-pill-inner {
     animation: none;
     opacity: 0;
   }

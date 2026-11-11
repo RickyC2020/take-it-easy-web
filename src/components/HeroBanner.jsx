@@ -84,28 +84,16 @@ export default function HeroBanner({
               immediate={true}
               className="hidden lg:flex items-center absolute top-4 lg:top-5 xl:top-7 left-1/2 -translate-x-1/2 z-20"
             >
-              {/* Outer Beam Container with Running Thin White Border Animation */}
-              <div className="relative rounded-full p-[1.5px] overflow-hidden shadow-[0_14px_44px_rgba(0,0,0,0.45)]">
-                {/* Continuous Subtle Running Thin White Light Beam */}
-                <div
-                  className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350%] aspect-square motion-reduce:hidden"
-                  aria-hidden="true"
-                >
-                  <div className="w-full h-full animate-border-beam pill-beam-gradient" />
+              <div
+                id="hero-search-card"
+                className="relative flex items-center rounded-full bg-slate-900/60 backdrop-blur-md border border-white/40 shadow-[0_12px_40px_rgba(0,0,0,0.4)] px-4 xl:px-5 py-2 xl:py-2.5 text-white gap-2 xl:gap-3 transition-all hover:bg-slate-900/70"
+              >
+                {/* Subtle Running Thin White Border Animation */}
+                <div className="running-border-pill" aria-hidden="true">
+                  <div className="running-border-pill-inner" />
                 </div>
 
-                {/* Ambient static frosted border track (visible when beam is elsewhere) */}
-                <div
-                  className="pointer-events-none absolute inset-0 rounded-full border border-white/30"
-                  aria-hidden="true"
-                />
-
-                {/* Main Frosted Glass Horizon Search Pill Content */}
-                <div
-                  id="hero-search-card"
-                  className="relative z-10 flex items-center rounded-full bg-slate-900/75 backdrop-blur-md px-4 xl:px-5 py-2 xl:py-2.5 text-white gap-2 xl:gap-3 transition-all hover:bg-slate-900/85"
-                >
-                  {/* Column 1: Pickup Hub */}
+                {/* Column 1: Pickup Hub */}
                 <div className="relative flex flex-col justify-center min-w-[105px] xl:min-w-[125px] max-w-[135px]">
                   <div className="flex items-center justify-between">
                     <span className="text-[9px] xl:text-[10px] uppercase tracking-wider text-white/75 font-semibold">
@@ -259,7 +247,6 @@ export default function HeroBanner({
                   <span>Search</span>
                 </button>
               </div>
-            </div>
             </RevealOnScroll>
           </div>
 
@@ -267,26 +254,15 @@ export default function HeroBanner({
               MOBILE / TABLET (< lg): RESPONSIVE FULL-WIDTH ROUNDED-2XL PILL
              ========================================================= */}
           <RevealOnScroll delay={250} immediate={true} className="lg:hidden mt-3 sm:mt-4 scroll-mt-6">
-            {/* Mobile Running Thin White Border Beam Container */}
-            <div className="relative rounded-2xl p-[1.5px] overflow-hidden shadow-2xl">
-              {/* Continuous Subtle Running Thin White Light Beam */}
-              <div
-                className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350%] aspect-square motion-reduce:hidden"
-                aria-hidden="true"
-              >
-                <div className="w-full h-full animate-border-beam pill-beam-gradient" />
+            <div
+              id="hero-search-card-mobile"
+              className="relative rounded-2xl bg-slate-900/65 backdrop-blur-md border border-white/35 shadow-2xl p-4 sm:p-5 text-white"
+            >
+              {/* Subtle Running Thin White Border Animation (Mobile) */}
+              <div className="running-border-card" aria-hidden="true">
+                <div className="running-border-pill-inner" />
               </div>
 
-              {/* Static subtle frosted border track */}
-              <div
-                className="pointer-events-none absolute inset-0 rounded-2xl border border-white/30"
-                aria-hidden="true"
-              />
-
-              <div
-                id="hero-search-card-mobile"
-                className="relative z-10 rounded-2xl bg-slate-900/75 backdrop-blur-md p-4 sm:p-5 text-white"
-              >
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
                 {/* 1. Pickup Hub */}
                 <div className="p-2.5 rounded-xl bg-white/[0.04] border border-white/20">
@@ -435,7 +411,6 @@ export default function HeroBanner({
                   <span>Search</span>
                 </button>
               </div>
-            </div>
             </div>
           </RevealOnScroll>
         </div>
