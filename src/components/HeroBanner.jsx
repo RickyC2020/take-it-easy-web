@@ -1,5 +1,6 @@
 import React from 'react';
 import { Search, ChevronDown } from 'lucide-react';
+import RevealOnScroll from './RevealOnScroll';
 
 function formatPillDate(dateStr) {
   if (!dateStr) return '';
@@ -53,21 +54,36 @@ export default function HeroBanner({
               className="w-full h-full object-cover"
             />
 
-            {/* Semantic accessible headline for screen readers & SEO */}
-            <h1 className="sr-only">
-              Take It Easy Car Rentals &amp; Tours — The keys to your next adventure
-            </h1>
+            {/* Top-Left Luxury Slogan: Fade-in first (delay: 100ms) */}
+            <RevealOnScroll
+              delay={100}
+              immediate={true}
+              className="absolute top-3.5 sm:top-5 lg:top-6 left-3.5 sm:left-6 lg:left-8 z-20 pointer-events-none select-none max-w-[280px] sm:max-w-md lg:max-w-lg"
+            >
+              <h1 className="font-serif italic font-extrabold text-white text-base sm:text-2xl lg:text-3xl xl:text-4xl drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)] tracking-tight leading-tight">
+                The keys to your next adventure...
+              </h1>
+              <p className="text-[10px] sm:text-xs lg:text-sm font-semibold text-emerald-300 drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)] tracking-wider mt-0.5 sm:mt-1 uppercase font-mono">
+                Take It Easy Car Rentals &amp; Tours
+              </p>
+            </RevealOnScroll>
 
             {/* =========================================================
                 DESKTOP OVERLAY: SLIM FLOATING "FROSTED GLASS HORIZON PILL"
                 - Positioned middle to top-center of the banner (centered horizontally, upper-middle sky)
+                - Fade in and subtly lift right after slogan (delay: 250ms)
                 - Drop-off Hub menu replaces vehicle class
                 - 5 compact columns with hairline dividers
                ========================================================= */}
-            <div
-              id="hero-search-card"
-              className="hidden lg:flex items-center absolute top-4 lg:top-5 xl:top-7 left-1/2 -translate-x-1/2 z-20 rounded-full bg-slate-900/60 backdrop-blur-md border border-white/40 shadow-[0_12px_40px_rgba(0,0,0,0.4)] px-4 xl:px-5 py-2 xl:py-2.5 text-white gap-2 xl:gap-3 transition-all hover:bg-slate-900/70"
+            <RevealOnScroll
+              delay={250}
+              immediate={true}
+              className="hidden lg:flex items-center absolute top-4 lg:top-5 xl:top-7 left-1/2 -translate-x-1/2 z-20"
             >
+              <div
+                id="hero-search-card"
+                className="flex items-center rounded-full bg-slate-900/60 backdrop-blur-md border border-white/40 shadow-[0_12px_40px_rgba(0,0,0,0.4)] px-4 xl:px-5 py-2 xl:py-2.5 text-white gap-2 xl:gap-3 transition-all hover:bg-slate-900/70"
+              >
               {/* Column 1: Pickup Hub */}
               <div className="relative flex flex-col justify-center min-w-[105px] xl:min-w-[125px] max-w-[135px]">
                 <div className="flex items-center justify-between">
@@ -222,12 +238,13 @@ export default function HeroBanner({
                 <span>Search</span>
               </button>
             </div>
+            </RevealOnScroll>
           </div>
 
           {/* =========================================================
               MOBILE / TABLET (< lg): RESPONSIVE FULL-WIDTH ROUNDED-2XL PILL
              ========================================================= */}
-          <div id="mobile-search-card" className="lg:hidden mt-3 sm:mt-4 scroll-mt-6">
+          <RevealOnScroll delay={250} immediate={true} className="lg:hidden mt-3 sm:mt-4 scroll-mt-6">
             <div
               id="hero-search-card-mobile"
               className="rounded-2xl bg-slate-900/65 backdrop-blur-md border border-white/35 shadow-2xl p-4 sm:p-5 text-white"
@@ -381,7 +398,7 @@ export default function HeroBanner({
                 </button>
               </div>
             </div>
-          </div>
+          </RevealOnScroll>
         </div>
       </div>
     </section>

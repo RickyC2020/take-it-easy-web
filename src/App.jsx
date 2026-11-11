@@ -24,7 +24,9 @@ import {
   Wrench,
   AlertCircle,
   RotateCcw,
-  MessageCircle
+  MessageCircle,
+  User,
+  MapPin
 } from 'lucide-react';
 import SignaturePad from './components/SignaturePad';
 import ContractDossierModal from './components/ContractDossierModal';
@@ -47,6 +49,7 @@ import CounterInspect from './components/CounterInspect';
 import CounterReturnModal from './components/CounterReturnModal';
 import CounterBottomNav from './components/CounterBottomNav';
 import CustomerBookView from './components/CustomerBookView';
+import RevealOnScroll from './components/RevealOnScroll';
 
 // --- LOCATIONS & FLEET DATA ---
 const LOCATIONS = [
@@ -1838,7 +1841,7 @@ export default function App() {
          ========================================================= */}
       <main id="fleet-section" className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-8 print:hidden scroll-mt-20">
         {/* Category Filter Tabs & Sort */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3.5 pb-5 border-b border-brand-ink/10">
+        <RevealOnScroll delay={50} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3.5 pb-5 border-b border-brand-ink/10">
           <div className="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0">
             {CATEGORIES.map((cat) => {
               const active = selectedCategory === cat.id;
@@ -1859,8 +1862,6 @@ export default function App() {
           </div>
 
           <div className="flex items-center justify-between sm:justify-end gap-4 text-sm sm:text-base">
-
-
             <div className="min-h-[44px] flex items-center gap-2 glass-pill rounded-xl px-3.5 py-2">
               <SlidersHorizontal className="w-4 h-4 text-brand-teal shrink-0" />
               <label htmlFor="sort-select" className="text-slate-600">
@@ -1880,118 +1881,120 @@ export default function App() {
               </select>
             </div>
           </div>
-        </div>
+        </RevealOnScroll>
 
-        {/* Vehicle Cards */}
+        {/* Vehicle Cards - Staggered Left-to-Right Cascade */}
         <div className="mt-7 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredFleet.map((vehicle) => {
+          {filteredFleet.map((vehicle, index) => {
             const tripTotal = vehicle.ratePerDay * rentalDays;
             const isSelected =
               drawerMode === 'checkout' && activeVehicle?.id === vehicle.id;
+            const staggerDelay = (index % 3) * 120;
 
             return (
-              <article
-                key={vehicle.id}
-                className={`group glass-card glass-card-hover rounded-2xl flex flex-col overflow-hidden ${isSelected
-                  ? '!border-brand-palm/70 ring-2 ring-brand-palm/50'
-                  : ''
-                  }`}
-              >
-                {/* Header */}
-                <div className="p-5 pb-3 flex items-start justify-between gap-3">
-                  <div>
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <span className="text-xs font-mono font-medium uppercase tracking-wider text-slate-600">
-                        {vehicle.categoryLabel}
-                      </span>
-                      <span className="text-slate-300">·</span>
-                      <span className="text-xs font-mono font-medium text-brand-palm bg-brand-palm-soft/75 border border-brand-palm/25 backdrop-blur-xs px-2 py-0.5 rounded-md">
-                        Ready · {selectedLocation.code}{dropLocationId !== locationId ? ` → ${selectedDropLocation.code}` : ''}
-                      </span>
+              <RevealOnScroll key={vehicle.id} delay={staggerDelay} className="h-full">
+                <article
+                  className={`group glass-card glass-card-hover rounded-2xl flex flex-col h-full overflow-hidden ${isSelected
+                    ? '!border-brand-palm/70 ring-2 ring-brand-palm/50'
+                    : ''
+                    }`}
+                >
+                  {/* Header */}
+                  <div className="p-5 pb-3 flex items-start justify-between gap-3">
+                    <div>
+                      <div className="flex items-center gap-2 mb-1.5">
+                        <span className="text-xs font-mono font-medium uppercase tracking-wider text-slate-600">
+                          {vehicle.categoryLabel}
+                        </span>
+                        <span className="text-slate-300">·</span>
+                        <span className="text-xs font-mono font-medium text-brand-palm bg-brand-palm-soft/75 border border-brand-palm/25 backdrop-blur-xs px-2 py-0.5 rounded-md">
+                          Ready · {selectedLocation.code}{dropLocationId !== locationId ? ` → ${selectedDropLocation.code}` : ''}
+                        </span>
+                      </div>
+                      <h2 className="text-xl font-semibold tracking-tight text-brand-ink">
+                        {vehicle.name}
+                      </h2>
+                      <p className="text-sm text-slate-600 mt-0.5">or similar · {vehicle.subtitle}</p>
                     </div>
-                    <h2 className="text-xl font-semibold tracking-tight text-brand-ink">
-                      {vehicle.name}
-                    </h2>
-                    <p className="text-sm text-slate-600 mt-0.5">or similar · {vehicle.subtitle}</p>
+
+                    <span className="text-xs font-medium text-brand-amber-ink bg-brand-amber-soft/80 border border-brand-amber-border/80 backdrop-blur-xs px-2.5 py-1 rounded-lg shrink-0">
+                      {vehicle.badge}
+                    </span>
                   </div>
 
-                  <span className="text-xs font-medium text-brand-amber-ink bg-brand-amber-soft/80 border border-brand-amber-border/80 backdrop-blur-xs px-2.5 py-1 rounded-lg shrink-0">
-                    {vehicle.badge}
-                  </span>
-                </div>
-
-                {/* High-Res Profile Cutout Stage */}
-                <div className="relative mx-4 mb-3 rounded-xl bg-white/82 border border-white/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.95)] px-5 py-3.5 h-46 flex items-center justify-center">
-                  <img
-                    src={vehicle.image}
-                    alt={`${vehicle.name} profile cutout`}
-                    loading="eager"
-                    className="max-h-38 w-full object-contain mix-blend-multiply transition-transform duration-300 group-hover:scale-[1.03] select-none"
-                  />
-                </div>
-
-                {/* Instant Specs Bar */}
-                <div className="grid grid-cols-4 divide-x divide-brand-ink/8 border-y border-brand-ink/8 bg-white/32 text-center">
-                  <div className="py-3 px-2 flex flex-col items-center justify-center gap-1">
-                    <div className="flex items-center gap-1.5 text-sm font-semibold text-brand-ink tabular-nums">
-                      <Users className="w-4 h-4 text-brand-teal" />
-                      <span>{vehicle.seats}</span>
-                    </div>
-                    <span className="text-xs font-mono uppercase text-slate-500">Seats</span>
+                  {/* High-Res Profile Cutout Stage */}
+                  <div className="relative mx-4 mb-3 rounded-xl bg-white/82 border border-white/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.95)] px-5 py-3.5 h-46 flex items-center justify-center">
+                    <img
+                      src={vehicle.image}
+                      alt={`${vehicle.name} profile cutout`}
+                      loading="eager"
+                      className="max-h-38 w-full object-contain mix-blend-multiply transition-transform duration-300 group-hover:scale-[1.03] select-none"
+                    />
                   </div>
 
-                  <div className="py-3 px-2 flex flex-col items-center justify-center gap-1">
-                    <div className="flex items-center gap-1.5 text-sm font-semibold text-brand-ink">
-                      <Gauge className="w-4 h-4 text-brand-teal" />
-                      <span>{vehicle.transmission}</span>
+                  {/* Instant Specs Bar */}
+                  <div className="grid grid-cols-4 divide-x divide-brand-ink/8 border-y border-brand-ink/8 bg-white/32 text-center">
+                    <div className="py-3 px-2 flex flex-col items-center justify-center gap-1">
+                      <div className="flex items-center gap-1.5 text-sm font-semibold text-brand-ink tabular-nums">
+                        <Users className="w-4 h-4 text-brand-teal" />
+                        <span>{vehicle.seats}</span>
+                      </div>
+                      <span className="text-xs font-mono uppercase text-slate-500">Seats</span>
                     </div>
-                    <span className="text-xs font-mono uppercase text-slate-500">Gearbox</span>
+
+                    <div className="py-3 px-2 flex flex-col items-center justify-center gap-1">
+                      <div className="flex items-center gap-1.5 text-sm font-semibold text-brand-ink">
+                        <Gauge className="w-4 h-4 text-brand-teal" />
+                        <span>{vehicle.transmission}</span>
+                      </div>
+                      <span className="text-xs font-mono uppercase text-slate-500">Gearbox</span>
+                    </div>
+
+                    <div className="py-3 px-2 flex flex-col items-center justify-center gap-1">
+                      <div className="flex items-center gap-1.5 text-sm font-semibold text-brand-ink tabular-nums">
+                        <Briefcase className="w-4 h-4 text-brand-teal" />
+                        <span>{vehicle.luggage}</span>
+                      </div>
+                      <span className="text-xs font-mono uppercase text-slate-500">Bags</span>
+                    </div>
+
+                    <div className="py-3 px-2 flex flex-col items-center justify-center gap-1">
+                      <div className="flex items-center gap-1.5 text-sm font-semibold text-brand-ink tabular-nums">
+                        <Fuel className="w-4 h-4 text-brand-teal" />
+                        <span>{vehicle.mpg}</span>
+                      </div>
+                      <span className="text-xs font-mono uppercase text-slate-500">MPG</span>
+                    </div>
                   </div>
 
-                  <div className="py-3 px-2 flex flex-col items-center justify-center gap-1">
-                    <div className="flex items-center gap-1.5 text-sm font-semibold text-brand-ink tabular-nums">
-                      <Briefcase className="w-4 h-4 text-brand-teal" />
-                      <span>{vehicle.luggage}</span>
+                  {/* Price Breakdown & Book CTA */}
+                  <div className="p-5 flex items-center justify-between gap-4 mt-auto bg-white/25">
+                    <div>
+                      <div className="flex items-baseline gap-1.5">
+                        <span className="text-3xl font-semibold tracking-tight text-brand-ink font-mono tabular-nums">
+                          ${vehicle.ratePerDay}
+                        </span>
+                        <span className="text-sm sm:text-base text-slate-600">USD / day</span>
+                      </div>
+                      <p className="text-sm text-slate-600 font-mono tabular-nums mt-1">
+                        {totalPickupDropFee > 0
+                          ? `$${tripTotal + totalPickupDropFee} (${rentalDays}d + $${totalPickupDropFee} KIN hub) + $${vehicle.deposit} card deposit`
+                          : `$${tripTotal} (${rentalDays}d) + $${vehicle.deposit} card deposit`
+                        }
+                      </p>
                     </div>
-                    <span className="text-xs font-mono uppercase text-slate-500">Bags</span>
-                  </div>
 
-                  <div className="py-3 px-2 flex flex-col items-center justify-center gap-1">
-                    <div className="flex items-center gap-1.5 text-sm font-semibold text-brand-ink tabular-nums">
-                      <Fuel className="w-4 h-4 text-brand-teal" />
-                      <span>{vehicle.mpg}</span>
-                    </div>
-                    <span className="text-xs font-mono uppercase text-slate-500">MPG</span>
+                    <button
+                      type="button"
+                      onClick={() => navigateTo(`/book/${vehicle.id}`)}
+                      className="min-h-[48px] px-5 sm:px-6 py-3 rounded-xl glass-cta active:scale-[0.99] text-white text-base font-semibold inline-flex items-center gap-2 transition-all cursor-pointer shrink-0"
+                    >
+                      <span>Book</span>
+                      <ArrowRight className="w-5 h-5" />
+                    </button>
                   </div>
-                </div>
-
-                {/* Price Breakdown & Book CTA */}
-                <div className="p-5 flex items-center justify-between gap-4 mt-auto bg-white/25">
-                  <div>
-                    <div className="flex items-baseline gap-1.5">
-                      <span className="text-3xl font-semibold tracking-tight text-brand-ink font-mono tabular-nums">
-                        ${vehicle.ratePerDay}
-                      </span>
-                      <span className="text-sm sm:text-base text-slate-600">USD / day</span>
-                    </div>
-                    <p className="text-sm text-slate-600 font-mono tabular-nums mt-1">
-                      {totalPickupDropFee > 0
-                        ? `$${tripTotal + totalPickupDropFee} (${rentalDays}d + $${totalPickupDropFee} KIN hub) + $${vehicle.deposit} card deposit`
-                        : `$${tripTotal} (${rentalDays}d) + $${vehicle.deposit} card deposit`
-                      }
-                    </p>
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={() => navigateTo(`/book/${vehicle.id}`)}
-                    className="min-h-[48px] px-5 sm:px-6 py-3 rounded-xl glass-cta active:scale-[0.99] text-white text-base font-semibold inline-flex items-center gap-2 transition-all cursor-pointer shrink-0"
-                  >
-                    <span>Book</span>
-                    <ArrowRight className="w-5 h-5" />
-                  </button>
-                </div>
-              </article>
+                </article>
+              </RevealOnScroll>
             );
           })}
         </div>
@@ -2001,6 +2004,112 @@ export default function App() {
           selectedTourIds={selectedTourIds}
           onToggleTour={handleToggleTour}
         />
+
+        {/* =========================================================
+            OFFICIAL RENTAL POLICIES & AIRPORT HUBS (MBJ & KIN) SECTION
+           ========================================================= */}
+        <section aria-labelledby="rental-policies-heading" className="mt-14 pt-10 border-t border-brand-ink/10">
+          <RevealOnScroll delay={50} className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+            <div>
+              <span className="text-xs font-mono font-semibold uppercase tracking-wider text-brand-palm flex items-center gap-1.5">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                <span>Jamaica Fleet Regulations &amp; Rental Terms</span>
+              </span>
+              <h2
+                id="rental-policies-heading"
+                className="text-2xl sm:text-3xl font-semibold tracking-tight text-brand-ink mt-1"
+              >
+                Official Rental Policies &amp; Airport Hubs
+              </h2>
+              <p className="text-sm sm:text-base text-slate-600 mt-1.5 max-w-2xl">
+                Official guidelines from Take It Easy Car Rentals &amp; Tours Limited. Transparent pricing, strict insurance standards, and seamless curbside airport handoffs.
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setIsRentalInfoModalOpen(true)}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-brand-ink/15 bg-white/80 hover:bg-brand-palm hover:text-white transition-all text-xs sm:text-sm font-semibold text-brand-palm cursor-pointer self-start sm:self-auto shadow-xs"
+            >
+              <span>View Full Terms Modal</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </RevealOnScroll>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Policy Card 1: Age & Eligibility */}
+            <RevealOnScroll delay={100} className="h-full">
+              <div className="p-6 rounded-2xl bg-white/80 border border-slate-200/90 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between h-full">
+                <div>
+                  <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center mb-4">
+                    <User className="w-5 h-5" />
+                  </div>
+                  <h3 className="font-bold text-slate-900 text-lg">21+ Age Requirement</h3>
+                  <p className="text-xs text-slate-600 mt-2 leading-relaxed">
+                    Renters must be at least <strong>21 years</strong> of age with a valid government driver&apos;s license. Rates exclude gasoline and GOVT. TAX (15% GCT).
+                  </p>
+                </div>
+                <div className="pt-4 mt-4 border-t border-slate-100 text-[11px] font-mono text-slate-500">
+                  Deposit hold pre-authorized on credit card.
+                </div>
+              </div>
+            </RevealOnScroll>
+
+            {/* Policy Card 2: CDW & Insurance */}
+            <RevealOnScroll delay={180} className="h-full">
+              <div className="p-6 rounded-2xl bg-white/80 border border-slate-200/90 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between h-full">
+                <div>
+                  <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center mb-4">
+                    <ShieldCheck className="w-5 h-5" />
+                  </div>
+                  <h3 className="font-bold text-slate-900 text-lg">Insurance &amp; CDW</h3>
+                  <p className="text-xs text-slate-600 mt-2 leading-relaxed">
+                    Collision Damage Waiver available at daily rate. Renter is responsible for first $3,500 – $4,500 USD deductible. Renter is fully liable for damage to rims and tyres.
+                  </p>
+                </div>
+                <div className="pt-4 mt-4 border-t border-slate-100 text-[11px] font-mono text-slate-500">
+                  Parts/repairs require prior Company consent.
+                </div>
+              </div>
+            </RevealOnScroll>
+
+            {/* Policy Card 3: Airport Hubs (MBJ & KIN) */}
+            <RevealOnScroll delay={260} className="h-full">
+              <div className="p-6 rounded-2xl bg-white/80 border border-slate-200/90 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between h-full">
+                <div>
+                  <div className="w-10 h-10 rounded-xl bg-sky-100 text-sky-800 flex items-center justify-center mb-4">
+                    <MapPin className="w-5 h-5" />
+                  </div>
+                  <h3 className="font-bold text-slate-900 text-lg">Airport Hubs (MBJ &amp; KIN)</h3>
+                  <p className="text-xs text-slate-600 mt-2 leading-relaxed">
+                    Curbside handoff at <strong>Montego Bay (MBJ)</strong> and <strong>Kingston (KIN)</strong>. Return on/before due date to designated hub or a drop charge applies.
+                  </p>
+                </div>
+                <div className="pt-4 mt-4 border-t border-slate-100 text-[11px] font-mono text-amber-700 font-semibold">
+                  +$120 USD hub fee for KIN pickup/drop.
+                </div>
+              </div>
+            </RevealOnScroll>
+
+            {/* Policy Card 4: Official Refund Policy & Emergency */}
+            <RevealOnScroll delay={340} className="h-full">
+              <div className="p-6 rounded-2xl bg-[#102A24] text-white border border-emerald-800 shadow-md flex flex-col justify-between h-full">
+                <div>
+                  <div className="w-10 h-10 rounded-xl bg-emerald-800/80 border border-emerald-600/50 flex items-center justify-center text-amber-400 mb-4 font-mono font-bold text-xs">
+                    119
+                  </div>
+                  <h3 className="font-bold text-white text-lg">Refund Policy &amp; Safety</h3>
+                  <p className="text-xs text-emerald-200 mt-2 leading-relaxed">
+                    <strong className="text-amber-300">NO REFUND — CREDIT NOTE ONLY</strong> (Credit note valid for 1 year from date of issue). Renters assume full responsibility for traffic violations.
+                  </p>
+                </div>
+                <div className="pt-4 mt-4 border-t border-emerald-800 text-[11px] font-mono text-amber-300 font-semibold">
+                  Accident Emergency: Call 119 immediately.
+                </div>
+              </div>
+            </RevealOnScroll>
+          </div>
+        </section>
 
       </main>
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Phone, Mail, User, MessageCircle } from 'lucide-react';
+import RevealOnScroll from './RevealOnScroll';
 
 const CURRENT_YEAR = new Date().getFullYear();
 
@@ -26,7 +27,7 @@ export default function Footer({ onNavigate }) {
         {/* Top Info Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pb-8 text-center md:text-left">
           {/* Column 1: Brand & Tagline with Emblem Logo */}
-          <div className="flex flex-col items-center md:items-start text-center md:text-left">
+          <RevealOnScroll delay={100} className="flex flex-col items-center md:items-start text-center md:text-left">
             <a
               href="/"
               onClick={(e) => handleLinkClick(e, '/')}
@@ -60,10 +61,10 @@ export default function Footer({ onNavigate }) {
             <div className="mt-1.5 text-xs text-amber-300/90 font-mono">
               Emergency: In the case of an accident, call <strong>119</strong>.
             </div>
-          </div>
+          </RevealOnScroll>
 
           {/* Column 2: Direct Phone Numbers */}
-          <div>
+          <RevealOnScroll delay={200}>
             <p className="text-xs font-bold uppercase tracking-wider text-amber-400 mb-2">
               Dispatch &amp; Reservations
             </p>
@@ -80,10 +81,10 @@ export default function Footer({ onNavigate }) {
                 </div>
               ))}
             </div>
-          </div>
+          </RevealOnScroll>
 
           {/* Column 3: Email & WhatsApp */}
-          <div>
+          <RevealOnScroll delay={300}>
             <p className="text-xs font-bold uppercase tracking-wider text-amber-400 mb-2">
               Email &amp; Instant WhatsApp
             </p>
@@ -109,40 +110,42 @@ export default function Footer({ onNavigate }) {
                 </a>
               </div>
             </div>
-          </div>
+          </RevealOnScroll>
         </div>
 
         {/* Legal Links Row */}
-        <div className="text-xs sm:text-sm text-slate-400 flex flex-wrap items-center justify-center gap-6 py-6 border-t border-slate-800/80">
-          <a
-            href="/privacy"
-            onClick={(e) => handleLinkClick(e, '/privacy')}
-            className="text-slate-400 hover:text-emerald-400 transition-colors cursor-pointer"
-          >
-            Privacy Policy
-          </a>
-          <span className="text-slate-700" aria-hidden="true">•</span>
-          <a
-            href="/terms"
-            onClick={(e) => handleLinkClick(e, '/terms')}
-            className="text-slate-400 hover:text-emerald-400 transition-colors cursor-pointer"
-          >
-            Terms of Use
-          </a>
-          <span className="text-slate-700" aria-hidden="true">•</span>
-          <a
-            href="/terms#fleet-guidelines"
-            onClick={(e) => handleLinkClick(e, '/terms#fleet-guidelines')}
-            className="text-slate-400 hover:text-emerald-400 transition-colors cursor-pointer"
-          >
-            Fleet &amp; Rental Guidelines
-          </a>
-        </div>
+        <RevealOnScroll delay={150}>
+          <div className="text-xs sm:text-sm text-slate-400 flex flex-wrap items-center justify-center gap-6 py-6 border-t border-slate-800/80">
+            <a
+              href="/privacy"
+              onClick={(e) => handleLinkClick(e, '/privacy')}
+              className="text-slate-400 hover:text-emerald-400 transition-colors cursor-pointer"
+            >
+              Privacy Policy
+            </a>
+            <span className="text-slate-700" aria-hidden="true">•</span>
+            <a
+              href="/terms"
+              onClick={(e) => handleLinkClick(e, '/terms')}
+              className="text-slate-400 hover:text-emerald-400 transition-colors cursor-pointer"
+            >
+              Terms of Use
+            </a>
+            <span className="text-slate-700" aria-hidden="true">•</span>
+            <a
+              href="/terms#fleet-guidelines"
+              onClick={(e) => handleLinkClick(e, '/terms#fleet-guidelines')}
+              className="text-slate-400 hover:text-emerald-400 transition-colors cursor-pointer"
+            >
+              Fleet &amp; Rental Guidelines
+            </a>
+          </div>
 
-        {/* Copyright */}
-        <div className="text-center text-[11px] text-slate-500 font-mono pt-2">
-          © {CURRENT_YEAR} Take It Easy Car Rentals &amp; Tours Limited. All rights reserved. Rates in USD.
-        </div>
+          {/* Copyright */}
+          <div className="text-center text-[11px] text-slate-500 font-mono pt-2">
+            © {CURRENT_YEAR} Take It Easy Car Rentals &amp; Tours Limited. All rights reserved. Rates in USD.
+          </div>
+        </RevealOnScroll>
       </div>
     </footer>
   );

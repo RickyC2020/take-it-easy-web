@@ -1,6 +1,7 @@
 import React from 'react';
 import { Clock, MapPin, Plus, Check } from 'lucide-react';
 import { TOUR_PACKAGES } from '../data/tourPackages';
+import RevealOnScroll from './RevealOnScroll';
 
 export default function TourPackages({ selectedTourIds = [], onToggleTour }) {
   return (
@@ -9,7 +10,7 @@ export default function TourPackages({ selectedTourIds = [], onToggleTour }) {
       className="mt-14 pt-10 border-t border-brand-ink/10 print:hidden"
     >
       {/* Section Header */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-7">
+      <RevealOnScroll delay={50} className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-7">
         <div className="max-w-2xl">
           <span className="text-xs font-mono font-semibold uppercase tracking-wider text-brand-palm">
             Tours &amp; Chauffeur Add-Ons
@@ -35,22 +36,23 @@ export default function TourPackages({ selectedTourIds = [], onToggleTour }) {
             </span>
           </div>
         )}
-      </div>
+      </RevealOnScroll>
 
       {/* Responsive Tour Grid: 1 col on mobile, 3 cols on desktop */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {TOUR_PACKAGES.map((tour) => {
+        {TOUR_PACKAGES.map((tour, index) => {
           const isSelected = selectedTourIds.includes(tour.id);
+          const staggerDelay = index * 120;
 
           return (
-            <article
-              key={tour.id}
-              className={`group rounded-2xl bg-emerald-900/95 backdrop-blur-xl border transition-all flex flex-col overflow-hidden shadow-[0_14px_34px_rgba(6,46,34,0.20),inset_0_1px_0_rgba(255,255,255,0.16)] ${
-                isSelected
-                  ? 'border-amber-400 ring-2 ring-amber-400/55'
-                  : 'border-emerald-700/70 hover:border-amber-400/60'
-              }`}
-            >
+            <RevealOnScroll key={tour.id} delay={staggerDelay} className="h-full">
+              <article
+                className={`group rounded-2xl bg-emerald-900/95 backdrop-blur-xl border transition-all flex flex-col h-full overflow-hidden shadow-[0_14px_34px_rgba(6,46,34,0.20),inset_0_1px_0_rgba(255,255,255,0.16)] ${
+                  isSelected
+                    ? 'border-amber-400 ring-2 ring-amber-400/55'
+                    : 'border-emerald-700/70 hover:border-amber-400/60'
+                }`}
+              >
               {/* Top Tour Photograph */}
               <div className="relative h-52 border-b border-white/12 overflow-hidden bg-emerald-950">
                 <img
@@ -137,9 +139,10 @@ export default function TourPackages({ selectedTourIds = [], onToggleTour }) {
                 </div>
               </div>
             </article>
-          );
-        })}
-      </div>
+          </RevealOnScroll>
+        );
+      })}
+    </div>
     </section>
   );
 }
