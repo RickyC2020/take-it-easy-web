@@ -1986,7 +1986,7 @@ export default function App() {
 
                     <button
                       type="button"
-                      onClick={() => navigateTo(`/book/${vehicle.id}`)}
+                      onClick={() => setGuestCheckoutVehicle(vehicle)}
                       className="min-h-[48px] px-5 sm:px-6 py-3 rounded-xl glass-cta active:scale-[0.99] text-white text-base font-semibold inline-flex items-center gap-2 transition-all cursor-pointer shrink-0"
                     >
                       <span>Book</span>
@@ -4008,6 +4008,14 @@ export default function App() {
             };
 
             setReservations((prev) => [newOnlineBooking, ...prev]);
+            setFleetStatus((prev) => ({
+              ...prev,
+              [guestCheckoutVehicle.id]: {
+                ...(prev[guestCheckoutVehicle.id] || {}),
+                status: 'RESERVED',
+                currentReservationId: bookingRef
+              }
+            }));
             setSuccessNotification(
               `Authorized $${totalAuthorized} USD hold for ${guest.fullName} (Ref: ${bookingRef}).`
             );
