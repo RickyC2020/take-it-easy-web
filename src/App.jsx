@@ -883,14 +883,24 @@ export default function App() {
     isContactModalOpen
   ]);
 
-  const handlePickupDateChange = (nextPickup) => {
+  const handlePickupDateChange = (nextPickupOrEvent) => {
+    const nextPickup =
+      typeof nextPickupOrEvent === 'string'
+        ? nextPickupOrEvent
+        : nextPickupOrEvent?.target?.value;
+    if (!nextPickup || typeof nextPickup !== 'string') return;
     setPickupDate(nextPickup);
     if (diffDays(nextPickup, returnDate) < 1 || nextPickup >= returnDate) {
       setReturnDate(addDays(nextPickup, 1));
     }
   };
 
-  const handleReturnDateChange = (nextReturn) => {
+  const handleReturnDateChange = (nextReturnOrEvent) => {
+    const nextReturn =
+      typeof nextReturnOrEvent === 'string'
+        ? nextReturnOrEvent
+        : nextReturnOrEvent?.target?.value;
+    if (!nextReturn || typeof nextReturn !== 'string') return;
     if (nextReturn <= pickupDate) {
       setReturnDate(addDays(pickupDate, 1));
     } else {

@@ -37,6 +37,12 @@ export default function HeroBanner({
   onReturnDateChange,
   onBookCar,
 }) {
+  const handleDateSelect = (callback) => (e) => {
+    const value = e.target.value;
+    e.target.blur();
+    callback?.(value);
+  };
+
   return (
     <section aria-label="Hero Banner and Rental Search" className="py-2 sm:py-3 print:hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -174,7 +180,7 @@ export default function HeroBanner({
                         id="hero-desktop-pickup-date"
                         value={pickupDate}
                         min={minPickupDate}
-                        onChange={onPickupDateChange}
+                        onChange={handleDateSelect(onPickupDateChange)}
                         className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
                       />
                     </label>
@@ -214,7 +220,7 @@ export default function HeroBanner({
                         id="hero-desktop-return-date"
                         value={returnDate}
                         min={minReturnDate}
-                        onChange={onReturnDateChange}
+                        onChange={handleDateSelect(onReturnDateChange)}
                         className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
                       />
                     </label>
@@ -339,7 +345,7 @@ export default function HeroBanner({
                         id="hero-mobile-pickup-date"
                         value={pickupDate}
                         min={minPickupDate}
-                        onChange={onPickupDateChange}
+                        onChange={handleDateSelect(onPickupDateChange)}
                         className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
                       />
                     </label>
@@ -376,7 +382,7 @@ export default function HeroBanner({
                         id="hero-mobile-return-date"
                         value={returnDate}
                         min={minReturnDate}
-                        onChange={onReturnDateChange}
+                        onChange={handleDateSelect(onReturnDateChange)}
                         className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
                       />
                     </label>
