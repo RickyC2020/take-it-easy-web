@@ -257,12 +257,12 @@ export default function HeroBanner({
           </div>
 
           {/* =========================================================
-              MOBILE / TABLET (< lg): RESPONSIVE FULL-WIDTH ROUNDED-2XL PILL
+              MOBILE / TABLET (< lg): RESPONSIVE FULL-WIDTH GLASSMORPHIC CARD
              ========================================================= */}
           <RevealOnScroll delay={250} immediate={true} className="lg:hidden mt-3 sm:mt-4 scroll-mt-6">
             <div
               id="hero-search-card-mobile"
-              className="relative rounded-2xl bg-slate-900/65 backdrop-blur-md border border-white/35 shadow-2xl p-4 sm:p-5 text-white"
+              className="relative rounded-2xl glass-card p-4 sm:p-5 text-brand-ink"
             >
               {/* Subtle Running Thin White Border Animation (Mobile) */}
               <div className="running-border-card" aria-hidden="true">
@@ -271,13 +271,13 @@ export default function HeroBanner({
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
                 {/* 1. Pickup Hub */}
-                <div className="p-2.5 rounded-xl bg-white/[0.04] border border-white/20">
+                <div className="p-2.5 rounded-xl bg-white/45 backdrop-blur-sm border border-white/75 shadow-[inset_0_1px_0_rgba(255,255,255,0.85)]">
                   <div className="flex items-center justify-between mb-0.5">
-                    <span className="text-[10px] uppercase tracking-wider text-white/75 font-semibold">
+                    <span className="text-[10px] uppercase tracking-wider text-slate-600 font-semibold">
                       PICKUP HUB
                     </span>
                     {locationId === 'KIN' && (
-                      <span className="text-[9px] text-amber-300 font-mono font-bold bg-amber-500/25 px-1 py-0.2 rounded border border-amber-400/40">
+                      <span className="text-[9px] text-brand-amber-ink font-mono font-bold bg-brand-amber-soft/80 px-1.5 py-0.5 rounded border border-brand-amber-border/80">
                         +$120 fee
                       </span>
                     )}
@@ -287,27 +287,27 @@ export default function HeroBanner({
                       id="hero-mobile-location"
                       value={locationId}
                       onChange={(e) => setLocationId?.(e.target.value)}
-                      className="w-full appearance-none bg-transparent pr-6 text-sm font-medium text-white focus:outline-none cursor-pointer"
+                      className="w-full appearance-none bg-transparent pr-6 text-sm font-medium text-brand-ink focus:outline-none cursor-pointer"
                     >
-                      <option value="MBJ" className="bg-slate-900 text-white">
+                      <option value="MBJ" className="bg-white text-brand-ink">
                         Montego Bay (MBJ)
                       </option>
-                      <option value="KIN" className="bg-slate-900 text-white">
+                      <option value="KIN" className="bg-white text-brand-ink">
                         Kingston (KIN) {locationId !== 'KIN' ? '(+$120 fee)' : ''}
                       </option>
                     </select>
-                    <ChevronDown className="w-3.5 h-3.5 text-white/80 pointer-events-none absolute right-0 shrink-0" />
+                    <ChevronDown className="w-3.5 h-3.5 text-slate-600 pointer-events-none absolute right-0 shrink-0" />
                   </div>
                 </div>
 
                 {/* 2. Drop-off Hub */}
-                <div className="p-2.5 rounded-xl bg-white/[0.04] border border-white/20">
+                <div className="p-2.5 rounded-xl bg-white/45 backdrop-blur-sm border border-white/75 shadow-[inset_0_1px_0_rgba(255,255,255,0.85)]">
                   <div className="flex items-center justify-between mb-0.5">
-                    <span className="text-[10px] uppercase tracking-wider text-white/75 font-semibold">
+                    <span className="text-[10px] uppercase tracking-wider text-slate-600 font-semibold">
                       DROP-OFF HUB
                     </span>
                     {dropLocationId === 'KIN' && (
-                      <span className="text-[9px] text-amber-300 font-mono font-bold bg-amber-500/25 px-1 py-0.2 rounded border border-amber-400/40">
+                      <span className="text-[9px] text-brand-amber-ink font-mono font-bold bg-brand-amber-soft/80 px-1.5 py-0.5 rounded border border-brand-amber-border/80">
                         +$120 fee
                       </span>
                     )}
@@ -317,27 +317,27 @@ export default function HeroBanner({
                       id="hero-mobile-drop-location"
                       value={dropLocationId}
                       onChange={(e) => setDropLocationId?.(e.target.value)}
-                      className="w-full appearance-none bg-transparent pr-6 text-sm font-medium text-white focus:outline-none cursor-pointer"
+                      className="w-full appearance-none bg-transparent pr-6 text-sm font-medium text-brand-ink focus:outline-none cursor-pointer"
                     >
-                      <option value="MBJ" className="bg-slate-900 text-white">
+                      <option value="MBJ" className="bg-white text-brand-ink">
                         Montego Bay (MBJ)
                       </option>
-                      <option value="KIN" className="bg-slate-900 text-white">
+                      <option value="KIN" className="bg-white text-brand-ink">
                         Kingston (KIN) {dropLocationId !== 'KIN' ? '(+$120 fee)' : ''}
                       </option>
                     </select>
-                    <ChevronDown className="w-3.5 h-3.5 text-white/80 pointer-events-none absolute right-0 shrink-0" />
+                    <ChevronDown className="w-3.5 h-3.5 text-slate-600 pointer-events-none absolute right-0 shrink-0" />
                   </div>
                 </div>
 
                 {/* 3. Pickup Date & Time */}
-                <div className="p-2.5 rounded-xl bg-white/[0.04] border border-white/20">
-                  <span className="text-[10px] uppercase tracking-wider text-white/75 font-semibold block mb-0.5">
+                <div className="p-2.5 rounded-xl bg-white/45 backdrop-blur-sm border border-white/75 shadow-[inset_0_1px_0_rgba(255,255,255,0.85)]">
+                  <span className="text-[10px] uppercase tracking-wider text-slate-600 font-semibold block mb-0.5">
                     PICKUP
                   </span>
                   <div className="flex items-center justify-between gap-2">
                     <label htmlFor="hero-mobile-pickup-date" className="relative cursor-pointer flex-1">
-                      <span className="text-sm font-semibold text-white leading-tight">
+                      <span className="text-sm font-semibold text-brand-ink leading-tight">
                         {formatPillDate(pickupDate)}
                       </span>
                       <input
@@ -354,27 +354,27 @@ export default function HeroBanner({
                         id="hero-mobile-pickup-time"
                         value={pickupTime}
                         onChange={(e) => setPickupTime?.(e.target.value)}
-                        className="appearance-none bg-transparent text-xs text-white/90 leading-tight pr-3 focus:outline-none cursor-pointer"
+                        className="appearance-none bg-transparent text-xs text-slate-700 leading-tight pr-3 focus:outline-none cursor-pointer"
                       >
                         {timeSlots.map((time) => (
-                          <option key={time} value={time} className="bg-slate-900 text-white">
+                          <option key={time} value={time} className="bg-white text-brand-ink">
                             {time}
                           </option>
                         ))}
                       </select>
-                      <ChevronDown className="w-2.5 h-2.5 text-white/70 pointer-events-none absolute right-0" />
+                      <ChevronDown className="w-2.5 h-2.5 text-slate-600 pointer-events-none absolute right-0" />
                     </div>
                   </div>
                 </div>
 
                 {/* 4. Return Date & Time */}
-                <div className="p-2.5 rounded-xl bg-white/[0.04] border border-white/20">
-                  <span className="text-[10px] uppercase tracking-wider text-white/75 font-semibold block mb-0.5">
+                <div className="p-2.5 rounded-xl bg-white/45 backdrop-blur-sm border border-white/75 shadow-[inset_0_1px_0_rgba(255,255,255,0.85)]">
+                  <span className="text-[10px] uppercase tracking-wider text-slate-600 font-semibold block mb-0.5">
                     RETURN
                   </span>
                   <div className="flex items-center justify-between gap-2">
                     <label htmlFor="hero-mobile-return-date" className="relative cursor-pointer flex-1">
-                      <span className="text-sm font-semibold text-white leading-tight">
+                      <span className="text-sm font-semibold text-brand-ink leading-tight">
                         {formatPillDate(returnDate)}
                       </span>
                       <input
@@ -391,15 +391,15 @@ export default function HeroBanner({
                         id="hero-mobile-return-time"
                         value={returnTime}
                         onChange={(e) => setReturnTime?.(e.target.value)}
-                        className="appearance-none bg-transparent text-xs text-white/90 leading-tight pr-3 focus:outline-none cursor-pointer"
+                        className="appearance-none bg-transparent text-xs text-slate-700 leading-tight pr-3 focus:outline-none cursor-pointer"
                       >
                         {timeSlots.map((time) => (
-                          <option key={time} value={time} className="bg-slate-900 text-white">
+                          <option key={time} value={time} className="bg-white text-brand-ink">
                             {time}
                           </option>
                         ))}
                       </select>
-                      <ChevronDown className="w-2.5 h-2.5 text-white/70 pointer-events-none absolute right-0" />
+                      <ChevronDown className="w-2.5 h-2.5 text-slate-600 pointer-events-none absolute right-0" />
                     </div>
                   </div>
                 </div>
