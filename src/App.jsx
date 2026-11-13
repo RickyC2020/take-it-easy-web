@@ -8,6 +8,8 @@ import {
   Fuel,
   ArrowRight,
   ArrowLeft,
+  ChevronLeft,
+  ChevronRight,
   X,
   Check,
   ShieldCheck,
@@ -661,6 +663,44 @@ export default function App() {
   const [sortBy, setSortBy] = useState('recommended');
   const [isCompact, setIsCompact] = useState(false);
   const searchAnchorRef = useRef(null);
+  const categoryScrollRef = useRef(null);
+  const [categoryScrollState, setCategoryScrollState] = useState({
+    canScrollLeft: false,
+    canScrollRight: false,
+  });
+
+  const updateCategoryScrollState = () => {
+    const el = categoryScrollRef.current;
+    if (!el) return;
+    const canScrollLeft = el.scrollLeft > 2;
+    const canScrollRight = el.scrollLeft + el.clientWidth < el.scrollWidth - 2;
+    setCategoryScrollState((prev) =>
+      prev.canScrollLeft === canScrollLeft && prev.canScrollRight === canScrollRight
+        ? prev
+        : { canScrollLeft, canScrollRight }
+    );
+  };
+
+  const scrollCategories = (direction) => {
+    const el = categoryScrollRef.current;
+    if (!el) return;
+    el.scrollBy({ left: direction * 180, behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    updateCategoryScrollState();
+    const el = categoryScrollRef.current;
+    const observer =
+      typeof ResizeObserver !== 'undefined' && el
+        ? new ResizeObserver(updateCategoryScrollState)
+        : null;
+    if (observer && el) observer.observe(el);
+    window.addEventListener('resize', updateCategoryScrollState);
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener('resize', updateCategoryScrollState);
+    };
+  }, []);
 
   // Drawer & Modal State
   const [drawerMode, setDrawerMode] = useState(null);
@@ -1852,26 +1892,54 @@ export default function App() {
       <main id="fleet-section" className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-8 print:hidden scroll-mt-20">
         {/* Category Filter Tabs & Sort */}
         <RevealOnScroll delay={50} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3.5 pb-5 border-b border-brand-ink/10">
-          <div className="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0">
-            {CATEGORIES.map((cat) => {
-              const active = selectedCategory === cat.id;
-              return (
-                <button
-                  key={cat.id}
-                  type="button"
-                  onClick={() => setSelectedCategory(cat.id)}
-                  className={`min-h-[44px] px-4 py-2.5 rounded-xl text-sm sm:text-base font-medium transition-all whitespace-nowrap cursor-pointer inline-flex items-center gap-2 ${active
-                    ? 'glass-cta text-white'
-                    : 'glass-pill text-slate-700 hover:bg-white/75 hover:border-brand-teal/40 hover:text-brand-ink'
-                    }`}
-                >
-                  <span>{cat.label}</span>
-                </button>
-              );
-            })}
+          <div className="relative flex items-center gap-1.5 min-w-0 flex-1">
+            {categoryScrollState.canScrollLeft && (
+              <button
+                type="button"
+                onClick={() => scrollCategories(-1)}
+                aria-label="Scroll vehicle types left"
+                className="shrink-0 w-10 h-11 min-h-[44px] min-w-[40px] rounded-xl glass-pill text-brand-ink hover:bg-white/80 hover:border-brand-teal/40 active:scale-95 transition-all inline-flex items-center justify-center cursor-pointer"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+            )}
+
+            <div
+              ref={categoryScrollRef}
+              onScroll={updateCategoryScrollState}
+              className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1 sm:pb-0 min-w-0 flex-1 scroll-smooth"
+            >
+              {CATEGORIES.map((cat) => {
+                const active = selectedCategory === cat.id;
+                return (
+                  <button
+                    key={cat.id}
+                    type="button"
+                    onClick={() => setSelectedCategory(cat.id)}
+                    className={`min-h-[44px] px-4 py-2.5 rounded-xl text-sm sm:text-base font-medium transition-all whitespace-nowrap cursor-pointer inline-flex items-center gap-2 shrink-0 ${active
+                      ? 'glass-cta text-white'
+                      : 'glass-pill text-slate-700 hover:bg-white/75 hover:border-brand-teal/40 hover:text-brand-ink'
+                      }`}
+                  >
+                    <span>{cat.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {categoryScrollState.canScrollRight && (
+              <button
+                type="button"
+                onClick={() => scrollCategories(1)}
+                aria-label="Scroll vehicle types right"
+                className="shrink-0 w-10 h-11 min-h-[44px] min-w-[40px] rounded-xl glass-pill text-brand-ink hover:bg-white/80 hover:border-brand-teal/40 active:scale-95 transition-all inline-flex items-center justify-center cursor-pointer"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            )}
           </div>
 
-          <div className="flex items-center justify-between sm:justify-end gap-4 text-sm sm:text-base">
+          <div className="flex items-center justify-between sm:justify-end gap-4 text-sm sm:text-base shrink-0">
             <div className="min-h-[44px] flex items-center gap-2 glass-pill rounded-xl px-3.5 py-2">
               <SlidersHorizontal className="w-4 h-4 text-brand-teal shrink-0" />
               <label htmlFor="sort-select" className="text-slate-600">

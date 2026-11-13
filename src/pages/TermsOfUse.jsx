@@ -51,12 +51,7 @@ export default function TermsOfUse({ onNavigateHome, backLabel = 'Back to Home' 
             <span>{backLabel}</span>
           </button>
 
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-600" />
-            <span className="text-xs font-mono font-medium text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
-              Jamaican Law Compliant
-            </span>
-          </div>
+
         </div>
       </header>
 
@@ -90,7 +85,7 @@ export default function TermsOfUse({ onNavigateHome, backLabel = 'Back to Home' 
 
         {/* Terms Sections */}
         <div className="space-y-10 text-slate-700 leading-relaxed text-sm sm:text-base">
-          
+
           {/* 1. Driver Eligibility & Age Requirements */}
           <section className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs space-y-4">
             <h2 className="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2.5">

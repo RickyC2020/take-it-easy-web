@@ -168,6 +168,15 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 @keyframes drawerSlideIn {
   from {
     transform: translateX(100%);
